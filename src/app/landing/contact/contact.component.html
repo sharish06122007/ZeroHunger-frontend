@@ -1,0 +1,35 @@
+<section class="bg-slate-950 px-6 py-24 text-white md:px-10 lg:px-16">
+  <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+    <div>
+      <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Partner with us</p>
+      <h1 class="mt-4 text-4xl font-semibold md:text-5xl">Let’s build a more resilient food future together.</h1>
+      <p class="mt-6 text-lg text-slate-300">We are building for restaurants, hotels, NGOs, governments, and social impact funders who want measurable outcomes and scalable systems.</p>
+    </div>
+
+    <mat-card class="bg-white/10 p-4 text-white backdrop-blur">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Organisation</mat-label>
+          <input matInput formControlName="organisation" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Message</mat-label>
+          <textarea matInput rows="4" formControlName="message"></textarea>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="w-full" type="submit">Start Partnership</button>
+      </form>
+    </mat-card>
+  </div>
+</section>

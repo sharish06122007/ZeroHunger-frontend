@@ -1,0 +1,333 @@
+<section class="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.22),_transparent_30%),linear-gradient(135deg,_#020617_0%,_#08251d_35%,_#0f172a_100%)] px-4 py-6 text-white sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl space-y-6">
+    <header class="sticky top-3 z-20 rounded-full border border-emerald-400/20 bg-slate-950/80 px-4 py-3 shadow-2xl shadow-emerald-500/10 backdrop-blur-xl">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400/15 text-emerald-300"><mat-icon>eco</mat-icon></div>
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-300">ZeroHunger 360</p>
+            <p class="text-xs text-slate-400">Food Guardian Dashboard</p>
+          </div>
+        </div>
+        <nav class="hidden items-center gap-4 text-sm md:flex">
+          <a class="rounded-full px-3 py-2 text-slate-200 transition hover:bg-white/10 hover:text-emerald-300" href="#overview">Dashboard</a>
+          <a class="rounded-full px-3 py-2 text-slate-200 transition hover:bg-white/10 hover:text-emerald-300" href="#donate">Add Donation</a>
+          <a class="rounded-full px-3 py-2 text-slate-200 transition hover:bg-white/10 hover:text-emerald-300" href="#history">History</a>
+          <a class="rounded-full px-3 py-2 text-slate-200 transition hover:bg-white/10 hover:text-emerald-300" href="#impact">Impact</a>
+          <a class="rounded-full px-3 py-2 text-slate-200 transition hover:bg-white/10 hover:text-emerald-300" href="#profile">Profile</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <button mat-icon-button class="relative border border-white/10 bg-white/10"><mat-icon>notifications</mat-icon><span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full bg-emerald-400"></span></button>
+          <button mat-flat-button color="primary">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <section id="overview" class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/70 p-6 shadow-2xl shadow-emerald-950/30 backdrop-blur-xl lg:p-8" @fadeInUp>
+      <div class="absolute inset-0 opacity-40">
+        <div class="absolute left-8 top-8 h-40 w-40 rounded-full bg-emerald-400/20 blur-3xl"></div>
+        <div class="absolute right-10 top-10 h-48 w-48 rounded-full bg-cyan-400/20 blur-3xl"></div>
+        <div class="absolute bottom-0 left-1/3 h-52 w-52 rounded-full bg-amber-400/10 blur-3xl"></div>
+      </div>
+      <div class="relative grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <div class="space-y-5">
+          <div class="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300">
+            <mat-icon>verified</mat-icon>
+            Welcome back, Food Guardian
+          </div>
+          <h1 class="max-w-2xl text-4xl font-semibold leading-tight md:text-5xl">Your contribution is creating a world with zero hunger.</h1>
+          <p class="max-w-2xl text-lg text-slate-300">Coordinate surplus food, activate nearby volunteers, and amplify measurable impact with calm confidence.</p>
+          <div class="flex flex-wrap gap-3">
+            <button mat-flat-button color="primary">Add donation</button>
+            <button mat-stroked-button color="accent">View impact</button>
+          </div>
+          <div class="grid gap-3 sm:grid-cols-3">
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <p class="text-2xl font-semibold text-white">25,000+</p>
+              <p class="mt-1 text-sm text-slate-300">Meals donated</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <p class="text-2xl font-semibold text-white">12,500+</p>
+              <p class="mt-1 text-sm text-slate-300">People helped</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <p class="text-2xl font-semibold text-white">5 Tons</p>
+              <p class="mt-1 text-sm text-slate-300">Waste reduced</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[2rem] border border-emerald-400/20 bg-slate-900/70 p-5 shadow-2xl shadow-black/30">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Profile</p>
+              <h2 class="mt-2 text-2xl font-semibold">Priya Nair</h2>
+            </div>
+            <div class="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-200">Food Hero</div>
+          </div>
+          <div class="mt-5 rounded-2xl border border-white/10 bg-white/10 p-4 text-sm text-slate-300">
+            <p>Green Table Collective</p>
+            <p class="mt-2">Bengaluru · Zero Waste Champion</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="rounded-full border border-emerald-400/20 px-2.5 py-1 text-xs text-emerald-200">Community Builder</span>
+              <span class="rounded-full border border-amber-400/20 px-2.5 py-1 text-xs text-amber-200">Impact Leader</span>
+            </div>
+          </div>
+          <div class="mt-6 grid gap-3">
+            <div class="rounded-2xl border border-white/10 bg-slate-800/70 p-4 text-sm text-slate-300">
+              <div class="flex items-center justify-between">
+                <span>Impact score</span>
+                <span class="text-emerald-300">98%</span>
+              </div>
+              <div class="mt-3 h-2 rounded-full bg-slate-700">
+                <div class="h-2 w-[98%] rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <mat-card *ngFor="let stat of stats" class="border border-white/10 bg-slate-900/70 p-4 text-white shadow-lg shadow-black/20 backdrop-blur" @fadeInUp>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-slate-400">{{ stat.label }}</p>
+            <p class="mt-2 text-3xl font-semibold text-emerald-300">{{ stat.value }}</p>
+          </div>
+          <div class="rounded-2xl bg-emerald-500/10 p-3 text-emerald-300"><mat-icon>{{ stat.icon }}</mat-icon></div>
+        </div>
+      </mat-card>
+    </section>
+
+    <section id="donate" class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+      <mat-card class="donation-form-card border border-white/10 bg-slate-900/75 p-5 text-white shadow-2xl shadow-black/30" @fadeInUp>
+        <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Donation form</p>
+            <h2 class="mt-2 text-2xl font-semibold">Donate Food Now</h2>
+            <p class="mt-2 text-sm text-slate-300">Help save surplus food and feed people in need.</p>
+          </div>
+          <div class="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-300">Live intake</div>
+        </div>
+
+        <div class="donation-form-shell" [class.is-submitting]="isSubmitting">
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="field-group">
+              <label class="field-label" for="foodName">Food Name</label>
+              <input id="foodName" class="field-input" type="text" placeholder="Rice" [(ngModel)]="donationForm.foodName" name="foodName" (input)="onFoodNameInput()" (focus)="showSuggestions = donationForm.foodName.trim().length > 0" />
+              <ul *ngIf="showSuggestions && filteredSuggestions.length" class="suggestions-list">
+                <li *ngFor="let suggestion of filteredSuggestions" (click)="selectSuggestion(suggestion)">{{ suggestion }}</li>
+              </ul>
+              <p class="field-error" *ngIf="formErrors.foodName">{{ formErrors.foodName }}</p>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="category">Food Category</label>
+              <select id="category" class="field-input" [(ngModel)]="donationForm.category" name="category">
+                <option value="">Select a category</option>
+                <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+              </select>
+              <p class="field-error" *ngIf="formErrors.category">{{ formErrors.category }}</p>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="quantity">Quantity</label>
+              <input id="quantity" class="field-input" type="text" placeholder="200 meals" [(ngModel)]="donationForm.quantity" name="quantity" />
+              <p class="field-error" *ngIf="formErrors.quantity">{{ formErrors.quantity }}</p>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="meals">Number of Meals</label>
+              <input id="meals" class="field-input" type="number" placeholder="200" [(ngModel)]="donationForm.meals" name="meals" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="prepTime">Preparation Time</label>
+              <input id="prepTime" class="field-input" type="text" placeholder="30 mins" [(ngModel)]="donationForm.prepTime" name="prepTime" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="expiryTime">Expiry Time</label>
+              <input id="expiryTime" class="field-input" type="text" placeholder="2 hrs" [(ngModel)]="donationForm.expiryTime" name="expiryTime" />
+            </div>
+
+            <div class="field-group md:col-span-2">
+              <label class="field-label" for="location">Pickup Location</label>
+              <div class="location-actions">
+                <input id="location" class="field-input" type="text" placeholder="Enter a pickup point" [(ngModel)]="donationForm.location" name="location" />
+                <button type="button" class="location-button" (click)="useCurrentLocation()" [disabled]="isGeolocating">{{ isGeolocating ? 'Locating…' : '📍 Use My Location' }}</button>
+              </div>
+              <div class="map-hint" *ngIf="donationForm.latitude && donationForm.longitude">
+                <span>Coordinates saved: {{ donationForm.latitude }}, {{ donationForm.longitude }}</span>
+                <button type="button" class="map-link" (click)="openGoogleMaps()">Open in Google Maps</button>
+              </div>
+              <p class="field-error" *ngIf="formErrors.location">{{ formErrors.location }}</p>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="phone">Contact Number</label>
+              <input id="phone" class="field-input" type="tel" placeholder="9876543210" [(ngModel)]="donationForm.phone" name="phone" />
+              <p class="field-error" *ngIf="formErrors.phone">{{ formErrors.phone }}</p>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="image">Upload Food Image</label>
+              <input id="image" class="field-input file-input" type="file" accept="image/*" (change)="onImageSelected($event)" />
+              <p class="field-hint" *ngIf="donationForm.imageName">{{ donationForm.imageName }} · {{ donationForm.imageSize }}</p>
+              <p class="field-error" *ngIf="formErrors.image">{{ formErrors.image }}</p>
+            </div>
+          </div>
+
+          <div class="mt-5 flex flex-wrap items-center gap-3">
+            <button mat-flat-button color="primary" (click)="submitDonation()" [disabled]="isSubmitting">{{ isSubmitting ? 'Submitting…' : 'Donate Food Now' }}</button>
+            <button mat-stroked-button color="accent" type="button" (click)="openGoogleMaps()">Open Map</button>
+          </div>
+
+          <div class="success-popup" *ngIf="showSuccess" @successIn>
+            <div>
+              <p class="success-title">Donation request submitted successfully</p>
+              <p class="success-copy">Your intake request is ready for nearby volunteers and NGOs.</p>
+            </div>
+            <mat-icon>check_circle</mat-icon>
+          </div>
+        </div>
+      </mat-card>
+
+      <div class="space-y-6">
+        <mat-card class="border border-white/10 bg-slate-900/75 p-5 text-white shadow-2xl shadow-black/30" @fadeInUp>
+          <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Live intake model</p>
+          <div class="mt-4 rounded-[1.5rem] border border-emerald-400/20 bg-white/10 p-4 backdrop-blur-xl">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-300">Food Available</p>
+                <p class="mt-1 text-xl font-semibold text-white">{{ previewDonation.foodName }}</p>
+              </div>
+              <span class="status-chip">{{ previewDonation.status }}</span>
+            </div>
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              <div class="preview-tile">
+                <p class="preview-label">Category</p>
+                <p class="preview-value">{{ previewDonation.category }}</p>
+              </div>
+              <div class="preview-tile">
+                <p class="preview-label">Quantity</p>
+                <p class="preview-value">{{ previewDonation.quantity }} meals</p>
+              </div>
+              <div class="preview-tile">
+                <p class="preview-label">Meals</p>
+                <p class="preview-value">{{ previewDonation.meals }} meals</p>
+              </div>
+              <div class="preview-tile">
+                <p class="preview-label">Pickup</p>
+                <p class="preview-value">{{ previewDonation.location }}</p>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+
+        <mat-card class="border border-white/10 bg-slate-900/75 p-5 text-white shadow-2xl shadow-black/30" @fadeInUp>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Map model</p>
+              <h2 class="mt-2 text-xl font-semibold">Route intelligence</h2>
+            </div>
+            <button mat-stroked-button color="accent" (click)="openMaps(selectedLocation)">Open map</button>
+          </div>
+          <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-800/70 p-4">
+            <div class="relative h-44 rounded-2xl border border-slate-700 bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.22),_transparent_25%),linear-gradient(135deg,_rgba(2,6,23,0.95),_rgba(15,23,42,0.95))]">
+              <div class="absolute left-[18%] top-[24%] h-3.5 w-3.5 rounded-full bg-emerald-400"></div>
+              <div class="absolute right-[24%] top-[38%] h-3.5 w-3.5 rounded-full bg-cyan-400"></div>
+              <div class="absolute left-[44%] top-[58%] h-3.5 w-3.5 rounded-full bg-amber-400"></div>
+            </div>
+            <div class="mt-4 space-y-2 text-sm text-slate-300">
+              <div *ngFor="let stop of routeStops" class="flex items-center justify-between rounded-xl border border-slate-700 bg-slate-900/70 px-3 py-2">
+                <span>{{ stop.label }}</span>
+                <span class="text-emerald-300">{{ stop.type }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </section>
+
+    <section id="history" class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <mat-card class="border border-white/10 bg-slate-900/75 p-5 text-white shadow-2xl shadow-black/30" @fadeInUp>
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Donation history</p>
+            <h2 class="mt-2 text-2xl font-semibold">Recent contributions</h2>
+          </div>
+          <button mat-stroked-button color="accent">Filter</button>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-slate-800">
+          <table class="min-w-full text-left text-sm">
+            <thead class="bg-slate-800/80 text-slate-300">
+              <tr>
+                <th class="p-3">Food</th>
+                <th class="p-3">Quantity</th>
+                <th class="p-3">Date</th>
+                <th class="p-3">Volunteer</th>
+                <th class="p-3">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of history" class="border-t border-slate-800 bg-slate-900/70">
+                <td class="p-3">{{ item.food }}</td>
+                <td class="p-3">{{ item.quantity }}</td>
+                <td class="p-3">{{ item.date }}</td>
+                <td class="p-3">{{ item.volunteer }}</td>
+                <td class="p-3"><span class="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2.5 py-1 text-xs text-emerald-200">{{ item.status }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-card>
+
+      <mat-card id="impact" class="border border-white/10 bg-slate-900/75 p-5 text-white shadow-2xl shadow-black/30" @fadeInUp>
+        <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Impact visualization</p>
+        <h2 class="mt-2 text-2xl font-semibold">Monthly impact trend</h2>
+        <div class="mt-5 h-48 rounded-2xl border border-slate-800 bg-[linear-gradient(180deg,_rgba(16,185,129,0.15)_0%,_rgba(15,23,42,0.95)_100%)] p-4">
+          <div class="flex h-full items-end gap-3">
+            <div class="flex-1 rounded-t-xl bg-gradient-to-t from-emerald-500 to-cyan-400" style="height: 72%"></div>
+            <div class="flex-1 rounded-t-xl bg-gradient-to-t from-emerald-500 to-cyan-400" style="height: 84%"></div>
+            <div class="flex-1 rounded-t-xl bg-gradient-to-t from-emerald-500 to-cyan-400" style="height: 66%"></div>
+            <div class="flex-1 rounded-t-xl bg-gradient-to-t from-emerald-500 to-cyan-400" style="height: 91%"></div>
+            <div class="flex-1 rounded-t-xl bg-gradient-to-t from-emerald-500 to-cyan-400" style="height: 78%"></div>
+          </div>
+        </div>
+      </mat-card>
+    </section>
+
+    <section id="profile" class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+      <mat-card class="border border-white/10 bg-slate-900/75 p-5 text-white shadow-2xl shadow-black/30" @fadeInUp>
+        <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Donor profile</p>
+        <div class="mt-4 flex items-center gap-4">
+          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-2xl font-semibold text-emerald-300">PN</div>
+          <div>
+            <h3 class="text-xl font-semibold">Priya Nair</h3>
+            <p class="text-sm text-slate-400">Green Table Collective · Bengaluru</p>
+          </div>
+        </div>
+        <div class="mt-5 space-y-3 text-sm text-slate-300">
+          <div class="rounded-2xl border border-slate-800 bg-slate-800/70 p-3">Donation level: Platinum</div>
+          <div class="rounded-2xl border border-slate-800 bg-slate-800/70 p-3">Achievements: Food Hero, Zero Waste Champion</div>
+        </div>
+      </mat-card>
+
+      <mat-card class="border border-white/10 bg-slate-900/75 p-5 text-white shadow-2xl shadow-black/30" @fadeInUp>
+        <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Notifications</p>
+        <div class="mt-4 space-y-3">
+          <div *ngFor="let notification of notifications" class="flex items-start justify-between rounded-2xl border border-slate-800 bg-slate-800/70 p-3">
+            <div>
+              <p class="font-semibold">{{ notification.title }}</p>
+              <p class="mt-1 text-sm text-slate-400">{{ notification.time }}</p>
+            </div>
+            <span *ngIf="notification.unread" class="rounded-full bg-emerald-400/15 px-2.5 py-1 text-xs text-emerald-300">New</span>
+          </div>
+        </div>
+      </mat-card>
+    </section>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+<section class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.2),_transparent_35%),linear-gradient(135deg,_#04140d_0%,_#0d3f2a_100%)] px-6 py-24 text-white">
+  <div class="mx-auto flex max-w-5xl flex-col items-center justify-center gap-8 lg:flex-row">
+    <div class="max-w-xl">
+      <p class="text-sm uppercase tracking-[0.3em] text-emerald-300">Join the movement</p>
+      <h1 class="mt-4 text-4xl font-semibold md:text-5xl">Build a more compassionate food ecosystem.</h1>
+      <p class="mt-6 text-lg text-slate-300">Create an account as a donor, volunteer, NGO partner, or administrator and start contributing to measurable impact.</p>
+    </div>
+
+    <mat-card class="w-full max-w-md bg-slate-900/80 p-4 text-white">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Phone</mat-label>
+          <input matInput formControlName="phone" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Role</mat-label>
+          <select matNativeControl formControlName="role">
+            <option value="donor">Food Donor</option>
+            <option value="volunteer">Volunteer</option>
+            <option value="ngo">NGO</option>
+            <option value="admin">Admin</option>
+          </select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Location</mat-label>
+          <input matInput formControlName="location" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" class="w-full">Create Account</button>
+        <p class="text-center text-sm text-slate-400">Already joined? <a routerLink="/auth/login" class="text-emerald-300">Log in</a></p>
+      </form>
+    </mat-card>
+  </div>
+</section>

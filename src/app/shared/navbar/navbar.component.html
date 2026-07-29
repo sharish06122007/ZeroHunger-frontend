@@ -1,0 +1,29 @@
+<mat-toolbar color="primary" class="sticky top-0 z-50 border-b border-emerald-400/20 bg-slate-950/90 backdrop-blur-xl">
+  <a routerLink="/" class="flex items-center gap-3 text-lg font-semibold uppercase tracking-[0.3em] text-emerald-300">
+    <mat-icon>eco</mat-icon>
+    <span>ZeroHunger 360</span>
+  </a>
+
+  <nav class="ml-8 hidden items-center gap-5 lg:flex">
+    <a *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="text-emerald-300" [routerLinkActiveOptions]="{ exact: item.path === '/' }" class="text-sm font-medium text-slate-200 transition hover:text-emerald-300">
+      {{ item.label }}
+    </a>
+  </nav>
+
+  <span class="flex-1"></span>
+
+  <ng-container *ngIf="currentUser; else guestActions">
+    <span class="mr-3 hidden rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-200 sm:inline">
+      {{ currentUser.role | titlecase }} ready
+    </span>
+    <button mat-stroked-button color="accent" class="mr-2" [routerLink]="currentUser.role === 'admin' ? '/admin' : currentUser.role === 'ngo' ? '/ngo' : currentUser.role === 'volunteer' ? '/volunteer' : '/donor'">
+      Dashboard
+    </button>
+    <button mat-flat-button color="primary" (click)="logout()">Logout</button>
+  </ng-container>
+
+  <ng-template #guestActions>
+    <button mat-stroked-button color="accent" class="mr-2" routerLink="/auth/login">Sign In</button>
+    <button mat-flat-button color="primary" routerLink="/auth/register">Join</button>
+  </ng-template>
+</mat-toolbar>
