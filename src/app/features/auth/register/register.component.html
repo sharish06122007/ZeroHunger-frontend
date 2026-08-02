@@ -8,8 +8,12 @@
 
     <mat-card class="w-full max-w-md bg-slate-900/80 p-4 text-white">
       <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+        <div *ngIf="errorMessage" class="rounded-md bg-red-500/20 border border-red-500/50 p-3 text-sm text-red-200">
+          {{ errorMessage }}
+        </div>
+
         <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Name</mat-label>
+          <mat-label>Full Name</mat-label>
           <input matInput formControlName="name" />
         </mat-form-field>
 
@@ -24,6 +28,11 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
           <mat-label>Role</mat-label>
           <select matNativeControl formControlName="role">
             <option value="donor">Food Donor</option>
@@ -33,12 +42,9 @@
           </select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Location</mat-label>
-          <input matInput formControlName="location" />
-        </mat-form-field>
-
-        <button mat-flat-button color="primary" type="submit" class="w-full">Create Account</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isLoading" class="w-full">
+          {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+        </button>
         <p class="text-center text-sm text-slate-400">Already joined? <a routerLink="/auth/login" class="text-emerald-300">Log in</a></p>
       </form>
     </mat-card>

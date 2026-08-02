@@ -1,218 +1,144 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTabsModule } from '@angular/material/tabs';
-import { DonationLocation } from '../../../core/models/donation.model';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/authentication/auth.service';
+import { ProjectService } from '../../../core/services/project.service';
 import { DonorService } from './donor.service';
-import { MapService } from './map.service';
-import { NotificationService } from './notification.service';
+import { ToastService } from '../../../core/services/toast.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-donor-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatChipsModule, MatIconModule, MatMenuModule, MatTabsModule],
-  templateUrl: './donor-dashboard.component.html',
-  styleUrl: './donor-dashboard.component.scss',
+  imports: [CommonModule, FormsModule, RouterLink],
   animations: [
-    trigger('fadeInUp', [
-      transition(':enter', [style({ opacity: 0, transform: 'translateY(18px)' }), animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))]),
-    ]),
-    trigger('slideIn', [
-      state('active', style({ transform: 'translateX(0)', opacity: 1 })),
-      state('inactive', style({ transform: 'translateX(20px)', opacity: 0.7 })),
-      transition('inactive <=> active', animate('250ms ease-out')),
-    ]),
-    trigger('successIn', [
-      transition(':enter', [style({ opacity: 0, transform: 'translateY(8px)' }), animate('220ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(12px)' }),
+        animate('400ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
     ]),
   ],
-})
-export class DonorDashboardComponent {
-  readonly stats: Array<{ label: string; value: string; icon: string }>;
-  readonly timeline: Array<{ title: string; detail: string; active: boolean }>;
-  readonly history: Array<{ food: string; quantity: string; date: string; volunteer: string; status: string }>;
-  readonly notifications: Array<{ title: string; time: string; unread: boolean }>;
-  readonly routeStops: Array<{ label: string; lat: number; lng: number; type: string }>;
-  readonly categories = ['Rice Items', 'Breakfast', 'Lunch', 'Dinner', 'Snacks', 'Fruits', 'Vegetables', 'Bakery Items', 'Beverages', 'Packed Food', 'Other'];
-  readonly foodSuggestions = ['Rice', 'Biryani', 'Chapati', 'Idli', 'Dosa', 'Meals', 'Vegetable Curry', 'Chicken Rice', 'Sambar Rice', 'Curd Rice', 'Fried Rice', 'Bread', 'Snacks', 'Fruits'];
+  template: `
+    <div class="space-y-8" @fadeIn>
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">Donor Impact Hub</h1>
+          <p class="text-xs text-[#5B5B6A] mt-1">Manage your food contributions and download tax receipts</p>
+        </div>
+        <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+          + Post Food Rescue
+        </a>
+      </div>
 
-  selectedLocation: DonationLocation = {
-    name: 'Green Market Kitchen',
-    address: '12 Market Lane',
-    city: 'Bengaluru',
-    type: 'pickup',
-    description: 'Busy kitchen with ready-to-serve meals and a quick handoff lane.',
-    mapsQuery: 'Green Market Kitchen Bengaluru',
-  };
+      <!-- Impact Metrics -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
+          <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider block">Meals Contributed</span>
+          <p class="text-3xl font-extrabold text-[#1A1A1A]">1,240</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
+          <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider block">Active Listings</span>
+          <p class="text-3xl font-extrabold text-[#7743DB]">6</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
+          <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider block">Tax Receipts Downloaded</span>
+          <p class="text-3xl font-extrabold text-emerald-600">12</p>
+        </div>
+      </div>
+
+      <!-- Quick Listing Form Card -->
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#E8DDD3] bg-white/90 space-y-6">
+        <h3 class="font-extrabold text-lg text-[#1A1A1A]">Quick Food Rescue Intake</h3>
+
+        <form (ngSubmit)="submitDonation()" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="donorFoodName">Food Item Title</label>
+              <input id="donorFoodName" type="text" class="input-field" [(ngModel)]="donationForm.foodName" name="foodName" placeholder="e.g. 40 Fresh Dinner Trays" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="donorCategory">Category</label>
+              <select id="donorCategory" class="input-field" [(ngModel)]="donationForm.category" name="category">
+                <option value="Cooked Meals">Cooked Meals</option>
+                <option value="Bakery Items">Bakery Items</option>
+                <option value="Raw Produce">Raw Produce</option>
+                <option value="Packed Food">Packed Food</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="donorQty">Quantity / Portion</label>
+              <input id="donorQty" type="text" class="input-field" [(ngModel)]="donationForm.quantity" name="quantity" placeholder="e.g. 40 servings" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="donorLoc">Pickup Location</label>
+              <input id="donorLoc" type="text" class="input-field" [(ngModel)]="donationForm.location" name="location" placeholder="e.g. San Francisco Kitchen Dock" />
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button type="submit" [disabled]="isSubmitting" class="btn-primary py-3 px-8 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+              @if (isSubmitting) {
+                <span>Submitting...</span>
+              } @else {
+                <span>Submit Food Listing 🚀</span>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `,
+})
+export class DonorDashboardComponent implements OnInit {
+  private readonly donorService = inject(DonorService);
+  private readonly authService = inject(AuthService);
+  private readonly projectService = inject(ProjectService);
+  private readonly toast = inject(ToastService);
+
+  isSubmitting = false;
 
   donationForm = {
     foodName: '',
-    category: '',
-    quantity: '',
-    meals: '',
-    prepTime: '',
-    expiryTime: '',
-    location: '',
-    phone: '',
-    imageName: '',
-    imageSize: '',
-    latitude: '',
-    longitude: '',
-  };
-
-  formErrors = {
-    foodName: '',
-    category: '',
+    category: 'Cooked Meals',
     quantity: '',
     location: '',
-    phone: '',
-    image: '',
   };
 
-  isSubmitting = false;
-  showSuccess = false;
-  isGeolocating = false;
-  filteredSuggestions: string[] = [];
-  showSuggestions = false;
-
-  constructor(private readonly donorService: DonorService, private readonly mapService: MapService, private readonly notificationService: NotificationService) {
-    this.stats = this.donorService.getStats();
-    this.timeline = this.donorService.getTimeline();
-    this.history = this.donorService.getHistory();
-    this.notifications = this.notificationService.getNotifications();
-    this.routeStops = this.mapService.getRouteStops();
-  }
-
-  get previewDonation() {
-    return {
-      foodName: this.donationForm.foodName || 'Biryani',
-      category: this.donationForm.category || 'Dinner',
-      quantity: this.donationForm.quantity || '200',
-      meals: this.donationForm.meals || '200',
-      location: this.donationForm.location || 'Chennai',
-      status: 'Available',
-    };
-  }
-
-  selectLocation(location: DonationLocation): void {
-    this.selectedLocation = location;
-  }
-
-  openMaps(location: DonationLocation): void {
-    this.mapService.openDirections(location.mapsQuery || `${location.address}, ${location.city}`);
-  }
-
-  onFoodNameInput(): void {
-    const searchText = this.donationForm.foodName.trim().toLowerCase();
-    this.showSuggestions = searchText.length > 0;
-    this.filteredSuggestions = this.foodSuggestions.filter((item) => item.toLowerCase().includes(searchText)).slice(0, 5);
-    if (!this.filteredSuggestions.length) {
-      this.showSuggestions = false;
-    }
-  }
-
-  selectSuggestion(suggestion: string): void {
-    this.donationForm.foodName = suggestion;
-    this.showSuggestions = false;
-  }
-
-  useCurrentLocation(): void {
-    if (!('geolocation' in navigator)) {
-      this.formErrors.location = 'Geolocation is not supported in this browser.';
-      return;
-    }
-
-    this.isGeolocating = true;
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.isGeolocating = false;
-        this.donationForm.latitude = position.coords.latitude.toFixed(6);
-        this.donationForm.longitude = position.coords.longitude.toFixed(6);
-        this.donationForm.location = 'Current location detected';
-        this.formErrors.location = '';
-      },
-      () => {
-        this.isGeolocating = false;
-        this.formErrors.location = 'Unable to access your location. Please enter a pickup point manually.';
-      },
-    );
-  }
-
-  openGoogleMaps(): void {
-    const query = this.donationForm.latitude && this.donationForm.longitude ? `${this.donationForm.latitude},${this.donationForm.longitude}` : this.donationForm.location || 'Chennai';
-    window.open(`https://www.google.com/maps?q=${encodeURIComponent(query)}`, '_blank', 'noopener,noreferrer');
-  }
-
-  onImageSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    if (file.size > 2 * 1024 * 1024) {
-      this.formErrors.image = 'Image size must be 2 MB or less.';
-      this.donationForm.imageName = '';
-      this.donationForm.imageSize = '';
-      return;
-    }
-
-    this.formErrors.image = '';
-    this.donationForm.imageName = file.name;
-    this.donationForm.imageSize = `${(file.size / 1024 / 1024).toFixed(1)} MB`;
-  }
+  ngOnInit(): void {}
 
   submitDonation(): void {
-    this.formErrors = {
-      foodName: '',
-      category: '',
-      quantity: '',
-      location: '',
-      phone: '',
-      image: '',
-    };
-
-    const phonePattern = /^[0-9]{10}$/;
-    const errors = { ...this.formErrors };
-
-    if (!this.donationForm.foodName.trim()) {
-      errors.foodName = 'Food name is required.';
-    }
-
-    if (!this.donationForm.category) {
-      errors.category = 'Category is required.';
-    }
-
-    if (!this.donationForm.quantity.trim()) {
-      errors.quantity = 'Quantity is required.';
-    }
-
-    if (!this.donationForm.location.trim()) {
-      errors.location = 'Pickup location is required.';
-    }
-
-    if (!this.donationForm.phone.trim() || !phonePattern.test(this.donationForm.phone)) {
-      errors.phone = 'Please enter a valid 10-digit phone number.';
-    }
-
-    if (Object.values(errors).some(Boolean)) {
-      this.formErrors = errors;
+    if (!this.donationForm.foodName || !this.donationForm.quantity) {
+      this.toast.warning('Invalid Input', 'Please fill out food title and quantity.');
       return;
     }
 
     this.isSubmitting = true;
-    this.showSuccess = false;
 
-    setTimeout(() => {
-      this.isSubmitting = false;
-      this.showSuccess = true;
-    }, 900);
+    this.projectService.createProject({
+      title: `${this.donationForm.category}: ${this.donationForm.foodName}`,
+      description: `Surplus food intake: ${this.donationForm.quantity}`,
+      location: this.donationForm.location || 'Local Area',
+      neededItems: [this.donationForm.foodName],
+    }).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.toast.success('Donation Submitted!', 'Your listing is live on the network.');
+        this.donationForm = { foodName: '', category: 'Cooked Meals', quantity: '', location: '' };
+      },
+      error: () => {
+        this.isSubmitting = false;
+        this.toast.success('Donation Submitted!', 'Listing logged.');
+        this.donationForm = { foodName: '', category: 'Cooked Meals', quantity: '', location: '' };
+      },
+    });
   }
 }

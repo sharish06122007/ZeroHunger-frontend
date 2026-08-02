@@ -1,21 +1,21 @@
+// core/guards/role.guard.ts
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { AuthService } from '../authentication/auth.service';
+import { UserRole } from '../models/user.model';
 
-export const roleGuard: CanActivateFn = (route, state) => {
+export const roleGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  const expectedRole = route.data['role'] as string | undefined;
-  const user = authService.currentUserValue;
 
-  if (user && (!expectedRole || user.role === expectedRole)) {
+  if (!authService.isAuthenticated()) {
+    return router.createUrlTree(['/auth/login']);
+  }
+
+  const allowedRoles: UserRole[] = route.data['roles'] ?? [];
+  if (allowedRoles.length === 0 || authService.hasRole(...allowedRoles)) {
     return true;
   }
 
-  if (!user && expectedRole === 'donor') {
-    return true;
-  }
-
-  router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-  return false;
+  return router.createUrlTree(['/dashboard']);
 };

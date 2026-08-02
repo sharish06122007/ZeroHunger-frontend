@@ -1,36 +1,346 @@
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/authentication/auth.service';
+import { ToastService } from '../../../core/services/toast.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+
+function passwordMatchValidator(ctrl: AbstractControl): ValidationErrors | null {
+  const pw = ctrl.get('password')?.value;
+  const cpw = ctrl.get('confirmPassword')?.value;
+  return pw && cpw && pw !== cpw ? { passwordMismatch: true } : null;
+}
+
+function strongPasswordValidator(ctrl: AbstractControl): ValidationErrors | null {
+  const val = ctrl.value || '';
+  const errors: Record<string, boolean> = {};
+  if (val.length < 8) errors['minLength'] = true;
+  if (!/[A-Z]/.test(val)) errors['uppercase'] = true;
+  if (!/[a-z]/.test(val)) errors['lowercase'] = true;
+  if (!/[0-9]/.test(val)) errors['number'] = true;
+  return Object.keys(errors).length ? errors : null;
+}
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, MatButtonModule, MatCardModule, MatInputModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  animations: [
+    trigger('step', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(20px)' }),
+        animate('400ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateX(0)' })),
+      ]),
+    ]),
+  ],
+  template: `
+    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-3 bg-[#FFFBF5]">
+      <!-- Left Steps Progress Bar Sidebar -->
+      <div class="hidden lg:flex flex-col justify-between p-10 bg-[#1A1A1A] text-white border-r border-white/10 relative overflow-hidden">
+        <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-[#7743DB]/30 blur-3xl pointer-events-none"></div>
+
+        <!-- Brand Top Bar -->
+        <a routerLink="/" class="relative z-10 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#7743DB] via-[#9055EE] to-[#C3ACD0] p-0.5 shadow-lg">
+            <div class="w-full h-full bg-[#1A1A1A] rounded-[14px] flex items-center justify-center font-black text-[#C3ACD0]">
+              ZH
+            </div>
+          </div>
+          <span class="font-extrabold text-xl tracking-tight text-white">Zero<span class="text-[#C3ACD0]">Hunger</span></span>
+        </a>
+
+        <!-- Vertical Step Indicator List -->
+        <div class="relative z-10 space-y-6">
+          <div class="space-y-1 mb-8">
+            <span class="text-xs font-bold text-[#C3ACD0] uppercase tracking-wider">Enterprise Signup</span>
+            <h2 class="text-2xl font-extrabold">Create Your Account</h2>
+          </div>
+
+          <div class="space-y-5">
+            @for (s of stepLabels; track s.step; let i = $index) {
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-9 h-9 rounded-2xl font-bold text-xs flex items-center justify-center border transition-all"
+                  [ngClass]="{
+                    'bg-[#7743DB] text-white border-white/30 shadow-lg shadow-[#7743DB]/40': currentStep() === i + 1,
+                    'bg-[#22C55E] text-white border-emerald-400': currentStep() > i + 1,
+                    'bg-white/5 text-white/50 border-white/10': currentStep() < i + 1
+                  }"
+                >
+                  @if (currentStep() > i + 1) { ✓ } @else { {{ i + 1 }} }
+                </div>
+                <div>
+                  <p class="text-xs font-bold" [ngClass]="currentStep() === i + 1 ? 'text-white' : 'text-white/60'">{{ s.label }}</p>
+                  <span class="text-[10px] text-white/40">Step {{ i + 1 }} of {{ stepLabels.length }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="relative z-10 text-xs text-slate-400">
+          Already registered? <a routerLink="/auth/login" class="text-[#C3ACD0] font-bold hover:underline">Sign In</a>
+        </div>
+      </div>
+
+      <!-- Right Multi-Step Wizard Panel -->
+      <div class="lg:col-span-2 flex items-center justify-center p-6 sm:p-12">
+        <div class="w-full max-w-xl space-y-8">
+          <!-- Horizontal Progress Track for Mobile & Tablet -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+              <span>Step {{ currentStep() }} of {{ stepLabels.length }}: {{ stepLabels[currentStep() - 1].label }}</span>
+              <span>{{ (currentStep() / stepLabels.length) * 100 }}% Complete</span>
+            </div>
+            <div class="h-2 bg-[#F7EFE5] rounded-full overflow-hidden border border-[#E8DDD3]">
+              <div class="h-full bg-gradient-to-r from-[#7743DB] to-[#C3ACD0] transition-all duration-400 ease-out" [style.width.%]="(currentStep() / stepLabels.length) * 100"></div>
+            </div>
+          </div>
+
+          <!-- Wizard Card Container -->
+          <div class="glass-panel p-8 rounded-3xl shadow-xl border border-[#E8DDD3] bg-white/90 space-y-6">
+            <!-- Step 1: Basic Info -->
+            @if (currentStep() === 1) {
+              <div @step class="space-y-6">
+                <div class="space-y-1">
+                  <h2 class="text-2xl font-extrabold text-[#1A1A1A]">Basic Details</h2>
+                  <p class="text-xs text-[#5B5B6A]">Enter your full name and phone number for contact verification</p>
+                </div>
+                <form [formGroup]="step1Form" class="space-y-4">
+                  <div class="form-group">
+                    <label class="form-label" for="fullName">Full Name <span class="text-rose-500">*</span></label>
+                    <input id="fullName" type="text" class="input-field" [class.border-rose-400]="isInvalid(step1Form, 'fullName')" formControlName="fullName" placeholder="Jane Doe" />
+                    @if (isInvalid(step1Form, 'fullName')) {
+                      <p class="text-xs text-rose-500 mt-1">Full name is required (at least 2 characters)</p>
+                    }
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number <span class="text-rose-500">*</span></label>
+                    <input id="phone" type="tel" class="input-field" [class.border-rose-400]="isInvalid(step1Form, 'phone')" formControlName="phone" placeholder="+1 (555) 000-0000" />
+                    @if (isInvalid(step1Form, 'phone')) {
+                      <p class="text-xs text-rose-500 mt-1">A valid phone number is required</p>
+                    }
+                  </div>
+                </form>
+              </div>
+            }
+
+            <!-- Step 2: Account Security -->
+            @if (currentStep() === 2) {
+              <div @step class="space-y-6">
+                <div class="space-y-1">
+                  <h2 class="text-2xl font-extrabold text-[#1A1A1A]">Account Security</h2>
+                  <p class="text-xs text-[#5B5B6A]">Set up your email and login credentials</p>
+                </div>
+                <form [formGroup]="step2Form" class="space-y-4">
+                  <div class="form-group">
+                    <label class="form-label" for="email">Work Email <span class="text-rose-500">*</span></label>
+                    <input id="email" type="email" class="input-field" [class.border-rose-400]="isInvalid(step2Form, 'email')" formControlName="email" placeholder="name@organization.com" />
+                    @if (isInvalid(step2Form, 'email')) {
+                      <p class="text-xs text-rose-500 mt-1">Please enter a valid work email</p>
+                    }
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="password">Password <span class="text-rose-500">*</span></label>
+                    <input id="password" [type]="showPw() ? 'text' : 'password'" class="input-field" formControlName="password" placeholder="At least 8 characters" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="confirmPassword">Confirm Password <span class="text-rose-500">*</span></label>
+                    <input id="confirmPassword" [type]="showCpw() ? 'text' : 'password'" class="input-field" formControlName="confirmPassword" placeholder="Re-enter password" />
+                    @if (step2Form.hasError('passwordMismatch') && step2Form.get('confirmPassword')?.touched) {
+                      <p class="text-xs text-rose-500 mt-1">Passwords do not match</p>
+                    }
+                  </div>
+                </form>
+              </div>
+            }
+
+            <!-- Step 3: Role Selection -->
+            @if (currentStep() === 3) {
+              <div @step class="space-y-6">
+                <div class="space-y-1">
+                  <h2 class="text-2xl font-extrabold text-[#1A1A1A]">Select Your Role</h2>
+                  <p class="text-xs text-[#5B5B6A]">Choose how your account interacts with the network</p>
+                </div>
+                <form [formGroup]="step3Form" class="space-y-4">
+                  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    @for (role of roles; track role.value) {
+                      <div
+                        (click)="step3Form.patchValue({ role: role.value })"
+                        class="p-4 rounded-2xl border text-center cursor-pointer transition-all"
+                        [ngClass]="step3Form.get('role')?.value === role.value ? 'bg-[#7743DB]/10 border-[#7743DB] ring-2 ring-[#7743DB]/20 shadow-md' : 'bg-[#F7EFE5] border-[#E8DDD3] hover:border-[#7743DB]/30'"
+                      >
+                        <span class="text-3xl block mb-2">{{ role.icon }}</span>
+                        <h4 class="font-bold text-xs text-[#1A1A1A]">{{ role.label }}</h4>
+                        <p class="text-[10px] text-[#5B5B6A] mt-1 leading-tight">{{ role.desc }}</p>
+                      </div>
+                    }
+                  </div>
+
+                  @if (step3Form.get('role')?.value === 'restaurant' || step3Form.get('role')?.value === 'ngo') {
+                    <div class="form-group pt-2">
+                      <label class="form-label" for="org">Organization / Venue Name</label>
+                      <input id="org" type="text" class="input-field" formControlName="organizationName" placeholder="Green Harvest Kitchens" />
+                    </div>
+                  }
+                </form>
+              </div>
+            }
+
+            <!-- Step 4: Summary & Confirm -->
+            @if (currentStep() === 4) {
+              <div @step class="space-y-6">
+                <div class="space-y-1">
+                  <h2 class="text-2xl font-extrabold text-[#1A1A1A]">Review & Create</h2>
+                  <p class="text-xs text-[#5B5B6A]">Confirm your account information</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-[#F7EFE5] border border-[#E8DDD3] space-y-3 text-xs">
+                  <div class="flex justify-between py-1 border-b border-[#E8DDD3]">
+                    <span class="text-[#5B5B6A]">Full Name:</span>
+                    <span class="font-bold text-[#1A1A1A]">{{ step1Form.value.fullName }}</span>
+                  </div>
+                  <div class="flex justify-between py-1 border-b border-[#E8DDD3]">
+                    <span class="text-[#5B5B6A]">Phone:</span>
+                    <span class="font-bold text-[#1A1A1A]">{{ step1Form.value.phone }}</span>
+                  </div>
+                  <div class="flex justify-between py-1 border-b border-[#E8DDD3]">
+                    <span class="text-[#5B5B6A]">Email:</span>
+                    <span class="font-bold text-[#1A1A1A]">{{ step2Form.value.email }}</span>
+                  </div>
+                  <div class="flex justify-between py-1">
+                    <span class="text-[#5B5B6A]">Role:</span>
+                    <span class="font-bold text-[#7743DB] capitalize">{{ step3Form.value.role }}</span>
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-[#5B5B6A]">
+                  By creating an account, you agree to our Terms of Service and Privacy Policy.
+                </p>
+              </div>
+            }
+
+            <!-- Wizard Navigation Buttons -->
+            <div class="flex items-center justify-between pt-4 border-t border-[#E8DDD3]">
+              @if (currentStep() > 1) {
+                <button type="button" (click)="prev()" class="btn-secondary text-xs font-semibold py-2.5 px-5 rounded-xl">
+                  ← Back
+                </button>
+              } @else {
+                <a routerLink="/auth/login" class="text-xs font-bold text-[#7743DB] hover:underline">
+                  Already have an account?
+                </a>
+              }
+
+              @if (currentStep() < stepLabels.length) {
+                <button type="button" (click)="next()" class="btn-primary text-xs font-semibold py-2.5 px-6 rounded-xl shadow-md">
+                  Continue →
+                </button>
+              } @else {
+                <button type="button" (click)="submit()" [disabled]="isLoading()" class="btn-primary text-xs font-bold py-3 px-8 rounded-xl shadow-lg shadow-[#7743DB]/30">
+                  @if (isLoading()) {
+                    <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    <span>Creating Account...</span>
+                  } @else {
+                    <span>Create Enterprise Account 🚀</span>
+                  }
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
 })
 export class RegisterComponent {
-  form: FormGroup;
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
-  constructor(private readonly fb: FormBuilder, private readonly authService: AuthService, private readonly router: Router) {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
-      role: ['donor', Validators.required],
-      location: ['', Validators.required],
-    });
+  readonly currentStep = signal(1);
+  readonly isLoading = signal(false);
+  readonly showPw = signal(false);
+  readonly showCpw = signal(false);
+
+  readonly stepLabels = [
+    { step: 1, label: 'Basic Info' },
+    { step: 2, label: 'Account Security' },
+    { step: 3, label: 'Role Selection' },
+    { step: 4, label: 'Review & Confirm' },
+  ];
+
+  readonly roles = [
+    { value: 'restaurant', label: 'Commercial Donor', icon: '🏪', desc: 'Post surplus food' },
+    { value: 'ngo', label: 'NGO / Shelter', icon: '🏢', desc: 'Request food' },
+    { value: 'volunteer', label: 'Volunteer Courier', icon: '🚚', desc: 'Handle pickups' },
+    { value: 'donor', label: 'Monetary Supporter', icon: '🎁', desc: 'Fund operations' },
+    { value: 'receiver', label: 'Individual Recipient', icon: '🙏', desc: 'Find local meals' },
+    { value: 'admin', label: 'Platform Admin', icon: '⚙️', desc: 'System management' },
+  ];
+
+  step1Form = this.fb.group({
+    fullName: ['', [Validators.required, Validators.minLength(2)]],
+    phone: ['', [Validators.required]],
+  });
+
+  step2Form = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, strongPasswordValidator]],
+    confirmPassword: ['', Validators.required],
+  }, { validators: passwordMatchValidator });
+
+  step3Form = this.fb.group({
+    role: ['restaurant', Validators.required],
+    organizationName: [''],
+  });
+
+  isInvalid(form: any, field: string): boolean {
+    const ctrl = form.get(field);
+    return !!(ctrl?.invalid && (ctrl.dirty || ctrl.touched));
+  }
+
+  next(): void {
+    if (this.currentStep() === 1) {
+      this.step1Form.markAllAsTouched();
+      if (this.step1Form.invalid) return;
+    }
+    if (this.currentStep() === 2) {
+      this.step2Form.markAllAsTouched();
+      if (this.step2Form.invalid) return;
+    }
+    this.currentStep.update(s => s + 1);
+  }
+
+  prev(): void {
+    this.currentStep.update(s => s - 1);
   }
 
   submit(): void {
-    if (this.form.valid) {
-      const createdUser = this.authService.register(this.form.value);
-      this.router.navigate([createdUser.role === 'admin' ? '/admin' : createdUser.role === 'ngo' ? '/ngo' : createdUser.role === 'volunteer' ? '/volunteer' : '/donor']);
-    }
+    this.isLoading.set(true);
+
+    const payload = {
+      fullName: this.step1Form.value.fullName!,
+      phone: this.step1Form.value.phone!,
+      email: this.step2Form.value.email!,
+      password: this.step2Form.value.password!,
+      confirmPassword: this.step2Form.value.confirmPassword!,
+      role: this.step3Form.value.role as any,
+      organizationName: this.step3Form.value.organizationName || undefined,
+    };
+
+    this.authService.register(payload).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        this.toast.success('Registration successful!', 'Please verify your email code (Demo OTP: 123456)');
+        this.router.navigate(['/auth/verify-email'], { queryParams: { email: payload.email } });
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.toast.error('Registration failed', err.message);
+      },
+    });
   }
 }

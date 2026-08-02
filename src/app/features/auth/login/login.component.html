@@ -8,6 +8,10 @@
 
     <mat-card class="w-full max-w-md bg-slate-900/80 p-4 text-white">
       <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+        <div *ngIf="errorMessage" class="rounded-md bg-red-500/20 border border-red-500/50 p-3 text-sm text-red-200">
+          {{ errorMessage }}
+        </div>
+
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" />
@@ -28,7 +32,9 @@
           </select>
         </mat-form-field>
 
-        <button mat-flat-button color="primary" type="submit" class="w-full">Sign In</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isLoading" class="w-full">
+          {{ isLoading ? 'Signing In...' : 'Sign In' }}
+        </button>
         <p class="text-center text-sm text-slate-400">Not a member yet? <a routerLink="/auth/register" class="text-emerald-300">Create account</a></p>
       </form>
     </mat-card>

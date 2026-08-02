@@ -1,43 +1,53 @@
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/authentication/auth.service';
-import { User } from '../../core/models/user.model';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, MatToolbarModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent implements OnInit {
-  currentUser: User | null = null;
+export class NavbarComponent {
+  readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
-  readonly menuItems = [
-    { label: 'Home', path: '/' },
-    { label: 'About', path: '/about' },
-    { label: 'Donate Food', path: '/donor' },
-    { label: 'Volunteer', path: '/volunteer' },
-    { label: 'NGO', path: '/ngo' },
-    { label: 'Dashboard', path: '/admin' },
-    { label: 'Impact', path: '/impact' },
-    { label: 'Contact', path: '/contact' },
+  isMobileMenuOpen = false;
+  isNotificationsOpen = false;
+  isProfileOpen = false;
+
+  readonly publicNavLinks = [
+    { label: 'Home', path: '/home' },
+    { label: 'Food Rescue', path: '/dashboard/food' },
+    { label: 'Donations', path: '/dashboard/donations' },
+    { label: 'Volunteer', path: '/dashboard/volunteer' },
+    { label: 'NGO Network', path: '/dashboard/ngo' },
   ];
 
-  constructor(private readonly authService: AuthService, private readonly router: Router) {}
+  readonly notifications = [
+    { title: 'New Surplus Request', message: 'Green Harvest Bakery posted 40 kg fresh bread', time: '5m ago', unread: true },
+    { title: 'Pickup Confirmed', message: 'Volunteer Alex accepted donation #8492', time: '12m ago', unread: true },
+    { title: 'Impact Milestone', message: '180,000 meals rescued in your city!', time: '1h ago', unread: false },
+  ];
 
-  ngOnInit(): void {
-    this.authService.currentUser$.subscribe((user) => {
-      this.currentUser = user;
-    });
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  toggleNotifications(): void {
+    this.isNotificationsOpen = !this.isNotificationsOpen;
+    if (this.isNotificationsOpen) this.isProfileOpen = false;
+  }
+
+  toggleProfile(): void {
+    this.isProfileOpen = !this.isProfileOpen;
+    if (this.isProfileOpen) this.isNotificationsOpen = false;
   }
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.isProfileOpen = false;
   }
 }

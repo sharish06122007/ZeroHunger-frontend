@@ -1,13 +1,70 @@
-<footer class="border-t border-white/10 bg-slate-950/90 px-6 py-10 text-slate-300 md:px-10">
-  <div class="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
-    <div>
-      <p class="text-lg font-semibold text-emerald-300">ZeroHunger 360</p>
-      <p class="mt-2 max-w-xl text-sm">Turning surplus food into hope through intelligent rescue logistics, verified NGOs, and dedicated volunteers.</p>
+<footer class="bg-[#F7EFE5] border-t border-[#E8DDD3] mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-10">
+      
+      <!-- Brand & Mission -->
+      <div class="md:col-span-2 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#7743DB] via-[#9055EE] to-[#C3ACD0] p-0.5 shadow-md">
+            <div class="w-full h-full bg-[#1A1A1A] rounded-[14px] flex items-center justify-center">
+              <svg class="w-5 h-5 text-[#C3ACD0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+          </div>
+          <span class="font-extrabold text-xl tracking-tight text-[#1A1A1A]">Zero<span class="text-[#7743DB]">Hunger</span></span>
+        </div>
+        <p class="text-sm text-[#5B5B6A] leading-relaxed max-w-sm">
+          Empowering restaurants, volunteers, and NGOs through an intelligent real-time surplus food redistribution platform.
+        </p>
+        <div class="flex items-center gap-2 pt-2">
+          <span class="pulse-dot"></span>
+          <span class="text-xs font-semibold text-[#1A1A1A]">System Operational • 99.9% Uptime</span>
+        </div>
+      </div>
+
+      <!-- Quick Navigation -->
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-[#1A1A1A] mb-4">Platform</h4>
+        <ul class="space-y-2.5 text-sm text-[#5B5B6A]">
+          <li><a routerLink="/dashboard/food" class="hover:text-[#7743DB] transition-colors">Food Listings</a></li>
+          <li><a routerLink="/dashboard/donations" class="hover:text-[#7743DB] transition-colors">Donation Hub</a></li>
+          <li><a routerLink="/dashboard/volunteer" class="hover:text-[#7743DB] transition-colors">Courier Network</a></li>
+          <li><a routerLink="/dashboard/ngo" class="hover:text-[#7743DB] transition-colors">NGO Directory</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-[#1A1A1A] mb-4">Resources</h4>
+        <ul class="space-y-2.5 text-sm text-[#5B5B6A]">
+          <li><a routerLink="/welcome" class="hover:text-[#7743DB] transition-colors">Onboarding Guide</a></li>
+          <li><a routerLink="/dashboard" class="hover:text-[#7743DB] transition-colors">Analytics Dashboard</a></li>
+          <li><a routerLink="/auth/register" class="hover:text-[#7743DB] transition-colors">Partner Signup</a></li>
+          <li><a routerLink="/dashboard/settings" class="hover:text-[#7743DB] transition-colors">Security & Trust</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact & Social -->
+      <div>
+        <h4 class="font-bold text-xs uppercase tracking-wider text-[#1A1A1A] mb-4">Connect</h4>
+        <p class="text-xs text-[#5B5B6A] mb-3">Questions or partnership inquiries?</p>
+        <a href="mailto:support@zerohunger.org" class="text-xs font-semibold text-[#7743DB] hover:underline block mb-4">support&#64;zerohunger.org</a>
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-white border border-[#E8DDD3] flex items-center justify-center text-xs font-bold text-[#7743DB]">X</span>
+          <span class="w-8 h-8 rounded-xl bg-white border border-[#E8DDD3] flex items-center justify-center text-xs font-bold text-[#7743DB]">in</span>
+          <span class="w-8 h-8 rounded-xl bg-white border border-[#E8DDD3] flex items-center justify-center text-xs font-bold text-[#7743DB]">gh</span>
+        </div>
+      </div>
     </div>
-    <div class="flex flex-wrap gap-6 text-sm">
-      <a routerLink="/about" class="transition hover:text-emerald-300">About</a>
-      <a routerLink="/impact" class="transition hover:text-emerald-300">Impact</a>
-      <a routerLink="/contact" class="transition hover:text-emerald-300">Contact</a>
+
+    <div class="pt-12 mt-12 border-t border-[#E8DDD3] flex flex-col sm:flex-row items-center justify-between text-xs text-[#5B5B6A] gap-4">
+      <p>© 2026 ZeroHunger Inc. All rights reserved. Crafted with precision for global impact.</p>
+      <div class="flex items-center gap-6">
+        <a routerLink="/privacy" class="hover:underline">Privacy Policy</a>
+        <a routerLink="/terms" class="hover:underline">Terms of Service</a>
+        <a routerLink="/cookies" class="hover:underline">Cookie Preferences</a>
+      </div>
     </div>
   </div>
 </footer>
