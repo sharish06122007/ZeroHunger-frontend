@@ -1,42 +1,30 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/authentication/auth.service';
 import { ApiService } from '../../../core/services/api.service';
-import { ToastService } from '../../../core/services/toast.service';
+import { SocketService } from '../../../core/services/socket.service';
+import { LocationService } from '../../../core/services/location.service';
 import { Food } from '../../../core/models/food.model';
+import { MapViewComponent } from '../../../shared/components/map-view/map-view.component';
+import { AnalyticsChartsComponent } from '../../../shared/components/charts/analytics-charts.component';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Subscription } from 'rxjs';
 
-interface DashboardStats {
+interface HomeAnalytics {
   totalDonations: number;
   availableFood: number;
-  completedRequests: number;
+  completedDeliveries: number;
   activeVolunteers: number;
-  mealsSaved: number;
+  mealsRescued: number;
   co2SavedKg: number;
-}
-
-interface UserLocation {
-  address: string;
-  status: 'requesting' | 'verified' | 'denied' | 'unsupported';
-  city?: string;
-}
-
-function extractArray<T>(data: any): T[] {
-  if (!data) return [];
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data.foods)) return data.foods;
-  if (Array.isArray(data.donations)) return data.donations;
-  if (Array.isArray(data.requests)) return data.requests;
-  if (Array.isArray(data.items)) return data.items;
-  if (Array.isArray(data.data)) return data.data;
-  return [];
+  foodWasteSavedKg: number;
 }
 
 @Component({
   selector: 'app-dashboard-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, MapViewComponent, AnalyticsChartsComponent],
   animations: [
     trigger('fadeInUp', [
       transition(':enter', [
@@ -50,11 +38,11 @@ function extractArray<T>(data: any): T[] {
       <!-- Hero Welcome Banner -->
       <div class="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[#1A1A1A] via-[#2A1F45] to-[#7743DB] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
         <div class="space-y-3 relative z-10 max-w-xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-bold text-[#C3ACD0] border border-white/15">
-            <span class="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-extrabold text-[#C3ACD0] border border-white/15">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             {{ currentUser()?.role | uppercase }} DASHBOARD
           </div>
-          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          <h1 class="text-3xl sm:text-4xl font-black tracking-tight">
             Welcome back, {{ currentUser()?.fullName }} 👋
           </h1>
           <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -69,7 +57,7 @@ function extractArray<T>(data: any): T[] {
         </div>
       </div>
 
-      <!-- Verified Location Bar -->
+      <!-- Current Service Location Bar -->
       <div class="glass-panel p-5 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] flex items-center justify-center text-xl font-bold">
@@ -77,14 +65,20 @@ function extractArray<T>(data: any): T[] {
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h4 class="font-bold text-xs text-[#1A1A1A]">Network Zone Location</h4>
-              <span class="badge badge-success">✓ Verified Active</span>
+              <h4 class="font-bold text-xs text-[#1A1A1A]">Current Service Location</h4>
+              @if (loc().status === 'granted') {
+                <span class="badge badge-success text-[10px]">✓ Live Geolocation Verified</span>
+              } @else if (loc().status === 'denied') {
+                <span class="badge badge-danger text-[10px]">Location Denied</span>
+              } @else {
+                <span class="badge badge-primary text-[10px]">Detecting...</span>
+              }
             </div>
-            <p class="text-xs text-[#5B5B6A] mt-0.5">{{ location().address }}</p>
+            <p class="text-xs text-[#5B5B6A] font-medium mt-0.5">{{ loc().formattedAddress }}</p>
           </div>
         </div>
 
-        <button (click)="requestLocation()" class="btn-secondary text-xs font-semibold py-2 px-4 rounded-xl">
+        <button (click)="refreshLocation()" class="btn-secondary text-xs font-semibold py-2 px-4 rounded-xl">
           🔄 Refresh GPS
         </button>
       </div>
@@ -96,8 +90,8 @@ function extractArray<T>(data: any): T[] {
             <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">Active Surplus</span>
             <div class="w-10 h-10 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] font-bold flex items-center justify-center text-lg">🍱</div>
           </div>
-          <p class="text-3xl font-extrabold text-[#1A1A1A]">{{ stats().availableFood }}</p>
-          <span class="text-xs font-semibold text-[#22C55E]">↑ Available near you</span>
+          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().availableFood }}</p>
+          <span class="text-xs font-semibold text-emerald-600">↑ Live available items</span>
         </div>
 
         <div class="glass-card p-6 rounded-3xl space-y-3 border border-[#E8DDD3]">
@@ -105,8 +99,8 @@ function extractArray<T>(data: any): T[] {
             <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">Meals Rescued</span>
             <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 font-bold flex items-center justify-center text-lg">🎁</div>
           </div>
-          <p class="text-3xl font-extrabold text-[#1A1A1A]">{{ stats().totalDonations }}</p>
-          <span class="text-xs font-semibold text-[#22C55E]">↑ All-time contribution</span>
+          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().mealsRescued }}</p>
+          <span class="text-xs font-semibold text-emerald-600">↑ Total portions served</span>
         </div>
 
         <div class="glass-card p-6 rounded-3xl space-y-3 border border-[#E8DDD3]">
@@ -114,55 +108,29 @@ function extractArray<T>(data: any): T[] {
             <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">Fulfilled Deliveries</span>
             <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-600 font-bold flex items-center justify-center text-lg">🤝</div>
           </div>
-          <p class="text-3xl font-extrabold text-[#1A1A1A]">{{ stats().completedRequests }}</p>
-          <span class="text-xs font-semibold text-[#22C55E]">↑ 99.2% success rate</span>
+          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().completedDeliveries }}</p>
+          <span class="text-xs font-semibold text-emerald-600">↑ Verified complete</span>
         </div>
 
         <div class="glass-card p-6 rounded-3xl space-y-3 border border-[#E8DDD3]">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">CO₂ Saved</span>
+            <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">CO₂ Offset</span>
             <div class="w-10 h-10 rounded-2xl bg-purple-500/10 text-[#7743DB] font-bold flex items-center justify-center text-lg">🌱</div>
           </div>
-          <p class="text-3xl font-extrabold text-[#1A1A1A]">{{ stats().co2SavedKg }} <span class="text-xs text-[#5B5B6A]">kg</span></p>
-          <span class="text-xs font-semibold text-[#22C55E]">↑ Environmental impact</span>
+          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().co2SavedKg }} <span class="text-xs text-[#5B5B6A]">kg</span></p>
+          <span class="text-xs font-semibold text-emerald-600">↑ Environmental impact</span>
         </div>
       </div>
 
       <!-- Main Section: Trends Chart & Recent Food Listings Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- SVG Trends Chart -->
+        <!-- Live Analytics Chart -->
         <div class="lg:col-span-2 glass-panel p-6 sm:p-8 rounded-3xl border border-[#E8DDD3] bg-white/90 space-y-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="font-extrabold text-lg text-[#1A1A1A]">Meals Rescued Analytics</h3>
-              <p class="text-xs text-[#5B5B6A]">Weekly rescue throughput vs demand</p>
-            </div>
-            <div class="flex items-center gap-1 p-1 bg-[#F7EFE5] rounded-xl border border-[#E8DDD3]">
-              <button class="px-3 py-1 text-xs font-bold bg-white text-[#7743DB] rounded-lg shadow-sm">7 Days</button>
-              <button class="px-3 py-1 text-xs font-semibold text-[#5B5B6A]">30 Days</button>
-            </div>
-          </div>
-
-          <div class="h-48 w-full relative">
-            <svg viewBox="0 0 500 150" class="w-full h-full">
-              <defs>
-                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#7743DB" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#7743DB" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 0,130 Q 80,40 160,80 T 320,30 T 500,10 L 500,150 L 0,150 Z" fill="url(#chartGrad)" />
-              <path d="M 0,130 Q 80,40 160,80 T 320,30 T 500,10" fill="none" stroke="#7743DB" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="0" cy="130" r="5" fill="#7743DB"/>
-              <circle cx="80" cy="40" r="5" fill="#7743DB"/>
-              <circle cx="160" cy="80" r="5" fill="#7743DB"/>
-              <circle cx="320" cy="30" r="5" fill="#7743DB"/>
-              <circle cx="500" cy="10" r="5" fill="#22C55E"/>
-            </svg>
-            <div class="flex justify-between text-[11px] font-bold text-[#5B5B6A] pt-2">
-              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-            </div>
-          </div>
+          <app-analytics-charts
+            title="Weekly Rescue Throughput vs Demand"
+            chartType="line"
+            [data]="chartPoints()"
+          ></app-analytics-charts>
         </div>
 
         <!-- Recent Food Listings -->
@@ -179,11 +147,15 @@ function extractArray<T>(data: any): T[] {
                   <span class="text-2xl">🍱</span>
                   <div>
                     <h4 class="font-bold text-xs text-[#1A1A1A] line-clamp-1">{{ item.title }}</h4>
-                    <p class="text-[11px] text-[#5B5B6A]">{{ item.quantity }} · {{ item.city || 'Local' }}</p>
+                    <p class="text-[11px] text-[#5B5B6A]">{{ item.quantity }} · {{ item.city || 'Mumbai' }}</p>
                   </div>
                 </div>
                 <span class="badge badge-success text-[10px]">{{ item.status }}</span>
               </a>
+            } @empty {
+              <div class="p-6 text-center text-xs text-[#5B5B6A]">
+                No listings yet. Post a surplus food donation to rescue meals!
+              </div>
             }
           </div>
         </div>
@@ -191,130 +163,74 @@ function extractArray<T>(data: any): T[] {
     </div>
   `,
 })
-export class DashboardHomeComponent implements OnInit {
+export class DashboardHomeComponent implements OnInit, OnDestroy {
   private readonly authService = inject(AuthService);
   private readonly apiService = inject(ApiService);
-  private readonly toast = inject(ToastService);
+  private readonly socket = inject(SocketService);
+  private readonly locationService = inject(LocationService);
 
   readonly currentUser = this.authService.currentUser;
-  readonly isLoading = signal(true);
+  readonly loc = this.locationService.location;
   readonly recentFood = signal<Food[]>([]);
+  private socketSub!: Subscription;
 
-  readonly location = signal<UserLocation>({
-    address: 'Detecting location...',
-    status: 'requesting',
-  });
-
-  readonly stats = signal<DashboardStats>({
-    totalDonations: 142,
+  readonly stats = signal<HomeAnalytics>({
+    totalDonations: 48,
     availableFood: 18,
-    completedRequests: 128,
-    activeVolunteers: 45,
-    mealsSaved: 1240,
-    co2SavedKg: 850,
+    completedDeliveries: 36,
+    activeVolunteers: 14,
+    mealsRescued: 1840,
+    co2SavedKg: 2070,
+    foodWasteSavedKg: 828,
   });
+
+  readonly chartPoints = signal([
+    { label: 'Mon', value: 12 },
+    { label: 'Tue', value: 24 },
+    { label: 'Wed', value: 18 },
+    { label: 'Thu', value: 32 },
+    { label: 'Fri', value: 45 },
+    { label: 'Sat', value: 28 },
+    { label: 'Sun', value: 38 },
+  ]);
 
   ngOnInit(): void {
-    this.requestLocation();
     this.fetchData();
+    this.listenToSocket();
   }
 
-  requestLocation(): void {
-    const user = this.currentUser();
-    const fallbackAddress = [user?.address, user?.city || 'San Francisco', 'CA, USA'].filter(Boolean).join(', ');
-
-    if (!navigator.geolocation) {
-      this.location.set({ address: fallbackAddress, status: 'verified' });
-      return;
-    }
-
-    if (navigator.permissions && navigator.permissions.query) {
-      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-        if (result.state === 'denied') {
-          this.location.set({ address: fallbackAddress, status: 'verified' });
-          return;
-        }
-        this.performGeolocation(fallbackAddress);
-      }).catch(() => {
-        this.performGeolocation(fallbackAddress);
-      });
-    } else {
-      this.performGeolocation(fallbackAddress);
-    }
-  }
-
-  private performGeolocation(fallbackAddress: string): void {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
-
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-          .then(res => res.json())
-          .then(data => {
-            const addr = data.display_name || `${data.address?.suburb || 'Central'}, ${data.address?.city || 'City'}, USA`;
-            this.location.set({ address: addr, status: 'verified' });
-          })
-          .catch(() => {
-            this.location.set({ address: fallbackAddress, status: 'verified' });
-          });
-      },
-      () => {
-        this.location.set({ address: fallbackAddress, status: 'verified' });
-      },
-      { timeout: 5000 }
-    );
+  refreshLocation(): void {
+    this.locationService.detectLocation();
   }
 
   fetchData(): void {
-    this.isLoading.set(true);
+    this.apiService.get<any>('dashboard/analytics').subscribe({
+      next: (res) => {
+        const data = res?.data || res;
+        if (data) this.stats.set(data);
+      },
+      error: () => {},
+    });
+
     this.apiService.get<any>('food', { limit: 5 }).subscribe({
       next: (res) => {
-        const items = extractArray<Food>(res?.data || res);
-        if (items.length > 0) {
-          this.recentFood.set(items);
-        } else {
-          this.loadMockFood();
-        }
-        this.isLoading.set(false);
+        const data = res?.data || res;
+        const foods = Array.isArray(data) ? data : data?.foods || [];
+        this.recentFood.set(foods);
       },
-      error: () => {
-        this.loadMockFood();
-        this.isLoading.set(false);
-      },
+      error: () => {},
     });
   }
 
-  private loadMockFood(): void {
-    this.recentFood.set([
-      {
-        _id: 'demo-1',
-        title: '50 Fresh Gourmet Dinner Boxes',
-        category: 'cooked',
-        quantity: '50 boxes',
-        status: 'available',
-        expiryTime: new Date(Date.now() + 86400000).toISOString(),
-        city: 'San Francisco',
-        donatedBy: { _id: 'u1', fullName: 'Grand Hyatt Kitchens' },
-        images: [],
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        _id: 'demo-2',
-        title: 'Artisan Bakery Bread Surplus',
-        category: 'bakery',
-        quantity: '35 kg',
-        status: 'available',
-        expiryTime: new Date(Date.now() + 43200000).toISOString(),
-        city: 'San Francisco',
-        donatedBy: { _id: 'u2', fullName: 'Green Harvest Bakery' },
-        images: [],
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-    ]);
+  private listenToSocket(): void {
+    this.socketSub = this.socket.eventStream$.subscribe(({ event }) => {
+      if (event === 'analytics:update' || event.startsWith('food:')) {
+        this.fetchData();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.socketSub) this.socketSub.unsubscribe();
   }
 }

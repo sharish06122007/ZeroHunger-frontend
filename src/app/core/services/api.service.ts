@@ -41,6 +41,10 @@ export class ApiService {
     return this.http.put<ApiResponse<T>>(`${this.baseUrl}/${endpoint}`, body, { withCredentials: true });
   }
 
+  patch<T>(endpoint: string, body: unknown): Observable<ApiResponse<T>> {
+    return this.http.patch<ApiResponse<T>>(`${this.baseUrl}/${endpoint}`, body, { withCredentials: true });
+  }
+
   putForm<T>(endpoint: string, formData: FormData): Observable<ApiResponse<T>> {
     return this.http.put<ApiResponse<T>>(`${this.baseUrl}/${endpoint}`, formData, { withCredentials: true });
   }

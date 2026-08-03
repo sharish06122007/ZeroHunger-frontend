@@ -1,11 +1,13 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { SocketService } from '../../../core/services/socket.service';
 import { Food } from '../../../core/models/food.model';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Subscription } from 'rxjs';
 
 function extractArray<T>(data: any): T[] {
   if (!data) return [];
@@ -31,12 +33,16 @@ function extractArray<T>(data: any): T[] {
     ]),
   ],
   template: `
-    <div class="space-y-8" @fadeIn>
+    <div class="space-y-8 pb-12" @fadeIn>
       <!-- Header -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">Surplus Food Listings</h1>
-          <p class="text-xs text-[#5B5B6A] mt-1">Browse commercial food rescue packages or post a new donation</p>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7743DB]/10 text-xs font-bold text-[#7743DB]">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            LIVE REAL-TIME FEED
+          </div>
+          <h1 class="text-3xl font-black text-[#1A1A1A] tracking-tight mt-1">Food Rescue Listings</h1>
+          <p class="text-xs text-[#5B5B6A]">Surplus food available for immediate claim and volunteer dispatch</p>
         </div>
         <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
           + Post Surplus Food
@@ -52,7 +58,7 @@ function extractArray<T>(data: any): T[] {
           </svg>
           <input
             type="text"
-            placeholder="Search by title, donor, or location..."
+            placeholder="Search by food title, donor, or city..."
             class="input-field pl-10"
             [(ngModel)]="searchQuery"
             (input)="applyFilters()"
@@ -67,6 +73,7 @@ function extractArray<T>(data: any): T[] {
             <option value="raw">Raw Produce</option>
             <option value="packaged">Packaged Items</option>
             <option value="bakery">Bakery & Pastry</option>
+            <option value="beverage">Beverage</option>
           </select>
 
           <select class="input-field py-2.5 text-xs font-semibold" [(ngModel)]="selectedStatus" (change)="applyFilters()">
@@ -99,41 +106,49 @@ function extractArray<T>(data: any): T[] {
           @for (food of filteredFood(); track food._id) {
             <div
               [routerLink]="['/dashboard/food', food._id]"
-              class="glass-card rounded-3xl border border-[#E8DDD3] bg-white/90 overflow-hidden flex flex-col justify-between hover:border-[#7743DB]/40 transition-all cursor-pointer group"
+              class="glass-card rounded-3xl border border-[#E8DDD3] bg-white/90 overflow-hidden flex flex-col justify-between hover:border-[#7743DB]/40 hover:shadow-xl transition-all cursor-pointer group"
             >
               <div class="p-6 space-y-4">
                 <div class="flex items-center justify-between">
-                  <span class="badge badge-primary text-[10px]">{{ food.category }}</span>
-                  <span class="badge badge-success text-[10px]">{{ food.status }}</span>
+                  <span class="badge badge-primary text-[10px] uppercase font-bold">{{ food.category }}</span>
+                  <span class="badge badge-{{ food.status === 'available' ? 'success' : 'warning' }} text-[10px] uppercase font-bold">
+                    {{ food.status }}
+                  </span>
                 </div>
 
                 <div class="space-y-1">
-                  <h3 class="font-extrabold text-base text-[#1A1A1A] group-hover:text-[#7743DB] transition-colors leading-snug">
+                  <h3 class="font-black text-base text-[#1A1A1A] group-hover:text-[#7743DB] transition-colors leading-snug">
                     {{ food.title }}
                   </h3>
                   <p class="text-xs text-[#5B5B6A] line-clamp-2 leading-relaxed">
-                    {{ food.description || 'Verified commercial surplus food donation ready for pickup.' }}
+                    {{ food.description || 'Verified surplus food donation ready for pickup.' }}
                   </p>
                 </div>
 
                 <div class="space-y-2 pt-2 border-t border-[#E8DDD3] text-xs text-[#5B5B6A]">
-                  <div class="flex items-center gap-2">
-                    <span>📦</span>
-                    <strong class="text-[#1A1A1A]">{{ food.quantity }}</strong>
+                  <div class="flex items-center justify-between">
+                    <span class="flex items-center gap-1.5">
+                      <span>📦</span>
+                      <strong class="text-[#1A1A1A]">{{ food.quantity }}</strong>
+                    </span>
+                    <span class="badge badge-success text-[9px]">NGO Eligible</span>
                   </div>
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-1.5">
                     <span>📍</span>
-                    <span>{{ food.city || 'San Francisco, CA' }}</span>
+                    <span>{{ food.city || 'Mumbai' }} · {{ food.pickupAddress || 'Central Hub' }}</span>
                   </div>
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-1.5">
                     <span>🏢</span>
-                    <span>{{ food.donatedBy.fullName || 'Grand Hyatt Kitchens' }}</span>
+                    <span class="font-semibold text-[#1A1A1A]">{{ food.restaurantName || food.donatedBy.fullName }}</span>
                   </div>
                 </div>
               </div>
 
-              <div class="px-6 py-4 bg-[#F7EFE5]/50 border-t border-[#E8DDD3] flex items-center justify-between text-xs">
-                <span class="text-[11px] text-[#5B5B6A]">Expires: {{ food.expiryTime | date:'short' }}</span>
+              <div class="px-6 py-4 bg-[#F7EFE5]/60 border-t border-[#E8DDD3] flex items-center justify-between text-xs">
+                <div class="flex items-center gap-1 text-amber-700 font-bold text-[11px]">
+                  <span>⏳</span>
+                  <span>Expires {{ food.expiryTime | date:'shortTime' }}</span>
+                </div>
                 <span class="font-bold text-[#7743DB] group-hover:translate-x-1 transition-transform">Details →</span>
               </div>
             </div>
@@ -143,13 +158,15 @@ function extractArray<T>(data: any): T[] {
     </div>
   `,
 })
-export class FoodListComponent implements OnInit {
+export class FoodListComponent implements OnInit, OnDestroy {
   private readonly apiService = inject(ApiService);
   private readonly toast = inject(ToastService);
+  private readonly socket = inject(SocketService);
 
   readonly isLoading = signal(true);
   readonly allFood = signal<Food[]>([]);
   readonly filteredFood = signal<Food[]>([]);
+  private socketSub!: Subscription;
 
   searchQuery = '';
   selectedCategory = '';
@@ -157,47 +174,32 @@ export class FoodListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchFood();
+    this.listenToSocket();
   }
 
   fetchFood(): void {
     this.isLoading.set(true);
-    this.apiService.get<any>('food').subscribe({
+    this.apiService.get<any>('food', { limit: 30 }).subscribe({
       next: (res) => {
-        const items = extractArray<Food>(res?.data || res);
-        if (items.length > 0) {
-          this.allFood.set(items);
-        } else {
-          this.loadMockFood();
-        }
+        const data = res?.data || res;
+        const items = extractArray<Food>(data);
+        this.allFood.set(items);
         this.applyFilters();
         this.isLoading.set(false);
       },
       error: () => {
-        this.loadMockFood();
-        this.applyFilters();
         this.isLoading.set(false);
       },
     });
   }
 
-  private loadMockFood(): void {
-    this.allFood.set([
-      {
-        _id: 'f1', title: '50 Fresh Cooked Gourmet Meals', category: 'cooked', quantity: '50 boxes', status: 'available',
-        expiryTime: new Date(Date.now() + 86400000).toISOString(), city: 'San Francisco', description: 'Surplus dinner meals stored in thermal food containers from hotel catering.',
-        donatedBy: { _id: 'u1', fullName: 'Grand Hyatt Kitchens' }, images: [], isActive: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-      },
-      {
-        _id: 'f2', title: 'Organic Produce - Tomatoes & Lettuce', category: 'raw', quantity: '40 kg', status: 'available',
-        expiryTime: new Date(Date.now() + 172800000).toISOString(), city: 'San Francisco', description: 'Fresh organic produce suitable for community shelter soup kitchens.',
-        donatedBy: { _id: 'u2', fullName: 'APMC Organic Farms' }, images: [], isActive: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-      },
-      {
-        _id: 'f3', title: 'Artisan Sourdough & Croissants', category: 'bakery', quantity: '30 packs', status: 'reserved',
-        expiryTime: new Date(Date.now() + 43200000).toISOString(), city: 'San Francisco', description: 'Freshly baked sourdough loaves and pastries from today.',
-        donatedBy: { _id: 'u3', fullName: 'Green Harvest Bakery' }, images: [], isActive: true, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
-      },
-    ]);
+  private listenToSocket(): void {
+    this.socketSub = this.socket.eventStream$.subscribe(({ event, data }) => {
+      if (event.startsWith('food:')) {
+        this.fetchFood();
+        this.toast.info('Listing Updated 🍱', 'Real-time food listings updated.');
+      }
+    });
   }
 
   applyFilters(): void {
@@ -205,7 +207,13 @@ export class FoodListComponent implements OnInit {
     let items = Array.isArray(raw) ? [...raw] : [];
     if (this.searchQuery.trim()) {
       const q = this.searchQuery.toLowerCase();
-      items = items.filter(f => f.title?.toLowerCase().includes(q) || f.city?.toLowerCase().includes(q) || f.donatedBy?.fullName?.toLowerCase().includes(q));
+      items = items.filter(
+        f =>
+          f.title?.toLowerCase().includes(q) ||
+          f.city?.toLowerCase().includes(q) ||
+          f.donatedBy?.fullName?.toLowerCase().includes(q) ||
+          f.restaurantName?.toLowerCase().includes(q)
+      );
     }
     if (this.selectedCategory) {
       items = items.filter(f => f.category === this.selectedCategory);
@@ -221,5 +229,9 @@ export class FoodListComponent implements OnInit {
     this.selectedCategory = '';
     this.selectedStatus = '';
     this.applyFilters();
+  }
+
+  ngOnDestroy(): void {
+    if (this.socketSub) this.socketSub.unsubscribe();
   }
 }
