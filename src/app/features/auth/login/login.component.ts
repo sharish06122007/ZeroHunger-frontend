@@ -204,7 +204,7 @@ export class LoginComponent {
       next: (res) => {
         this.isLoading.set(false);
         this.toast.success('Welcome back!', `Hello, ${res.data.user.fullName}`);
-        this.router.navigate(['/auth/loading']);
+        this.router.navigate(['/zerohunger-loader']);
       },
       error: (err) => {
         this.isLoading.set(false);

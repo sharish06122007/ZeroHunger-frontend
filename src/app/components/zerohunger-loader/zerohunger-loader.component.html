@@ -1,0 +1,56 @@
+<div class="loader-container">
+  <!-- Glowing Background Mesh Orbs -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <!-- Floating Food Particles Layer -->
+  <div class="food-particles">
+    @for (item of foodParticles(); track $index) {
+      <span
+        class="floating-food-item"
+        [style.left.%]="item.left"
+        [style.top.%]="item.top"
+        [style.transform]="'scale(' + item.scale + ')'"
+        [style.animationDuration.s]="item.duration"
+        [style.animationDelay.s]="item.delay"
+      >
+        {{ item.emoji }}
+      </span>
+    }
+  </div>
+
+  <!-- Center Content Section -->
+  <div class="center-content">
+    <div class="logo-section">
+      <div class="logo-ring">
+        <span class="logo-icon">🍱</span>
+      </div>
+
+      <div class="logo-title">
+        <span class="brand-text">ZEROHUNGER</span>
+        <span class="brand-badge">360</span>
+      </div>
+
+      <p class="tagline">"Turning Surplus Food Into Hope"</p>
+    </div>
+
+    <!-- Dynamic Status Message & Progress Bar -->
+    <div class="progress-section">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill"></div>
+      </div>
+
+      <div class="loading-message">
+        <span class="pulse-indicator"></span>
+        <span class="message-text">{{ currentMessage }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="loader-footer">
+    <span>ZeroHunger 360 AI Operating System</span>
+    <span class="dot">•</span>
+    <span>Connecting Communities</span>
+  </div>
+</div>

@@ -14,6 +14,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/welcome/welcome.component').then(m => m.WelcomeComponent),
   },
 
+  {
+    path: 'zerohunger-loader',
+    loadComponent: () => import('./components/zerohunger-loader/zerohunger-loader.component').then(m => m.ZerohungerLoaderComponent),
+  },
+
   // Auth Flow
   {
     path: 'auth',
