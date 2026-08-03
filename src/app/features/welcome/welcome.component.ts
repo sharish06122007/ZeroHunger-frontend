@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { FloatingFoodCanvasComponent } from '../../shared/components/floating-food/floating-food-canvas.component';
+import { FallingFoodBackgroundComponent } from '../../shared/components/falling-food/falling-food-background.component';
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, FloatingFoodCanvasComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, FallingFoodBackgroundComponent],
   animations: [
     trigger('fadeUp', [
       transition(':enter', [
@@ -22,6 +22,8 @@ import { FloatingFoodCanvasComponent } from '../../shared/components/floating-fo
     <app-navbar />
 
     <main class="min-h-screen bg-[#FFFBF5] relative overflow-hidden">
+      <!-- Light Falling Food Canvas Background -->
+      <app-falling-food-background></app-falling-food-background>
       <!-- Ambient Orbs -->
       <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#7743DB]/10 blur-3xl pointer-events-none"></div>
       <div class="absolute top-1/2 -right-32 w-96 h-96 rounded-full bg-[#C3ACD0]/20 blur-3xl pointer-events-none"></div>
