@@ -35,6 +35,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
       },
       {
+        path: 'loading',
+        loadComponent: () => import('./features/auth/login-transition/login-transition.component').then(m => m.LoginTransitionComponent),
+      },
+      {
         path: 'profile-setup',
         loadComponent: () => import('./features/auth/profile-setup/profile-setup.component').then(m => m.ProfileSetupComponent),
         canActivate: [authGuard],

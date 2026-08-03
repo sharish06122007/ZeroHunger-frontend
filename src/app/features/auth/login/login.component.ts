@@ -204,8 +204,7 @@ export class LoginComponent {
       next: (res) => {
         this.isLoading.set(false);
         this.toast.success('Welcome back!', `Hello, ${res.data.user.fullName}`);
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-        this.router.navigateByUrl(returnUrl);
+        this.router.navigate(['/auth/loading']);
       },
       error: (err) => {
         this.isLoading.set(false);
