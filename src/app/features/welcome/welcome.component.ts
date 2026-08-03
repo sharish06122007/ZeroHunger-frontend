@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { FloatingFoodCanvasComponent } from '../../shared/components/floating-food/floating-food-canvas.component';
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, FloatingFoodCanvasComponent],
   animations: [
     trigger('fadeUp', [
       transition(':enter', [
