@@ -59,12 +59,13 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
       <!-- Main Center Content Priority Block -->
       <div class="relative z-10 max-w-xl w-full flex flex-col items-center text-center space-y-6 my-auto">
         <!-- ZeroHunger Centered Main Logo with Glow Aura -->
-        <div class="logo-glow-aura relative">
-          <div class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-[#16A34A] via-[#22C55E] to-[#0284C7] opacity-35 blur-lg animate-pulse"></div>
-          <div class="relative w-28 h-28 rounded-3xl bg-white border border-[#16A34A]/30 p-1 shadow-2xl flex items-center justify-center">
-            <div class="w-full h-full bg-gradient-to-tr from-[#F0FDF4] to-white rounded-[22px] flex items-center justify-center shadow-inner">
-              <span class="text-5xl">🍱</span>
-            </div>
+        <div class="logo-glow-aura relative flex justify-center items-center">
+          <!-- Subtle natural green glow behind the logo -->
+          <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#16A34A] via-[#10B981] to-[#059669] opacity-30 blur-2xl scale-125 animate-pulse"></div>
+          
+          <!-- Exact ZeroHunger Logo Image -->
+          <div class="relative w-36 h-36 flex items-center justify-center rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(34,197,94,0.15)] ring-1 ring-white/50 bg-white backdrop-blur-sm z-10">
+            <img src="assets/images/logo.jpg" alt="ZeroHunger Logo" class="w-full h-full object-cover mix-blend-multiply" />
           </div>
         </div>
 

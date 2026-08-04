@@ -1,27 +1,14 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface EcoFoodParticle {
-  x: number;
-  y: number;
-  size: number;
-  emoji: string;
-  vy: number; // Vertical velocity
-  wobbleSpeed: number;
-  wobbleAngle: number;
-  wobbleDistance: number;
-  rotation: number;
-  rotationSpeed: number;
-  opacity: number;
-  layer: number;
-}
+import * as THREE from 'three';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-falling-food-background',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <canvas #canvas class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+    <div #container class="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"></div>
   `,
   styles: [`
     :host {
@@ -35,148 +22,197 @@ interface EcoFoodParticle {
   `],
 })
 export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
-  @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('container', { static: true }) containerRef!: ElementRef<HTMLDivElement>;
 
-  private ctx!: CanvasRenderingContext2D;
-  private animationFrameId!: number;
-  private particles: EcoFoodParticle[] = [];
+  private scene!: THREE.Scene;
+  private camera!: THREE.PerspectiveCamera;
+  private renderer!: THREE.WebGLRenderer;
+  private sprites: THREE.Sprite[] = [];
+  private animationFrameId?: number;
 
   readonly foodEmojis = [
-    // Fruits: Apple, Banana, Orange, Strawberry, Mango, Grapes
     '🍎', '🍌', '🍊', '🍓', '🥭', '🍇',
-    // Vegetables: Carrot, Tomato, Broccoli, Lettuce, Corn, Potato
     '🥕', '🍅', '🥦', '🥬', '🌽', '🥔',
-    // Bakery: Bread, Croissant, Cake, Donut, Muffin, Cookies
     '🥖', '🥐', '🍰', '🍩', '🧁', '🍪',
-    // Meals: Rice bowl, Pizza, Burger, Sandwich, Healthy meal
     '🍚', '🍕', '🍔', '🥪', '🥗',
   ];
 
+  constructor(private ngZone: NgZone) {}
+
   ngOnInit(): void {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
-    this.resizeCanvas();
-    this.initParticles();
-    this.animate();
+    this.initThreeJs();
+    this.createFoodParticles();
+    
+    // Run animation outside Angular zone for 60FPS performance
+    this.ngZone.runOutsideAngular(() => {
+      this.animate();
+    });
+  }
+
+  private initThreeJs(): void {
+    const container = this.containerRef.nativeElement;
+
+    // Scene
+    this.scene = new THREE.Scene();
+    
+    // Add soft lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    this.scene.add(ambientLight);
+
+    // Camera
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+    this.camera.position.z = 100;
+
+    // Renderer
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(this.renderer.domElement);
+  }
+
+  private createEmojiTexture(emoji: string, size: number): THREE.CanvasTexture {
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d')!;
+    
+    // Add subtle shadow to emoji
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    
+    ctx.font = `${size * 0.7}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(emoji, size / 2, size / 2 + size * 0.05);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
+    return texture;
+  }
+
+  private createFoodParticles(): void {
+    const count = 10; // Exactly 10 items
+
+    for (let i = 0; i < count; i++) {
+      const emoji = this.foodEmojis[Math.floor(Math.random() * this.foodEmojis.length)];
+      const size = 128; // Canvas size for high res
+      const texture = this.createEmojiTexture(emoji, size);
+      const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+      const sprite = new THREE.Sprite(material);
+      
+      // Random scale between 6 and 10
+      const scale = 6 + Math.random() * 4;
+      sprite.scale.set(scale, scale, 1);
+
+      this.scene.add(sprite);
+      this.sprites.push(sprite);
+
+      // Start animation sequence
+      this.animateSprite(sprite, i * 0.5); // Stagger start times
+    }
+  }
+
+  private getFrustumSizeAtDepth(depth: number) {
+    const vFOV = (this.camera.fov * Math.PI) / 180;
+    const height = 2 * Math.tan(vFOV / 2) * depth;
+    const width = height * this.camera.aspect;
+    return { width, height };
+  }
+
+  private animateSprite(sprite: THREE.Sprite, delay: number): void {
+    const frustum = this.getFrustumSizeAtDepth(this.camera.position.z);
+    
+    // Constraints
+    const bottomY = -frustum.height / 2 - 10;
+    // The items should stay ONLY near the bottom area (e.g. from -bottom to max -height/6)
+    const peakY = -frustum.height / 4 + (Math.random() * frustum.height * 0.1); 
+    // Constrain X to the center area under the logo
+    const rangeX = frustum.width * 0.25; 
+    const startX = (Math.random() - 0.5) * rangeX;
+    
+    // Reset position
+    sprite.position.set(startX, bottomY, (Math.random() - 0.5) * 20); // slight Z variation
+    
+    // Assign a random emoji texture for the new cycle
+    const emoji = this.foodEmojis[Math.floor(Math.random() * this.foodEmojis.length)];
+    sprite.material.map = this.createEmojiTexture(emoji, 128);
+    sprite.material.needsUpdate = true;
+
+    // Wobble target
+    const endX = startX + (Math.random() - 0.5) * 10;
+    
+    // GSAP Timeline for physics
+    const tl = gsap.timeline({
+      delay: delay,
+      onComplete: () => {
+        this.animateSprite(sprite, 0); // Loop
+      }
+    });
+
+    // Float upward (Gravity deceleration)
+    tl.to(sprite.position, {
+      y: peakY,
+      duration: 2.5 + Math.random() * 1.5,
+      ease: "power2.out"
+    }, 0);
+
+    // Wobble horizontally while rising
+    tl.to(sprite.position, {
+      x: endX,
+      duration: 2.5,
+      ease: "sine.inOut"
+    }, 0);
+    
+    // Slight material rotation (since Sprite doesn't rotate in 3D natively, we rotate the material)
+    sprite.material.rotation = (Math.random() - 0.5) * 0.5;
+    tl.to(sprite.material, {
+      rotation: sprite.material.rotation + (Math.random() - 0.5) * Math.PI,
+      duration: 5, // spans both up and down
+      ease: "none"
+    }, 0);
+
+    // Fall back down (Gravity acceleration)
+    const fallDuration = 2 + Math.random() * 1;
+    tl.to(sprite.position, {
+      y: bottomY,
+      duration: fallDuration,
+      ease: "power2.in"
+    });
+
+    // Wobble horizontally while falling
+    tl.to(sprite.position, {
+      x: startX + (Math.random() - 0.5) * 15,
+      duration: fallDuration,
+      ease: "sine.inOut"
+    }, "<");
   }
 
   @HostListener('window:resize')
   onResize(): void {
-    this.resizeCanvas();
-    this.initParticles();
-  }
-
-  private resizeCanvas(): void {
-    const canvas = this.canvasRef.nativeElement;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  private initParticles(): void {
-    const canvas = this.canvasRef.nativeElement;
-    // Exactly around 10 food items at a time as requested
-    const count = 10;
-    this.particles = [];
-
-    for (let i = 0; i < count; i++) {
-      this.particles.push(this.createParticle(canvas, false)); // false so they start below the screen
-    }
-  }
-
-  private createParticle(canvas: HTMLCanvasElement, randomY = false): EcoFoodParticle {
-    const layer = Math.floor(Math.random() * 3);
-    const size = layer === 0 ? 28 : layer === 1 ? 40 : 54;
-    const emoji = this.foodEmojis[Math.floor(Math.random() * this.foodEmojis.length)];
-    // Initial velocity should be negative (upwards) to shoot them up
-    const vy = -(1.5 + layer * 0.5 + Math.random() * 1.5); // Adjust upward force
-
-    return {
-      x: Math.random() * canvas.width,
-      // Stagger the initial Y positions significantly so they appear gradually
-      y: randomY ? canvas.height * (0.4 + Math.random() * 0.6) : canvas.height + size + (Math.random() * 800),
-      size,
-      emoji,
-      vy,
-      wobbleSpeed: 0.012 + Math.random() * 0.018,
-      wobbleAngle: Math.random() * Math.PI * 2,
-      wobbleDistance: 0.8 + Math.random() * 1.2,
-      rotation: Math.random() * Math.PI * 2,
-      rotationSpeed: (Math.random() - 0.5) * 0.015,
-      opacity: layer === 0 ? 0.45 : layer === 1 ? 0.75 : 0.92,
-      layer,
-    };
+    const container = this.containerRef.nativeElement;
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   private animate = (): void => {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Render soft environmental ambient background glows
-    this.drawAmbientGlows(canvas);
-
-    // Sort particles by depth layer
-    const sorted = [...this.particles].sort((a, b) => a.layer - b.layer);
-    sorted.forEach((particle) => this.updateAndDrawParticle(canvas, particle));
-
     this.animationFrameId = requestAnimationFrame(this.animate);
+    this.renderer.render(this.scene, this.camera);
   };
-
-  private drawAmbientGlows(canvas: HTMLCanvasElement): void {
-    // Soft light mint radial glow in top right
-    const radial1 = this.ctx.createRadialGradient(canvas.width * 0.85, 0, 0, canvas.width * 0.85, 0, canvas.width * 0.5);
-    radial1.addColorStop(0, 'rgba(34, 197, 94, 0.06)');
-    radial1.addColorStop(1, 'transparent');
-    this.ctx.fillStyle = radial1;
-    this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Soft warm cream radial glow in bottom left
-    const radial2 = this.ctx.createRadialGradient(0, canvas.height, 0, 0, canvas.height, canvas.width * 0.5);
-    radial2.addColorStop(0, 'rgba(247, 239, 229, 0.4)');
-    radial2.addColorStop(1, 'transparent');
-    this.ctx.fillStyle = radial2;
-    this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-
-  private updateAndDrawParticle(canvas: HTMLCanvasElement, particle: EcoFoodParticle): void {
-    // Realistic gravity simulation
-    const gravity = 0.002; // Very slow gravity for low-gravity water/vacuum feel
-    const friction = 0.998; // Air resistance
-
-    particle.vy += gravity;
-    particle.vy *= friction;
-    particle.y += particle.vy;
-
-    // Respawn seamlessly from bottom when item descends past canvas bottom
-    if (particle.vy > 0 && particle.y > canvas.height + particle.size + 40) {
-      const newParticle = this.createParticle(canvas, false);
-      Object.assign(particle, newParticle);
-    }
-
-    // Gentle side-to-side wobble & rotation
-    particle.wobbleAngle += particle.wobbleSpeed;
-    particle.x += Math.sin(particle.wobbleAngle) * particle.wobbleDistance;
-    particle.rotation += particle.rotationSpeed;
-
-    this.ctx.save();
-    this.ctx.translate(particle.x, particle.y);
-    this.ctx.rotate(particle.rotation);
-
-    // 3D soft lighting & shadow depth
-    this.ctx.shadowBlur = 10 + particle.layer * 5;
-    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.08)';
-    this.ctx.globalAlpha = particle.opacity;
-
-    this.ctx.font = `${particle.size}px sans-serif`;
-    this.ctx.textAlign = 'center';
-    this.ctx.textBaseline = 'middle';
-    this.ctx.fillText(particle.emoji, 0, 0);
-
-    this.ctx.restore();
-  }
 
   ngOnDestroy(): void {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }
+    gsap.killTweensOf(this.sprites);
+    
+    // Clean up Three.js resources
+    this.sprites.forEach(sprite => {
+      sprite.material.map?.dispose();
+      sprite.material.dispose();
+    });
+    this.renderer.dispose();
   }
 }
