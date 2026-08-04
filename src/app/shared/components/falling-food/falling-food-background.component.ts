@@ -141,9 +141,14 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
     sprite.material.needsUpdate = true;
 
     // Wobble target
-    const endX = startX + (Math.random() - 0.5) * 10;
+    const endX = startX + (Math.random() - 0.5) * 15;
     
-    // GSAP Timeline for physics
+    // GSAP Timeline for float, fade, and disappear
+    const duration = 4 + Math.random() * 3;
+    
+    // Reset opacity
+    sprite.material.opacity = 1;
+    
     const tl = gsap.timeline({
       delay: delay,
       onComplete: () => {
@@ -151,42 +156,34 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Float upward (Gravity deceleration)
+    // Float upward
     tl.to(sprite.position, {
       y: peakY,
-      duration: 2.5 + Math.random() * 1.5,
-      ease: "power2.out"
+      duration: duration,
+      ease: "power1.out"
     }, 0);
 
     // Wobble horizontally while rising
     tl.to(sprite.position, {
       x: endX,
-      duration: 2.5,
+      duration: duration,
       ease: "sine.inOut"
     }, 0);
     
-    // Slight material rotation (since Sprite doesn't rotate in 3D natively, we rotate the material)
+    // Slight material rotation
     sprite.material.rotation = (Math.random() - 0.5) * 0.5;
     tl.to(sprite.material, {
       rotation: sprite.material.rotation + (Math.random() - 0.5) * Math.PI,
-      duration: 5, // spans both up and down
+      duration: duration,
       ease: "none"
     }, 0);
 
-    // Fall back down (Gravity acceleration)
-    const fallDuration = 2 + Math.random() * 1;
-    tl.to(sprite.position, {
-      y: bottomY,
-      duration: fallDuration,
+    // Fade out towards the end of the movement
+    tl.to(sprite.material, {
+      opacity: 0,
+      duration: duration * 0.4,
       ease: "power2.in"
-    });
-
-    // Wobble horizontally while falling
-    tl.to(sprite.position, {
-      x: startX + (Math.random() - 0.5) * 15,
-      duration: fallDuration,
-      ease: "sine.inOut"
-    }, "<");
+    }, duration * 0.6);
   }
 
   @HostListener('window:resize')
