@@ -1,28 +1,15 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-interface FallingItem {
-  x: number;
-  y: number;
-  size: number;
+export interface EcosystemFoodItem {
   emoji: string;
-  speedY: number;
-  wobbleSpeed: number;
-  wobbleAngle: number;
-  wobbleDistance: number;
-  rotation: number;
-  rotationSpeed: number;
+  leftPercent: number;
+  topPercent: number;
+  sizePx: number;
+  delayMs: number;
+  floatDurationSec: number;
   opacity: number;
-  layer: number;
-}
-
-export interface DomFallingFood {
-  emoji: string;
-  left: number;
-  size: number;
-  duration: number;
-  delay: number;
-  drift: number;
+  rotationDeg: number;
 }
 
 @Component({
@@ -30,21 +17,46 @@ export interface DomFallingFood {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <canvas #canvas class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+    <div class="food-decoration-layer">
+      <!-- Stage 2: Soft Light Environmental Background Glow -->
+      <div class="ambient-glow glow-top"></div>
+      <div class="ambient-glow glow-bottom"></div>
 
-    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      @for (item of domItems(); track $index) {
-        <div
-          class="falling-food-dom-node"
-          [style.left.%]="item.left"
-          [style.fontSize.px]="item.size"
-          [style.animationDuration.s]="item.duration"
-          [style.animationDelay.s]="item.delay"
-          [style.--drift-x.px]="item.drift"
-        >
-          {{ item.emoji }}
-        </div>
-      }
+      <!-- Stage 1: Base Food Foundation (Bottom Ecosystem Items) -->
+      <div class="bottom-foundation-layer">
+        @for (item of bottomFoodItems(); track $index) {
+          <div
+            class="food-item-node bottom-item"
+            [style.left.%]="item.leftPercent"
+            [style.top.%]="item.topPercent"
+            [style.fontSize.px]="item.sizePx"
+            [style.opacity]="item.opacity"
+            [style.animationDelay.ms]="item.delayMs"
+            [style.animationDuration.s]="item.floatDurationSec"
+            [style.transform]="'rotate(' + item.rotationDeg + 'deg)'"
+          >
+            {{ item.emoji }}
+          </div>
+        }
+      </div>
+
+      <!-- Stage 3: Top Corner Food Elements -->
+      <div class="top-corners-layer">
+        @for (item of topFoodItems(); track $index) {
+          <div
+            class="food-item-node top-item"
+            [style.left.%]="item.leftPercent"
+            [style.top.%]="item.topPercent"
+            [style.fontSize.px]="item.sizePx"
+            [style.opacity]="item.opacity"
+            [style.animationDelay.ms]="item.delayMs"
+            [style.animationDuration.s]="item.floatDurationSec"
+            [style.transform]="'rotate(' + item.rotationDeg + 'deg)'"
+          >
+            {{ item.emoji }}
+          </div>
+        }
+      </div>
     </div>
   `,
   styles: [`
@@ -57,162 +69,141 @@ export interface DomFallingFood {
       z-index: 0;
     }
 
-    .falling-food-dom-node {
-      position: absolute;
-      top: -60px;
-      user-select: none;
+    .food-decoration-layer {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
       pointer-events: none;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
-      animation: fallGravity linear infinite;
-      will-change: transform;
     }
 
-    @keyframes fallGravity {
+    // Ambient Environmental Soft Glows
+    .ambient-glow {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(140px);
+      opacity: 0;
+      animation: glowFadeIn 2s 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+      &.glow-top {
+        top: -12rem;
+        right: -10rem;
+        width: 45rem;
+        height: 45rem;
+        background: rgba(34, 197, 94, 0.05);
+      }
+
+      &.glow-bottom {
+        bottom: -12rem;
+        left: -10rem;
+        width: 45rem;
+        height: 45rem;
+        background: rgba(247, 239, 229, 0.5);
+      }
+    }
+
+    @keyframes glowFadeIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    // Common Food Item Styles
+    .food-item-node {
+      position: absolute;
+      user-select: none;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.04));
+      will-change: transform, opacity;
+    }
+
+    // Stage 1: Bottom Foundation Items Animation (Staggered 1s-2s fade-in & slow float)
+    .bottom-item {
+      opacity: 0;
+      animation: bottomFoundationReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                 gentleBreathe 7s ease-in-out infinite continuous;
+      animation-delay: var(--delay, 1000ms), 2800ms;
+    }
+
+    @keyframes bottomFoundationReveal {
       0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
         opacity: 0;
-      }
-      8% {
-        opacity: 0.9;
-      }
-      92% {
-        opacity: 0.9;
+        transform: translateY(28px) scale(0.9);
       }
       100% {
-        transform: translateY(115vh) translateX(var(--drift-x, 30px)) rotate(360deg);
+        opacity: var(--target-opacity, 0.32);
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    // Stage 3: Top Corner Items Animation (Staggered 3s-4s reveal)
+    .top-item {
+      opacity: 0;
+      animation: topCornerReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                 gentleBreathe 8s ease-in-out infinite continuous;
+      animation-delay: var(--delay, 3000ms), 4800ms;
+    }
+
+    @keyframes topCornerReveal {
+      0% {
         opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+      }
+      100% {
+        opacity: var(--target-opacity, 0.28);
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    // Stage 4: Gentle Sustained Breathing Motion
+    @keyframes gentleBreathe {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-8px) rotate(4deg);
       }
     }
   `],
 })
-export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
-  @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
-
-  private ctx!: CanvasRenderingContext2D;
-  private animationFrameId!: number;
-  private items: FallingItem[] = [];
-  readonly domItems = signal<DomFallingFood[]>([]);
-
-  readonly fallingFoodEmojis = [
-    // Fruits: Apple, Banana, Orange, Strawberry, Mango, Grapes
-    '🍎', '🍌', '🍊', '🍓', '🥭', '🍇',
-    // Vegetables: Carrot, Tomato, Broccoli, Lettuce, Corn, Potato
-    '🥕', '🍅', '🥦', '🥬', '🌽', '🥔',
-    // Bakery: Bread, Croissant, Cake, Donut, Muffin, Cookies
-    '🥖', '🥐', '🍰', '🍩', '🧁', '🍪',
-    // Meals: Rice bowl, Pizza, Burger, Sandwich, Healthy meal
-    '🍚', '🍕', '🍔', '🥪', '🥗',
-  ];
+export class FallingFoodBackgroundComponent implements OnInit {
+  readonly bottomFoodItems = signal<EcosystemFoodItem[]>([]);
+  readonly topFoodItems = signal<EcosystemFoodItem[]>([]);
 
   ngOnInit(): void {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
-    this.resizeCanvas();
-    this.initItems();
-    this.initDomItems();
-    this.animate();
+    this.initBottomFoundation();
+    this.initTopCornerElements();
   }
 
-  @HostListener('window:resize')
-  onResize(): void {
-    this.resizeCanvas();
-    this.initItems();
+  private initBottomFoundation(): void {
+    // Stage 1: Base food foundation sitting quietly along the bottom edge
+    const items: EcosystemFoodItem[] = [
+      { emoji: '🍎', leftPercent: 5, topPercent: 86, sizePx: 38, delayMs: 1000, floatDurationSec: 7, opacity: 0.32, rotationDeg: -8 },
+      { emoji: '🥕', leftPercent: 14, topPercent: 88, sizePx: 34, delayMs: 1200, floatDurationSec: 8, opacity: 0.28, rotationDeg: 12 },
+      { emoji: '🥖', leftPercent: 22, topPercent: 85, sizePx: 40, delayMs: 1100, floatDurationSec: 7.5, opacity: 0.3, rotationDeg: -5 },
+      { emoji: '🥦', leftPercent: 32, topPercent: 89, sizePx: 36, delayMs: 1400, floatDurationSec: 8.5, opacity: 0.26, rotationDeg: 10 },
+      { emoji: '🍱', leftPercent: 42, topPercent: 87, sizePx: 42, delayMs: 1300, floatDurationSec: 7.2, opacity: 0.34, rotationDeg: -3 },
+      { emoji: '🍊', leftPercent: 58, topPercent: 88, sizePx: 36, delayMs: 1500, floatDurationSec: 8, opacity: 0.3, rotationDeg: 6 },
+      { emoji: '🥐', leftPercent: 68, topPercent: 85, sizePx: 38, delayMs: 1250, floatDurationSec: 7.8, opacity: 0.28, rotationDeg: -10 },
+      { emoji: '🍅', leftPercent: 78, topPercent: 89, sizePx: 34, delayMs: 1450, floatDurationSec: 8.2, opacity: 0.32, rotationDeg: 8 },
+      { emoji: '🥗', leftPercent: 88, topPercent: 86, sizePx: 40, delayMs: 1350, floatDurationSec: 7.4, opacity: 0.3, rotationDeg: -6 },
+      { emoji: '🍇', leftPercent: 94, topPercent: 88, sizePx: 36, delayMs: 1600, floatDurationSec: 8.4, opacity: 0.28, rotationDeg: 14 },
+    ];
+    this.bottomFoodItems.set(items);
   }
 
-  private resizeCanvas(): void {
-    const canvas = this.canvasRef.nativeElement;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
+  private initTopCornerElements(): void {
+    // Stage 3: Extremely subtle framing elements in top corners ONLY
+    const items: EcosystemFoodItem[] = [
+      // Top Left Corner
+      { emoji: '🍓', leftPercent: 4, topPercent: 5, sizePx: 30, delayMs: 3000, floatDurationSec: 8.5, opacity: 0.26, rotationDeg: -12 },
+      { emoji: '🥬', leftPercent: 11, topPercent: 7, sizePx: 32, delayMs: 3200, floatDurationSec: 9, opacity: 0.24, rotationDeg: 15 },
+      { emoji: '🍞', leftPercent: 6, topPercent: 14, sizePx: 28, delayMs: 3400, floatDurationSec: 8, opacity: 0.22, rotationDeg: -8 },
 
-  private initItems(): void {
-    const canvas = this.canvasRef.nativeElement;
-    const count = Math.min(Math.floor((canvas.width * canvas.height) / 28000), 34);
-    this.items = [];
-
-    for (let i = 0; i < count; i++) {
-      const emoji = this.fallingFoodEmojis[i % this.fallingFoodEmojis.length];
-      const layer = Math.floor(Math.random() * 3);
-      const size = layer === 0 ? 28 : layer === 1 ? 42 : 56;
-
-      this.items.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height * 1.5 - canvas.height * 0.5,
-        size,
-        emoji,
-        speedY: 0.9 + layer * 0.4 + Math.random() * 0.5,
-        wobbleSpeed: 0.01 + Math.random() * 0.02,
-        wobbleAngle: Math.random() * Math.PI * 2,
-        wobbleDistance: 0.8 + Math.random() * 1.2,
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.012,
-        opacity: layer === 0 ? 0.55 : layer === 1 ? 0.8 : 0.95,
-        layer,
-      });
-    }
-  }
-
-  private initDomItems(): void {
-    const domList: DomFallingFood[] = [];
-    const totalDom = 26;
-
-    for (let i = 0; i < totalDom; i++) {
-      const emoji = this.fallingFoodEmojis[i % this.fallingFoodEmojis.length];
-      domList.push({
-        emoji,
-        left: Math.floor(Math.random() * 94) + 3,
-        size: Math.floor(Math.random() * 24) + 28,
-        duration: Math.round((Math.random() * 6 + 7) * 10) / 10,
-        delay: Math.round(Math.random() * 6 * 10) / 10,
-        drift: Math.floor(Math.random() * 80) - 40,
-      });
-    }
-
-    this.domItems.set(domList);
-  }
-
-  private animate = (): void => {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const sorted = [...this.items].sort((a, b) => a.layer - b.layer);
-    sorted.forEach((item) => this.drawFallingItem(item));
-
-    this.animationFrameId = requestAnimationFrame(this.animate);
-  };
-
-  private drawFallingItem(item: FallingItem): void {
-    const canvas = this.canvasRef.nativeElement;
-
-    item.y += item.speedY;
-    item.wobbleAngle += item.wobbleSpeed;
-    item.x += Math.sin(item.wobbleAngle) * item.wobbleDistance;
-    item.rotation += item.rotationSpeed;
-
-    if (item.y > canvas.height + item.size) {
-      item.y = -item.size - Math.random() * 60;
-      item.x = Math.random() * canvas.width;
-    }
-
-    this.ctx.save();
-    this.ctx.translate(item.x, item.y);
-    this.ctx.rotate(item.rotation);
-
-    this.ctx.shadowBlur = 8 + item.layer * 4;
-    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.08)';
-    this.ctx.globalAlpha = item.opacity;
-
-    this.ctx.font = `${item.size}px sans-serif`;
-    this.ctx.textAlign = 'center';
-    this.ctx.textBaseline = 'middle';
-    this.ctx.fillText(item.emoji, 0, 0);
-
-    this.ctx.restore();
-  }
-
-  ngOnDestroy(): void {
-    if (this.animationFrameId) {
-      cancelAnimationFrame(this.animationFrameId);
-    }
+      // Top Right Corner
+      { emoji: '🧁', leftPercent: 88, topPercent: 5, sizePx: 30, delayMs: 3100, floatDurationSec: 8.8, opacity: 0.26, rotationDeg: 10 },
+      { emoji: '🌽', leftPercent: 94, topPercent: 7, sizePx: 32, delayMs: 3300, floatDurationSec: 9.2, opacity: 0.24, rotationDeg: -14 },
+      { emoji: '🍚', leftPercent: 91, topPercent: 14, sizePx: 28, delayMs: 3500, floatDurationSec: 8.2, opacity: 0.22, rotationDeg: 6 },
+    ];
+    this.topFoodItems.set(items);
   }
 }
