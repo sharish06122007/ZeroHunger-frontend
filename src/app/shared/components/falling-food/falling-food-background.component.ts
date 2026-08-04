@@ -62,7 +62,7 @@ export interface DomFallingFood {
       top: -60px;
       user-select: none;
       pointer-events: none;
-      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.05));
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
       animation: fallGravity linear infinite;
       will-change: transform;
     }
@@ -72,11 +72,11 @@ export interface DomFallingFood {
         transform: translateY(0) translateX(0) rotate(0deg);
         opacity: 0;
       }
-      10% {
-        opacity: 0.85;
+      8% {
+        opacity: 0.9;
       }
-      90% {
-        opacity: 0.85;
+      92% {
+        opacity: 0.9;
       }
       100% {
         transform: translateY(115vh) translateX(var(--drift-x, 30px)) rotate(360deg);
@@ -127,26 +127,26 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
 
   private initItems(): void {
     const canvas = this.canvasRef.nativeElement;
-    const count = Math.min(Math.floor((canvas.width * canvas.height) / 30000), 32);
+    const count = Math.min(Math.floor((canvas.width * canvas.height) / 28000), 34);
     this.items = [];
 
     for (let i = 0; i < count; i++) {
       const emoji = this.fallingFoodEmojis[i % this.fallingFoodEmojis.length];
       const layer = Math.floor(Math.random() * 3);
-      const size = layer === 0 ? 24 : layer === 1 ? 38 : 52;
+      const size = layer === 0 ? 28 : layer === 1 ? 42 : 56;
 
       this.items.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height * 1.5 - canvas.height * 0.5,
         size,
         emoji,
-        speedY: 1.0 + layer * 0.4 + Math.random() * 0.5,
+        speedY: 0.9 + layer * 0.4 + Math.random() * 0.5,
         wobbleSpeed: 0.01 + Math.random() * 0.02,
         wobbleAngle: Math.random() * Math.PI * 2,
         wobbleDistance: 0.8 + Math.random() * 1.2,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.012,
-        opacity: layer === 0 ? 0.4 : layer === 1 ? 0.7 : 0.9,
+        opacity: layer === 0 ? 0.55 : layer === 1 ? 0.8 : 0.95,
         layer,
       });
     }
@@ -154,14 +154,14 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
 
   private initDomItems(): void {
     const domList: DomFallingFood[] = [];
-    const totalDom = 24;
+    const totalDom = 26;
 
     for (let i = 0; i < totalDom; i++) {
       const emoji = this.fallingFoodEmojis[i % this.fallingFoodEmojis.length];
       domList.push({
         emoji,
         left: Math.floor(Math.random() * 94) + 3,
-        size: Math.floor(Math.random() * 24) + 26,
+        size: Math.floor(Math.random() * 24) + 28,
         duration: Math.round((Math.random() * 6 + 7) * 10) / 10,
         delay: Math.round(Math.random() * 6 * 10) / 10,
         drift: Math.floor(Math.random() * 80) - 40,
@@ -198,8 +198,8 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
     this.ctx.translate(item.x, item.y);
     this.ctx.rotate(item.rotation);
 
-    this.ctx.shadowBlur = 6 + item.layer * 4;
-    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.05)';
+    this.ctx.shadowBlur = 8 + item.layer * 4;
+    this.ctx.shadowColor = 'rgba(0, 0, 0, 0.08)';
     this.ctx.globalAlpha = item.opacity;
 
     this.ctx.font = `${item.size}px sans-serif`;
