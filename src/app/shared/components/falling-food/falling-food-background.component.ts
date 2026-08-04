@@ -6,8 +6,7 @@ interface EcoFoodParticle {
   y: number;
   size: number;
   emoji: string;
-  speedY: number;
-  peakY: number;
+  vy: number; // Vertical velocity
   wobbleSpeed: number;
   wobbleAngle: number;
   wobbleDistance: number;
@@ -15,7 +14,6 @@ interface EcoFoodParticle {
   rotationSpeed: number;
   opacity: number;
   layer: number;
-  direction: 'rising' | 'falling';
 }
 
 @Component({
@@ -76,11 +74,12 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
 
   private initParticles(): void {
     const canvas = this.canvasRef.nativeElement;
-    const count = Math.min(Math.floor((canvas.width * canvas.height) / 26000), 32);
+    // Exactly around 10 food items at a time as requested
+    const count = 10;
     this.particles = [];
 
     for (let i = 0; i < count; i++) {
-      this.particles.push(this.createParticle(canvas, true));
+      this.particles.push(this.createParticle(canvas, false)); // false so they start below the screen
     }
   }
 
@@ -88,15 +87,16 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
     const layer = Math.floor(Math.random() * 3);
     const size = layer === 0 ? 28 : layer === 1 ? 40 : 54;
     const emoji = this.foodEmojis[Math.floor(Math.random() * this.foodEmojis.length)];
-    const peakY = canvas.height * (0.35 + Math.random() * 0.45); // Target apex height (35% to 80% from top)
+    // Initial velocity should be negative (upwards) to shoot them up
+    const vy = -(1.5 + layer * 0.5 + Math.random() * 1.5); // Adjust upward force
 
     return {
       x: Math.random() * canvas.width,
-      y: randomY ? canvas.height * (0.4 + Math.random() * 0.6) : canvas.height + size + Math.random() * 80,
+      // Stagger the initial Y positions significantly so they appear gradually
+      y: randomY ? canvas.height * (0.4 + Math.random() * 0.6) : canvas.height + size + (Math.random() * 800),
       size,
       emoji,
-      speedY: 0.9 + layer * 0.4 + Math.random() * 0.5,
-      peakY,
+      vy,
       wobbleSpeed: 0.012 + Math.random() * 0.018,
       wobbleAngle: Math.random() * Math.PI * 2,
       wobbleDistance: 0.8 + Math.random() * 1.2,
@@ -104,7 +104,6 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
       rotationSpeed: (Math.random() - 0.5) * 0.015,
       opacity: layer === 0 ? 0.45 : layer === 1 ? 0.75 : 0.92,
       layer,
-      direction: 'rising',
     };
   }
 
@@ -139,19 +138,18 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
   }
 
   private updateAndDrawParticle(canvas: HTMLCanvasElement, particle: EcoFoodParticle): void {
-    // 3D Continuous Rising & Descending Physics Movement
-    if (particle.direction === 'rising') {
-      particle.y -= particle.speedY;
-      if (particle.y <= particle.peakY) {
-        particle.direction = 'falling';
-      }
-    } else {
-      particle.y += particle.speedY * 0.9;
-      // Respawn seamlessly from bottom when item descends past canvas bottom
-      if (particle.y > canvas.height + particle.size + 40) {
-        const newParticle = this.createParticle(canvas, false);
-        Object.assign(particle, newParticle);
-      }
+    // Realistic gravity simulation
+    const gravity = 0.002; // Very slow gravity for low-gravity water/vacuum feel
+    const friction = 0.998; // Air resistance
+
+    particle.vy += gravity;
+    particle.vy *= friction;
+    particle.y += particle.vy;
+
+    // Respawn seamlessly from bottom when item descends past canvas bottom
+    if (particle.vy > 0 && particle.y > canvas.height + particle.size + 40) {
+      const newParticle = this.createParticle(canvas, false);
+      Object.assign(particle, newParticle);
     }
 
     // Gentle side-to-side wobble & rotation
