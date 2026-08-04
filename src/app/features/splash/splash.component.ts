@@ -13,13 +13,13 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
     trigger('splashMaster', [
       transition(':enter', [
         group([
-          query('.logo-section', [
-            style({ opacity: 0, transform: 'scale(0.85)' }),
-            animate('800ms 200ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'scale(1)' })),
+          query('.logo-glow-aura', [
+            style({ opacity: 0, transform: 'scale(0.7)' }),
+            animate('900ms 150ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'scale(1)' })),
           ], { optional: true }),
           query('.title-badge', [
             style({ opacity: 0, transform: 'translateY(-12px)' }),
-            animate('600ms 300ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
+            animate('600ms 250ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
           ], { optional: true }),
           query('.letter-char', [
             style({ opacity: 0, transform: 'translateY(16px) scale(0.9)' }),
@@ -29,15 +29,15 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
           ], { optional: true }),
           query('.hero-description', [
             style({ opacity: 0, transform: 'translateY(16px)' }),
-            animate('600ms 600ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
+            animate('600ms 550ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
           ], { optional: true }),
           query('.cta-buttons', [
             style({ opacity: 0, transform: 'translateY(20px)' }),
-            animate('650ms 750ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
+            animate('650ms 700ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
           ], { optional: true }),
           query('.loading-card', [
             style({ opacity: 0, transform: 'translateY(24px) scale(0.96)' }),
-            animate('700ms 900ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0) scale(1)' })),
+            animate('700ms 850ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0) scale(1)' })),
           ], { optional: true }),
         ]),
       ]),
@@ -45,27 +45,30 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
   ],
   template: `
     <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-b from-[#FAFAF9] via-[#F0FDF4] to-[#FFFBF5] text-[#1A1A1A] overflow-hidden p-6 sm:p-10 select-none" @splashMaster>
-      <!-- Layered Food Decoration & Ambient Glow Component -->
+      <!-- 60FPS Continuous 3D Food Rescue Ecosystem Background Canvas -->
       <app-falling-food-background></app-falling-food-background>
 
-      <!-- Priority 1: Top Badge Header -->
+      <!-- Top Header Badge -->
       <div class="relative z-10 pt-4 title-badge">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 text-xs font-bold text-[#16A34A] border border-[#16A34A]/20 shadow-sm backdrop-blur-md">
-          <span class="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 text-xs font-bold text-[#16A34A] border border-[#16A34A]/25 shadow-md backdrop-blur-md">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#16A34A] animate-pulse"></span>
           SUSTAINABLE FOOD RESCUE NETWORK
         </div>
       </div>
 
-      <!-- Main Hero Content Priority 1 to 6 (Center Viewport 100% Unobstructed) -->
+      <!-- Main Center Content Priority Block -->
       <div class="relative z-10 max-w-xl w-full flex flex-col items-center text-center space-y-6 my-auto">
-        <!-- Priority 1: Logo Section -->
-        <div class="logo-section w-24 h-24 rounded-3xl bg-gradient-to-tr from-[#16A34A] via-[#22C55E] to-[#7743DB] p-1 shadow-xl shadow-[#16A34A]/20 flex items-center justify-center">
-          <div class="w-full h-full bg-white rounded-[22px] flex items-center justify-center shadow-inner">
-            <span class="text-4xl">🍱</span>
+        <!-- ZeroHunger Centered Main Logo with Glow Aura -->
+        <div class="logo-glow-aura relative">
+          <div class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-[#16A34A] via-[#22C55E] to-[#0284C7] opacity-35 blur-lg animate-pulse"></div>
+          <div class="relative w-28 h-28 rounded-3xl bg-white border border-[#16A34A]/30 p-1 shadow-2xl flex items-center justify-center">
+            <div class="w-full h-full bg-gradient-to-tr from-[#F0FDF4] to-white rounded-[22px] flex items-center justify-center shadow-inner">
+              <span class="text-5xl">🍱</span>
+            </div>
           </div>
         </div>
 
-        <!-- Priority 2 & 3: Main Heading & Tagline -->
+        <!-- Main Title ZEROHUNGER 360 -->
         <div class="space-y-1">
           <div class="flex items-center justify-center gap-0.5">
             @for (char of brandLetters; track $index) {
@@ -79,18 +82,18 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
           </div>
 
           <h2 class="text-sm sm:text-base font-bold text-[#16A34A] tracking-wide">
-            "Turning Surplus Food Into Hope"
+            "Surplus Food Transforming Into Hope"
           </h2>
         </div>
 
-        <!-- Priority 4: Description -->
+        <!-- Hero Description -->
         <p class="hero-description text-xs sm:text-sm text-[#5B5B6A] max-w-lg leading-relaxed font-semibold">
-          Saving food. Feeding people. Building a hunger-free world with gentle automated dispatch & logistics.
+          Connecting donors, NGOs, and volunteers in a continuous food rescue journey to eliminate food waste.
         </p>
 
-        <!-- Priority 5: CTA Buttons -->
+        <!-- Action Buttons -->
         <div class="cta-buttons flex flex-wrap items-center justify-center gap-4 pt-2 w-full">
-          <button (click)="proceedToApp()" class="btn-primary py-3.5 px-8 text-xs font-bold rounded-2xl shadow-xl shadow-[#7743DB]/25">
+          <button (click)="proceedToApp()" class="btn-primary py-3.5 px-8 text-xs font-bold rounded-2xl shadow-xl shadow-[#16A34A]/20">
             Explore Platform 🚀
           </button>
           <button (click)="proceedToNetwork()" class="btn-secondary py-3.5 px-8 text-xs font-bold rounded-2xl bg-white/90 text-[#1A1A1A] border border-[#E8DDD3]">
@@ -98,11 +101,11 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
           </button>
         </div>
 
-        <!-- Priority 6: Loading Progress Card -->
-        <div class="loading-card w-full p-5 rounded-3xl space-y-3 bg-white/90 backdrop-blur-xl border border-[#E8DDD3] shadow-xl">
+        <!-- Dynamic Loading Progress Card -->
+        <div class="loading-card w-full p-5 rounded-3xl space-y-3 bg-white/95 backdrop-blur-xl border border-[#E8DDD3] shadow-xl">
           <div class="h-2.5 bg-[#F7EFE5] rounded-full overflow-hidden p-0.5 border border-[#E8DDD3]">
             <div
-              class="h-full bg-gradient-to-r from-[#16A34A] to-[#7743DB] rounded-full transition-all duration-300 ease-out"
+              class="h-full bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#0284C7] rounded-full transition-all duration-300 ease-out"
               [style.width.%]="progress()"
             ></div>
           </div>
@@ -135,10 +138,10 @@ export class SplashComponent implements OnInit {
   readonly currentMessageIndex = signal(0);
 
   readonly statusMessages = [
-    'Finding surplus food...',
-    'Matching communities...',
-    'Optimizing rescue routes...',
-    'Building a hunger-free future...',
+    'Emerging food rescue network...',
+    'Matching surplus meals...',
+    'Optimizing delivery routes...',
+    'Transforming food into hope...',
     'Connecting Food With People...',
   ];
 
