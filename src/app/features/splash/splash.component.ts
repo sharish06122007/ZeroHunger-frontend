@@ -44,7 +44,14 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
     ]),
   ],
   template: `
-    <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-b from-[#FAFAF9] via-[#F0FDF4] to-[#FFFBF5] text-[#1A1A1A] overflow-hidden p-6 sm:p-10 select-none" @splashMaster>
+    <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-br from-[#FAFAF9] via-[#F0FDF4] to-[#FFFBF5] text-[#1A1A1A] overflow-hidden p-6 sm:p-10 select-none" @splashMaster>
+      
+      <!-- Animated Radial Background Lighting -->
+      <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 right-[-10%] w-[50%] h-[50%] bg-[#22C55E]/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#10B981]/10 rounded-full blur-3xl"></div>
+      </div>
+
       <!-- 60FPS Continuous 3D Food Rescue Ecosystem Background Canvas -->
       <app-falling-food-background></app-falling-food-background>
 
@@ -64,8 +71,8 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
           <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#16A34A] via-[#10B981] to-[#059669] opacity-30 blur-2xl scale-125 animate-pulse"></div>
           
           <!-- Exact ZeroHunger Logo Image -->
-          <div class="relative w-36 h-36 flex items-center justify-center rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(34,197,94,0.15)] ring-1 ring-white/50 bg-white backdrop-blur-sm z-10">
-            <img src="assets/images/logo.jpg" alt="ZeroHunger Logo" class="w-full h-full object-cover mix-blend-multiply" />
+          <div class="relative w-36 h-36 flex items-center justify-center rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(34,197,94,0.15)] ring-1 ring-white/50 bg-white/50 backdrop-blur-sm z-10">
+            <img src="assets/images/logo.png" alt="ZeroHunger Logo" class="w-full h-full object-cover" />
           </div>
         </div>
 

@@ -109,8 +109,8 @@ export class FallingFoodBackgroundComponent implements OnInit, OnDestroy {
       this.scene.add(sprite);
       this.sprites.push(sprite);
 
-      // Start animation sequence
-      this.animateSprite(sprite, i * 0.5); // Stagger start times
+      // Start animation sequence with 1.5s initial delay for the logo sequence to complete
+      this.animateSprite(sprite, 1.5 + (i * 0.5)); // Stagger start times
     }
   }
 
