@@ -3,21 +3,7 @@
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
 
-  <!-- Floating Food Particles Layer -->
-  <div class="food-particles">
-    @for (item of foodParticles(); track $index) {
-      <span
-        class="floating-food-item"
-        [style.left.%]="item.left"
-        [style.top.%]="item.top"
-        [style.transform]="'scale(' + item.scale + ')'"
-        [style.animationDuration.s]="item.duration"
-        [style.animationDelay.s]="item.delay"
-      >
-        {{ item.emoji }}
-      </span>
-    }
-  </div>
+  <!-- Removed Floating Food Particles Layer -->
 
   <!-- Center Content Section -->
   <div class="center-content">

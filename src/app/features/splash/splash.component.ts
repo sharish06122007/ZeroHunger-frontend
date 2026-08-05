@@ -3,12 +3,11 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger, query, stagger, group } from '@angular/animations';
 import { AuthService } from '../../core/authentication/auth.service';
-import { FallingFoodBackgroundComponent } from '../../shared/components/falling-food/falling-food-background.component';
 
 @Component({
   selector: 'app-splash',
   standalone: true,
-  imports: [CommonModule, FallingFoodBackgroundComponent],
+  imports: [CommonModule],
   animations: [
     trigger('splashMaster', [
       transition(':enter', [
@@ -51,9 +50,6 @@ import { FallingFoodBackgroundComponent } from '../../shared/components/falling-
         <div class="absolute top-0 right-[-10%] w-[50%] h-[50%] bg-[#22C55E]/10 rounded-full blur-3xl animate-pulse"></div>
         <div class="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#10B981]/10 rounded-full blur-3xl"></div>
       </div>
-
-      <!-- 60FPS Continuous 3D Food Rescue Ecosystem Background Canvas -->
-      <app-falling-food-background></app-falling-food-background>
 
       <!-- Top Header Badge -->
       <div class="relative z-10 pt-4 title-badge">

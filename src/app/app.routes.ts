@@ -103,6 +103,24 @@ export const routes: Routes = [
         data: { roles: ['admin'] },
       },
       {
+        path: 'home-food/customer',
+        loadComponent: () => import('./features/home-food/home-food-request-form/home-food-request-form.component').then(m => m.HomeFoodRequestFormComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['customer', 'admin'] }
+      },
+      {
+        path: 'home-food/maker',
+        loadComponent: () => import('./features/home-food/maker-dashboard/maker-dashboard.component').then(m => m.MakerDashboardComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['home_food_maker', 'admin'] }
+      },
+      {
+        path: 'home-food/delivery',
+        loadComponent: () => import('./features/home-food/delivery-partner-dashboard/delivery-partner-dashboard.component').then(m => m.DeliveryPartnerDashboardComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['delivery_partner', 'admin'] }
+      },
+      {
         path: 'settings',
         loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent),
       },

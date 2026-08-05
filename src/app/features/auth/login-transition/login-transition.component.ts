@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger, query, stagger, group } from '@angular/animations';
 import { AuthService } from '../../../core/authentication/auth.service';
-import { FallingFoodBackgroundComponent } from '../../../shared/components/falling-food/falling-food-background.component';
+import { FallingFoodBackgroundComponent } from '../../../shared/components/falling-food/falling-food-background/falling-food-background.component';
 
 @Component({
   selector: 'app-login-transition',

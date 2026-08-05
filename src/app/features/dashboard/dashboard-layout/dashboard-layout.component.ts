@@ -214,6 +214,9 @@ export class DashboardLayoutComponent {
     { path: '/dashboard/donations', label: 'Donations Hub', icon: '🎁' },
     { path: '/dashboard/volunteer', label: 'Volunteer Courier', icon: '🤝', roles: ['volunteer', 'admin'] },
     { path: '/dashboard/ngo', label: 'NGO Partner Portal', icon: '🏢', roles: ['ngo', 'admin'] },
+    { path: '/dashboard/home-food/customer', label: 'Request Home Food', icon: '🍲', roles: ['customer', 'admin'] },
+    { path: '/dashboard/home-food/maker', label: 'Maker Dashboard', icon: '👩‍🍳', roles: ['home_food_maker', 'admin'] },
+    { path: '/dashboard/home-food/delivery', label: 'Food Deliveries', icon: '🛵', roles: ['delivery_partner', 'admin'] },
     { path: '/dashboard/admin', label: 'Platform Control', icon: '⚙️', roles: ['admin'] },
     { path: '/dashboard/settings', label: 'System Settings', icon: '🛠️' },
   ];

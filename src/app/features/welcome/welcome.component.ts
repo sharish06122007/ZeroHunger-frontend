@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { FallingFoodBackgroundComponent } from '../../shared/components/falling-food/falling-food-background.component';
+import { FallingFoodBackgroundComponent } from '../../shared/components/falling-food/falling-food-background/falling-food-background.component';
 
 @Component({
   selector: 'app-welcome',
