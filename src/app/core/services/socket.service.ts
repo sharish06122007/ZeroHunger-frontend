@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable, Subject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class SocketService {
   }
 
   private connect(): void {
-    const socketUrl = 'http://localhost:3000';
+    const socketUrl = environment.apiUrl.replace('/api/v1', '');
     this.socket = io(socketUrl, {
       transports: ['websocket', 'polling'],
       autoConnect: true,
