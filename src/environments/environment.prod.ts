@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://zerohunger-production.up.railway.app/api/v1',
+  apiUrl: 'https://zerohunger-backend-production.up.railway.app/api/v1',
 };
