@@ -69,10 +69,44 @@ import { HomeFoodService } from '../services/home-food.service';
           </ul>
         </div>
       </div>
+      
+      <!-- Accept Delivery Success Modal -->
+      <div *ngIf="showModal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          
+          <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm" aria-hidden="true" (click)="closeModal()"></div>
+          
+          <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+          
+          <div class="inline-block align-bottom bg-white rounded-xl px-4 pt-5 pb-4 text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+            <div>
+              <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-emerald-100">
+                <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div class="mt-4 text-center sm:mt-5">
+                <h3 class="text-xl leading-6 font-bold text-gray-900" id="modal-title">Delivery Accepted!</h3>
+                <div class="mt-3">
+                  <p class="text-sm text-gray-500">Please proceed to the pickup location. The restaurant and customer have been notified of your arrival.</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6 sm:mt-6">
+              <button type="button" (click)="closeModal()" class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-3 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm transition-colors duration-200">
+                Proceed to Pickup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
     </div>
   `
 })
 export class DeliveryPartnerDashboardComponent implements OnInit {
+  showModal = false;
+
   constructor(private homeFoodService: HomeFoodService) {}
 
   ngOnInit() {
@@ -80,6 +114,10 @@ export class DeliveryPartnerDashboardComponent implements OnInit {
   }
   
   acceptDelivery() {
-    alert("Delivery Accepted! Proceed to pickup location.");
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 }
