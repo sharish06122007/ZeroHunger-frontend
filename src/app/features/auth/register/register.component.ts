@@ -14,12 +14,10 @@ function passwordMatchValidator(ctrl: AbstractControl): ValidationErrors | null 
 
 function strongPasswordValidator(ctrl: AbstractControl): ValidationErrors | null {
   const val = ctrl.value || '';
-  const errors: Record<string, boolean> = {};
-  if (val.length < 8) errors['minLength'] = true;
-  if (!/[A-Z]/.test(val)) errors['uppercase'] = true;
-  if (!/[a-z]/.test(val)) errors['lowercase'] = true;
-  if (!/[0-9]/.test(val)) errors['number'] = true;
-  return Object.keys(errors).length ? errors : null;
+  if (val.length < 8) {
+    return { minLength: true };
+  }
+  return null;
 }
 
 @Component({
@@ -324,7 +322,7 @@ export class RegisterComponent {
     const payload = {
       fullName: this.step1Form.value.fullName!,
       phone: this.step1Form.value.phone!,
-      email: this.step2Form.value.email!,
+      email: (this.step2Form.value.email ?? '').trim().toLowerCase(),
       password: this.step2Form.value.password!,
       confirmPassword: this.step2Form.value.confirmPassword!,
       role: this.step3Form.value.role as any,

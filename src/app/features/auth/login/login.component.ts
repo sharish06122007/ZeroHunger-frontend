@@ -199,8 +199,9 @@ export class LoginComponent {
 
     this.isLoading.set(true);
     const { email, password } = this.loginForm.value;
+    const submittedEmail = (email ?? '').trim().toLowerCase();
 
-    this.authService.login({ email: email!, password: password! }).subscribe({
+    this.authService.login({ email: submittedEmail, password: password! }).subscribe({
       next: (res) => {
         this.isLoading.set(false);
         this.toast.success('Welcome back!', `Hello, ${res.data.user.fullName}`);
@@ -208,7 +209,15 @@ export class LoginComponent {
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.toast.error('Login failed', err.message);
+        const message = err.message || 'Login failed';
+
+        if (message.toLowerCase().includes('verify')) {
+          this.toast.error('Email verification required', 'Please verify your email to continue.');
+          this.router.navigate(['/auth/verify-email'], { queryParams: { email: submittedEmail } });
+          return;
+        }
+
+        this.toast.error('Login failed', message);
       },
     });
   }
