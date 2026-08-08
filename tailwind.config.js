@@ -5,18 +5,20 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          primary: '#7743DB',
-          hover: '#6332BE',
-          secondary: '#C3ACD0',
-          bg: '#FFFBF5',
-          surface: '#F7EFE5',
-          text: '#1A1A1A',
-          muted: '#5B5B6A',
-          border: '#E8DDD3',
+          primary: '#14532D', // Deep Forest Green
+          secondary: '#198754', // Emerald Green
+          light: '#DFF3E4', // Light Green
+          bg: '#F7FAF7', // Very Light Background
+          accent: '#F59E0B', // Saffron
+          cream: '#FFF8E7', // Warm Cream
+          text: '#172018', // Dark Text
+          muted: '#5F6B61', // Secondary Text
+          border: '#E2E8E3', // Border
+          white: '#FFFFFF', // White
         },
       },
       fontFamily: {
-        sans: ['Satoshi', 'Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         '2xl': '16px',

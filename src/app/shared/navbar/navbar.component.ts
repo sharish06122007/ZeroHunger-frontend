@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/authentication/auth.service';
+import { LucideAngularModule, Search, Bell, User, Menu, X, ChevronDown, LogOut, Settings } from 'lucide-angular';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, LucideAngularModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
@@ -14,16 +15,27 @@ export class NavbarComponent {
   readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+  readonly Search = Search;
+  readonly Bell = Bell;
+  readonly User = User;
+  readonly Menu = Menu;
+  readonly X = X;
+  readonly ChevronDown = ChevronDown;
+  readonly LogOut = LogOut;
+  readonly Settings = Settings;
+
   isMobileMenuOpen = false;
   isNotificationsOpen = false;
   isProfileOpen = false;
 
   readonly publicNavLinks = [
     { label: 'Home', path: '/home' },
-    { label: 'Food Rescue', path: '/dashboard/food' },
-    { label: 'Donations', path: '/dashboard/donations' },
-    { label: 'Volunteer', path: '/dashboard/volunteer' },
-    { label: 'NGO Network', path: '/dashboard/ngo' },
+    { label: 'Find Food', path: '/dashboard/food' },
+    { label: 'Provide Food', path: '/dashboard/provide' },
+    { label: 'NGO Requests', path: '/dashboard/ngo' },
+    { label: 'Community', path: '/community' },
+    { label: 'About Us', path: '/about' },
+    { label: 'Contact', path: '/contact' },
   ];
 
   readonly notifications = [
