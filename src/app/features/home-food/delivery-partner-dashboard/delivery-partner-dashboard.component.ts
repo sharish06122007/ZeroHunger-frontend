@@ -115,10 +115,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
               <div class="h-[400px] w-full bg-brand-bg relative">
                  <!-- The MapViewComponent requires coordinates. Mocking with Mumbai -->
                  <app-map-view 
-                    [latitude]="19.0760" 
-                    [longitude]="72.8777" 
-                    [markers]="[{lat: 19.0760, lng: 72.8777, title: 'Pickup'}, {lat: 19.0800, lng: 72.8800, title: 'Dropoff'}]"
-                    height="400px">
+                    [centerLat]="19.0760" 
+                    [centerLng]="72.8777" 
+                    [markers]="[{lat: 19.0760, lng: 72.8777, title: 'Pickup', type: 'food'}, {lat: 19.0800, lng: 72.8800, title: 'Dropoff', type: 'food'}]">
                  </app-map-view>
                  
                  <!-- Overlay Map Actions -->
