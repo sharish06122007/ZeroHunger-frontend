@@ -79,9 +79,8 @@ interface SystemAnalytics {
         @if (loc().latitude && loc().longitude) {
           <div class="h-64 w-full bg-brand-bg relative border-t border-brand-border">
             <app-map-view
-              [latitude]="loc().latitude!"
-              [longitude]="loc().longitude!"
-              height="256px"
+              [centerLat]="loc().latitude!"
+              [centerLng]="loc().longitude!"
             ></app-map-view>
           </div>
         }
