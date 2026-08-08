@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { ZhButtonComponent } from '../../shared/components/ui/zh-button/zh-button.component';
@@ -12,6 +12,7 @@ import { ZhBadgeComponent } from '../../shared/components/ui/zh-badge/zh-badge.c
   imports: [
     CommonModule, 
     RouterLink, 
+    NgOptimizedImage,
     LucideAngularModule,
     ZhButtonComponent,
     ZhCardComponent,
