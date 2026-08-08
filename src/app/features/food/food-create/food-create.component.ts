@@ -1,15 +1,20 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../../core/services/api.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { LucideAngularModule } from 'lucide-angular';
+import { ZhInputComponent } from '../../../shared/components/ui/zh-input/zh-input.component';
+import { ZhSelectComponent } from '../../../shared/components/ui/zh-select/zh-select.component';
+import { ZhButtonComponent } from '../../../shared/components/ui/zh-button/zh-button.component';
+import { ZhCardComponent } from '../../../shared/components/ui/zh-card/zh-card.component';
 
 @Component({
   selector: 'app-food-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule, ZhInputComponent, ZhSelectComponent, ZhButtonComponent, ZhCardComponent],
   animations: [
     trigger('fadeIn', [
       transition(':enter', [
@@ -20,94 +25,120 @@ import { animate, style, transition, trigger } from '@angular/animations';
   ],
   template: `
     <div class="max-w-3xl mx-auto space-y-8" @fadeIn>
-      <div class="space-y-2">
-        <a routerLink="/dashboard/food" class="text-xs font-bold text-[#7743DB] hover:underline flex items-center gap-1">
-          ← Back to Food Listings
-        </a>
-        <h1 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">Post Surplus Food Donation</h1>
-        <p class="text-xs text-[#5B5B6A]">List your surplus meals or ingredients for rapid dispatch to local NGOs</p>
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-primary-very-light text-brand-primary mb-4 shadow-sm">
+          <lucide-icon name="heart-handshake" class="w-8 h-8"></lucide-icon>
+        </div>
+        <h1 class="text-3xl font-extrabold text-brand-text tracking-tight">Post Surplus Food Donation</h1>
+        <p class="text-sm text-brand-muted">List your surplus meals or ingredients for rapid dispatch to local NGOs</p>
       </div>
 
-      <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-xl">
-        <form [formGroup]="foodForm" (ngSubmit)="onSubmit()" class="space-y-6">
-          <div class="form-group">
-            <label class="form-label" for="title">Listing Title <span class="text-rose-500">*</span></label>
-            <input id="title" type="text" class="input-field" formControlName="title" placeholder="e.g. 50 Fresh Prepared Gourmet Dinner Boxes" />
+      <app-zh-card [noPadding]="true">
+        <div class="p-6 border-b border-brand-border bg-brand-bg rounded-t-2xl flex items-center justify-between">
+           <div class="flex items-center gap-3">
+              <lucide-icon name="list-plus" class="w-5 h-5 text-brand-primary"></lucide-icon>
+              <h3 class="font-bold text-brand-text">Listing Details</h3>
+           </div>
+           <a routerLink="/dashboard/food" class="text-xs font-bold text-brand-primary hover:underline flex items-center gap-1">
+             <lucide-icon name="arrow-left" class="w-3 h-3"></lucide-icon> Back to Listings
+           </a>
+        </div>
+        
+        <form [formGroup]="foodForm" (ngSubmit)="onSubmit()" class="p-8 space-y-6">
+          
+          <app-zh-input
+             formControlName="title"
+             label="Listing Title"
+             placeholder="e.g. 50 Fresh Prepared Gourmet Dinner Boxes"
+             icon="tag"
+             [error]="isInvalid('title') ? 'Title is required' : ''"
+          ></app-zh-input>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+             <app-zh-select
+                formControlName="category"
+                label="Category"
+                [options]="categories"
+                [error]="isInvalid('category') ? 'Category is required' : ''"
+             ></app-zh-select>
+
+             <app-zh-input
+                formControlName="quantity"
+                label="Quantity / Unit"
+                placeholder="e.g. 50 boxes or 30 kg"
+                icon="box"
+                [error]="isInvalid('quantity') ? 'Quantity is required' : ''"
+             ></app-zh-input>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="form-group">
-              <label class="form-label" for="category">Category <span class="text-rose-500">*</span></label>
-              <select id="category" class="input-field" formControlName="category">
-                <option value="cooked">Cooked Meals</option>
-                <option value="raw">Raw Produce</option>
-                <option value="packaged">Packaged Items</option>
-                <option value="bakery">Bakery & Pastry</option>
-                <option value="beverage">Beverages</option>
-                <option value="dairy">Dairy Products</option>
-              </select>
-            </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+             <app-zh-input
+                formControlName="expiryTime"
+                type="datetime-local"
+                label="Expiration Date & Time"
+                icon="clock"
+                [error]="isInvalid('expiryTime') ? 'Expiration time is required' : ''"
+             ></app-zh-input>
 
-            <div class="form-group">
-              <label class="form-label" for="quantity">Quantity / Unit <span class="text-rose-500">*</span></label>
-              <input id="quantity" type="text" class="input-field" formControlName="quantity" placeholder="e.g. 50 boxes or 30 kg" />
-            </div>
+             <app-zh-input
+                formControlName="pickupTime"
+                label="Preferred Pickup Window"
+                placeholder="e.g. Today between 5 PM - 8 PM"
+                icon="calendar-clock"
+             ></app-zh-input>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="form-group">
-              <label class="form-label" for="expiry">Expiration Date & Time <span class="text-rose-500">*</span></label>
-              <input id="expiry" type="datetime-local" class="input-field" formControlName="expiryTime" />
-            </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+             <app-zh-input
+                formControlName="city"
+                label="City / Metro Area"
+                placeholder="San Francisco"
+                icon="map"
+                [error]="isInvalid('city') ? 'City is required' : ''"
+             ></app-zh-input>
 
-            <div class="form-group">
-              <label class="form-label" for="pickup">Preferred Pickup Window</label>
-              <input id="pickup" type="text" class="input-field" formControlName="pickupTime" placeholder="e.g. Today between 5 PM - 8 PM" />
-            </div>
+             <app-zh-input
+                formControlName="pickupAddress"
+                label="Pickup Address / Loading Dock"
+                placeholder="123 Market St, Dock 4"
+                icon="map-pin"
+             ></app-zh-input>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="form-group">
-              <label class="form-label" for="city">City / Metro Area <span class="text-rose-500">*</span></label>
-              <input id="city" type="text" class="input-field" formControlName="city" placeholder="San Francisco" />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="address">Pickup Address / Loading Dock</label>
-              <input id="address" type="text" class="input-field" formControlName="pickupAddress" placeholder="123 Market St, Dock 4" />
-            </div>
+          <div class="space-y-1">
+            <label class="block text-sm font-medium text-brand-text mb-1">Food Description & Safety Notes</label>
+            <textarea 
+               formControlName="description" 
+               rows="3" 
+               class="w-full bg-brand-bg border border-brand-border text-brand-text text-sm rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary block p-3 transition-colors duration-200 resize-none" 
+               placeholder="Dietary info, storage instructions, hot/cold requirements..."></textarea>
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="desc">Food Description & Safety Notes</label>
-            <textarea id="desc" rows="3" class="input-field resize-none" formControlName="description" placeholder="Dietary info, storage instructions, hot/cold requirements..."></textarea>
-          </div>
-
-          <div class="flex items-center justify-between pt-4 border-t border-[#E8DDD3]">
-            <a routerLink="/dashboard/food" class="btn-secondary py-3 px-6 text-xs font-semibold rounded-2xl">
-              Cancel
-            </a>
-            <button type="submit" [disabled]="isLoading()" class="btn-primary py-3 px-8 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
-              @if (isLoading()) {
-                <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                <span>Publishing Listing...</span>
-              } @else {
-                <span>Publish Surplus Food 🚀</span>
-              }
-            </button>
+          <div class="flex items-center justify-between pt-6 mt-6 border-t border-brand-border">
+            <app-zh-button variant="ghost" routerLink="/dashboard/food">Cancel</app-zh-button>
+            <app-zh-button type="submit" variant="primary" [loading]="isLoading()">Publish Surplus Food</app-zh-button>
           </div>
         </form>
-      </div>
+      </app-zh-card>
     </div>
   `,
 })
-export class FoodCreateComponent {
+export class FoodCreateComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly apiService = inject(ApiService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
 
   readonly isLoading = signal(false);
+
+  categories = [
+     { label: 'Cooked Meals', value: 'cooked', icon: 'utensils' },
+     { label: 'Raw Produce', value: 'raw', icon: 'leaf' },
+     { label: 'Packaged Items', value: 'packaged', icon: 'package' },
+     { label: 'Bakery & Pastry', value: 'bakery', icon: 'croissant' },
+     { label: 'Beverages', value: 'beverage', icon: 'cup-soda' },
+     { label: 'Dairy Products', value: 'dairy', icon: 'milk' },
+  ];
 
   readonly foodForm = this.fb.group({
     title: ['', Validators.required],
@@ -120,6 +151,19 @@ export class FoodCreateComponent {
     description: [''],
     imageUrl: [''],
   });
+
+  ngOnInit() {
+     // Format current time + 24 hours for default expiry time
+     const tomorrow = new Date();
+     tomorrow.setDate(tomorrow.getDate() + 1);
+     const formattedDate = tomorrow.toISOString().slice(0, 16);
+     this.foodForm.patchValue({ expiryTime: formattedDate });
+  }
+
+  isInvalid(field: string): boolean {
+    const ctrl = this.foodForm.get(field);
+    return !!(ctrl?.invalid && (ctrl.dirty || ctrl.touched));
+  }
 
   onSubmit(): void {
     if (this.foodForm.invalid) {
