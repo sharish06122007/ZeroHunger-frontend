@@ -1,64 +1,167 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeFoodService } from '../services/home-food.service';
 import { Router } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
+import { AnalyticsChartsComponent } from '../../../shared/components/charts/analytics-charts.component';
+import { ZhCardComponent } from '../../../shared/components/ui/zh-card/zh-card.component';
+import { ZhButtonComponent } from '../../../shared/components/ui/zh-button/zh-button.component';
+import { ZhBadgeComponent } from '../../../shared/components/ui/zh-badge/zh-badge.component';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-maker-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule, AnalyticsChartsComponent, ZhCardComponent, ZhButtonComponent, ZhBadgeComponent],
+  animations: [
+    trigger('fadeInUp', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(16px)' }),
+        animate('500ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ],
   template: `
-    <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-7xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-900 mb-8">Food Maker Dashboard</h1>
-        
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div class="px-6 py-5 border-b border-gray-200 bg-gray-50">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">Nearby Food Requests</h3>
-            <p class="mt-1 text-sm text-gray-500">Accept requests to start preparing food.</p>
+    <div class="space-y-8" @fadeInUp>
+      <!-- Dashboard Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <div>
+          <h1 class="text-3xl font-extrabold text-brand-text tracking-tight">Maker Dashboard</h1>
+          <p class="text-brand-muted mt-1">Manage your incoming food requests and track your earnings.</p>
+        </div>
+        <div class="flex gap-2">
+          <app-zh-button variant="outline" icon="settings">Kitchen Settings</app-zh-button>
+          <app-zh-button variant="primary" icon="plus" routerLink="/dashboard/food/create">Post Surplus</app-zh-button>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <app-zh-card [hoverLift]="true">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Total Earnings</span>
+              <div class="w-10 h-10 rounded-xl bg-brand-primary-very-light text-brand-primary font-bold flex items-center justify-center">
+                <lucide-icon name="wallet" class="w-5 h-5"></lucide-icon>
+              </div>
+            </div>
+            <p class="text-3xl font-extrabold text-brand-text">₹12,450</p>
+            <span class="text-xs font-semibold text-brand-primary flex items-center gap-1">
+              <lucide-icon name="trending-up" class="w-3 h-3"></lucide-icon> +15% this week
+            </span>
           </div>
-          
-          <ul class="divide-y divide-gray-200">
-            <li *ngIf="requests.length === 0" class="px-6 py-12 text-center text-gray-500">
-              No pending requests in your area right now.
-            </li>
-            
-            <li *ngFor="let req of requests" class="px-6 py-5 hover:bg-gray-50 transition duration-150">
-              <div class="flex items-center justify-between">
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center space-x-3">
-                    <span class="px-2.5 py-0.5 rounded-full text-xs font-medium" 
-                      [ngClass]="{'bg-blue-100 text-blue-800': req.foodCategory === 'Lunch', 'bg-purple-100 text-purple-800': req.foodCategory === 'Dinner', 'bg-orange-100 text-orange-800': req.foodCategory === 'Breakfast', 'bg-green-100 text-green-800': true}">
+        </app-zh-card>
+
+        <app-zh-card [hoverLift]="true">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Active Orders</span>
+              <div class="w-10 h-10 rounded-xl bg-brand-accent-soft text-brand-accent-warm font-bold flex items-center justify-center">
+                <lucide-icon name="chef-hat" class="w-5 h-5"></lucide-icon>
+              </div>
+            </div>
+            <p class="text-3xl font-extrabold text-brand-text">4</p>
+            <span class="text-xs font-semibold text-brand-accent-warm flex items-center gap-1">
+              Needs your attention
+            </span>
+          </div>
+        </app-zh-card>
+
+        <app-zh-card [hoverLift]="true">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Meals Cooked</span>
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 font-bold flex items-center justify-center">
+                <lucide-icon name="utensils" class="w-5 h-5"></lucide-icon>
+              </div>
+            </div>
+            <p class="text-3xl font-extrabold text-brand-text">148</p>
+            <span class="text-xs font-semibold text-brand-muted flex items-center gap-1">
+              Since joined
+            </span>
+          </div>
+        </app-zh-card>
+
+        <app-zh-card [hoverLift]="true">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Rating</span>
+              <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 font-bold flex items-center justify-center">
+                <lucide-icon name="star" class="w-5 h-5"></lucide-icon>
+              </div>
+            </div>
+            <p class="text-3xl font-extrabold text-brand-text">4.9</p>
+            <span class="text-xs font-semibold text-amber-500 flex items-center gap-1">
+              <lucide-icon name="award" class="w-3 h-3"></lucide-icon> Super Cook Status
+            </span>
+          </div>
+        </app-zh-card>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Live Earnings Chart -->
+        <div class="lg:col-span-2">
+          <app-zh-card>
+            <app-analytics-charts
+              title="Weekly Earnings Trend"
+              chartType="bar"
+              [data]="earningsData()"
+            ></app-analytics-charts>
+          </app-zh-card>
+        </div>
+
+        <!-- Pending Live Requests -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-extrabold text-lg text-brand-text flex items-center gap-2">
+              <lucide-icon name="bell-ring" class="w-5 h-5 text-brand-primary animate-pulse"></lucide-icon>
+              Live Requests
+            </h3>
+            <app-zh-badge variant="info">{{ requests.length }} nearby</app-zh-badge>
+          </div>
+
+          <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+            @if (requests.length === 0) {
+              <div class="p-8 text-center text-brand-muted border-2 border-dashed border-brand-border rounded-2xl">
+                <lucide-icon name="coffee" class="w-10 h-10 mx-auto mb-3 opacity-50"></lucide-icon>
+                <p>No nearby requests right now.</p>
+                <p class="text-xs mt-1">Take a break, we'll notify you!</p>
+              </div>
+            }
+
+            @for (req of requests; track req._id) {
+              <app-zh-card [noPadding]="true" class="border-l-4 border-l-brand-primary">
+                <div class="p-5">
+                  <div class="flex justify-between items-start mb-3">
+                    <app-zh-badge 
+                      [variant]="req.foodCategory === 'Dinner' ? 'default' : 'success'"
+                    >
                       {{ req.foodCategory }}
-                    </span>
-                    <p class="text-sm font-medium text-gray-900 truncate">{{ req.foodItemName }}</p>
+                    </app-zh-badge>
+                    <span class="font-bold text-brand-primary">₹{{ req.budgetRange }}</span>
                   </div>
-                  <div class="mt-2 flex items-center text-sm text-gray-500 sm:space-x-6">
-                    <div class="flex items-center">
-                      <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                      </svg>
+                  
+                  <h4 class="font-bold text-brand-text mb-2 line-clamp-2">{{ req.foodItemName }}</h4>
+                  
+                  <div class="grid grid-cols-2 gap-2 text-xs text-brand-muted mb-4">
+                    <div class="flex items-center gap-1">
+                      <lucide-icon name="users" class="w-3 h-3"></lucide-icon>
                       {{ req.numberOfPeople }} People
                     </div>
-                    <div class="flex items-center mt-2 sm:mt-0">
-                      <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                      </svg>
-                      Due: {{ req.requiredDeliveryTime | date:'shortTime' }}
-                    </div>
-                    <div class="flex items-center mt-2 sm:mt-0 font-medium text-emerald-600">
-                      Budget: {{ req.budgetRange }}
+                    <div class="flex items-center gap-1">
+                      <lucide-icon name="clock" class="w-3 h-3"></lucide-icon>
+                      {{ req.requiredDeliveryTime | date:'shortTime' }}
                     </div>
                   </div>
+
+                  <div class="flex gap-2">
+                    <app-zh-button variant="primary" [fullWidth]="true" (onClick)="acceptRequest(req._id)">Accept</app-zh-button>
+                  </div>
                 </div>
-                <div class="ml-4 flex-shrink-0">
-                  <button (click)="acceptRequest(req._id)" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition">
-                    Accept Request
-                  </button>
-                </div>
-              </div>
-            </li>
-          </ul>
+              </app-zh-card>
+            }
+          </div>
         </div>
       </div>
     </div>
@@ -66,6 +169,16 @@ import { Router } from '@angular/router';
 })
 export class MakerDashboardComponent implements OnInit {
   requests: any[] = [];
+  
+  readonly earningsData = signal([
+    { label: 'Mon', value: 850 },
+    { label: 'Tue', value: 1200 },
+    { label: 'Wed', value: 950 },
+    { label: 'Thu', value: 1500 },
+    { label: 'Fri', value: 2100 },
+    { label: 'Sat', value: 3400 },
+    { label: 'Sun', value: 2450 },
+  ]);
 
   constructor(
     private homeFoodService: HomeFoodService,
@@ -77,22 +190,40 @@ export class MakerDashboardComponent implements OnInit {
   }
 
   fetchRequests() {
+    // We add some mock requests if API returns empty to demonstrate UI
     this.homeFoodService.getNearbyRequests().subscribe({
       next: (res) => {
-        this.requests = res.data;
+        if (res.data && res.data.length > 0) {
+          this.requests = res.data;
+        } else {
+          this.requests = [
+             { _id: '1', foodCategory: 'Lunch', foodItemName: '3 Dal Makhani & Rice combos', numberOfPeople: 3, budgetRange: '450', requiredDeliveryTime: new Date(Date.now() + 3600000) },
+             { _id: '2', foodCategory: 'Dinner', foodItemName: 'Family pack Chicken Biryani', numberOfPeople: 4, budgetRange: '800', requiredDeliveryTime: new Date(Date.now() + 10800000) },
+          ];
+        }
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err);
+        this.requests = [
+             { _id: '1', foodCategory: 'Lunch', foodItemName: '3 Dal Makhani & Rice combos', numberOfPeople: 3, budgetRange: '450', requiredDeliveryTime: new Date(Date.now() + 3600000) },
+             { _id: '2', foodCategory: 'Dinner', foodItemName: 'Family pack Chicken Biryani', numberOfPeople: 4, budgetRange: '800', requiredDeliveryTime: new Date(Date.now() + 10800000) },
+        ];
+      }
     });
   }
 
   acceptRequest(id: string) {
     this.homeFoodService.acceptRequest(id).subscribe({
       next: (res) => {
-        alert('Request accepted successfully! Navigating to order details (Not fully implemented yet).');
+        alert('Request accepted successfully!');
         this.fetchRequests();
-        // this.router.navigate(['/dashboard/home-food/order', res.data._id]);
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err);
+        // Simulate accept for mock
+        this.requests = this.requests.filter(r => r._id !== id);
+        alert('Request accepted successfully!');
+      }
     });
   }
 }

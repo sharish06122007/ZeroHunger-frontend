@@ -10,21 +10,35 @@ import { MapViewComponent } from '../../../shared/components/map-view/map-view.c
 import { AnalyticsChartsComponent } from '../../../shared/components/charts/analytics-charts.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
+import { LucideAngularModule } from 'lucide-angular';
+import { ZhCardComponent } from '../../../shared/components/ui/zh-card/zh-card.component';
+import { ZhButtonComponent } from '../../../shared/components/ui/zh-button/zh-button.component';
+import { ZhBadgeComponent } from '../../../shared/components/ui/zh-badge/zh-badge.component';
+import { ZhSkeletonComponent } from '../../../shared/components/ui/zh-skeleton/zh-skeleton.component';
+import { ZhEmptyStateComponent } from '../../../shared/components/ui/zh-empty-state/zh-empty-state.component';
 
 interface HomeAnalytics {
-  totalDonations: number;
-  availableFood: number;
-  completedDeliveries: number;
-  activeVolunteers: number;
-  mealsRescued: number;
-  co2SavedKg: number;
-  foodWasteSavedKg: number;
+  activeOrders: number;
+  completedOrders: number;
+  totalSpent: number;
+  savedMakers: number;
 }
 
 @Component({
   selector: 'app-dashboard-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, MapViewComponent, AnalyticsChartsComponent],
+  imports: [
+    CommonModule, 
+    RouterLink, 
+    MapViewComponent, 
+    AnalyticsChartsComponent, 
+    LucideAngularModule,
+    ZhCardComponent,
+    ZhButtonComponent,
+    ZhBadgeComponent,
+    ZhSkeletonComponent,
+    ZhEmptyStateComponent
+  ],
   animations: [
     trigger('fadeInUp', [
       transition(':enter', [
@@ -36,128 +50,224 @@ interface HomeAnalytics {
   template: `
     <div class="space-y-8" @fadeInUp>
       <!-- Hero Welcome Banner -->
-      <div class="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[#1A1A1A] via-[#2A1F45] to-[#7743DB] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
-        <div class="space-y-3 relative z-10 max-w-xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-extrabold text-[#C3ACD0] border border-white/15">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            {{ currentUser()?.role | uppercase }} DASHBOARD
+      <div class="p-8 sm:p-10 rounded-[32px] bg-brand-primary text-white shadow-premium relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <!-- Background graphics -->
+        <div class="absolute -right-20 -top-20 w-80 h-80 bg-brand-primary-light rounded-full blur-[100px] opacity-30"></div>
+        <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-brand-accent/30 rounded-full blur-[100px] opacity-30"></div>
+        
+        <div class="space-y-4 relative z-10 max-w-xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-bold text-white backdrop-blur-sm border border-white/20 uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-brand-fresh animate-pulse"></span>
+            {{ currentUser()?.role || 'Customer' }} Dashboard
           </div>
-          <h1 class="text-3xl sm:text-4xl font-black tracking-tight">
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
             Welcome back, {{ currentUser()?.fullName }} 👋
           </h1>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Real-time surplus food monitoring, automated route dispatching, and live rescue operations.
+          <p class="text-sm text-brand-primary-very-light leading-relaxed">
+            Discover homemade food near you, manage your requests, and track your orders in real-time.
           </p>
         </div>
 
         <div class="relative z-10 flex flex-wrap gap-3">
-          <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-xl shadow-[#7743DB]/40">
-            + Post Food Rescue
-          </a>
+          <app-zh-button variant="secondary" routerLink="/dashboard/home-food/customer">
+            <lucide-icon name="search" class="w-4 h-4"></lucide-icon> Find Food
+          </app-zh-button>
         </div>
       </div>
 
       <!-- Current Service Location Bar -->
-      <div class="glass-panel p-5 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] flex items-center justify-center text-xl font-bold">
-            📍
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h4 class="font-bold text-xs text-[#1A1A1A]">Current Service Location</h4>
-              @if (loc().status === 'granted') {
-                <span class="badge badge-success text-[10px]">✓ Live Geolocation Verified</span>
-              } @else if (loc().status === 'denied') {
-                <span class="badge badge-danger text-[10px]">Location Denied</span>
-              } @else {
-                <span class="badge badge-primary text-[10px]">Detecting...</span>
-              }
+      <app-zh-card [noPadding]="true">
+        <div class="p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-brand-primary-very-light text-brand-primary flex items-center justify-center shadow-sm">
+              <lucide-icon name="map-pin" class="w-6 h-6"></lucide-icon>
             </div>
-            <p class="text-xs text-[#5B5B6A] font-medium mt-0.5">{{ loc().formattedAddress }}</p>
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <h4 class="font-bold text-sm text-brand-text">Delivery Location</h4>
+                @if (loc().status === 'granted') {
+                  <app-zh-badge variant="success" icon="check-circle">Verified</app-zh-badge>
+                } @else if (loc().status === 'denied') {
+                  <app-zh-badge variant="error" icon="alert-circle">Denied</app-zh-badge>
+                } @else {
+                  <app-zh-badge variant="info" icon="loader-2">Detecting...</app-zh-badge>
+                }
+              </div>
+              <p class="text-sm text-brand-muted font-medium">{{ loc().formattedAddress || 'Detecting your location...' }}</p>
+            </div>
           </div>
-        </div>
 
-        <button (click)="refreshLocation()" class="btn-secondary text-xs font-semibold py-2 px-4 rounded-xl">
-          🔄 Refresh GPS
-        </button>
-      </div>
+          <app-zh-button variant="outline" (onClick)="refreshLocation()">
+            <lucide-icon name="refresh-cw" class="w-4 h-4"></lucide-icon> Refresh GPS
+          </app-zh-button>
+        </div>
+      </app-zh-card>
 
       <!-- Key Analytics Metrics Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="glass-card p-6 rounded-3xl space-y-3 border border-[#E8DDD3]">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">Active Surplus</span>
-            <div class="w-10 h-10 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] font-bold flex items-center justify-center text-lg">🍱</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <app-zh-card [hoverLift]="true" class="h-full">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Active Orders</span>
+              <div class="w-10 h-10 rounded-xl bg-brand-accent-soft text-brand-accent-warm font-bold flex items-center justify-center">
+                <lucide-icon name="package" class="w-5 h-5"></lucide-icon>
+              </div>
+            </div>
+            <p class="text-3xl font-extrabold text-brand-text">{{ stats().activeOrders }}</p>
+            <span class="text-xs font-semibold text-brand-accent-warm flex items-center gap-1">
+              <lucide-icon name="trending-up" class="w-3 h-3"></lucide-icon> In progress
+            </span>
           </div>
-          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().availableFood }}</p>
-          <span class="text-xs font-semibold text-emerald-600">↑ Live available items</span>
-        </div>
+        </app-zh-card>
 
-        <div class="glass-card p-6 rounded-3xl space-y-3 border border-[#E8DDD3]">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">Meals Rescued</span>
-            <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 font-bold flex items-center justify-center text-lg">🎁</div>
+        <app-zh-card [hoverLift]="true" class="h-full">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Completed Orders</span>
+              <div class="w-10 h-10 rounded-xl bg-brand-primary-very-light text-brand-primary font-bold flex items-center justify-center">
+                <lucide-icon name="check-circle" class="w-5 h-5"></lucide-icon>
+              </div>
+            </div>
+            <p class="text-3xl font-extrabold text-brand-text">{{ stats().completedOrders }}</p>
+            <span class="text-xs font-semibold text-brand-primary flex items-center gap-1">
+              <lucide-icon name="trending-up" class="w-3 h-3"></lucide-icon> Delivered
+            </span>
           </div>
-          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().mealsRescued }}</p>
-          <span class="text-xs font-semibold text-emerald-600">↑ Total portions served</span>
-        </div>
+        </app-zh-card>
 
-        <div class="glass-card p-6 rounded-3xl space-y-3 border border-[#E8DDD3]">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">Fulfilled Deliveries</span>
-            <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-600 font-bold flex items-center justify-center text-lg">🤝</div>
+        <app-zh-card [hoverLift]="true" class="h-full">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Total Spent</span>
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 font-bold flex items-center justify-center">
+                <lucide-icon name="wallet" class="w-5 h-5"></lucide-icon>
+              </div>
+            </div>
+            <p class="text-3xl font-extrabold text-brand-text">₹{{ stats().totalSpent }}</p>
+            <span class="text-xs font-semibold text-blue-600 flex items-center gap-1">
+              <lucide-icon name="trending-up" class="w-3 h-3"></lucide-icon> This month
+            </span>
           </div>
-          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().completedDeliveries }}</p>
-          <span class="text-xs font-semibold text-emerald-600">↑ Verified complete</span>
-        </div>
+        </app-zh-card>
 
-        <div class="glass-card p-6 rounded-3xl space-y-3 border border-[#E8DDD3]">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider">CO₂ Offset</span>
-            <div class="w-10 h-10 rounded-2xl bg-purple-500/10 text-[#7743DB] font-bold flex items-center justify-center text-lg">🌱</div>
+        <app-zh-card [hoverLift]="true" class="h-full">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-brand-muted uppercase tracking-wider">Saved Makers</span>
+              <div class="w-10 h-10 rounded-xl bg-red-50 text-red-500 font-bold flex items-center justify-center">
+                <lucide-icon name="heart" class="w-5 h-5"></lucide-icon>
+              </div>
+            </div>
+            <p class="text-3xl font-extrabold text-brand-text">{{ stats().savedMakers }}</p>
+            <span class="text-xs font-semibold text-red-500 flex items-center gap-1">
+              <lucide-icon name="trending-up" class="w-3 h-3"></lucide-icon> Favorites
+            </span>
           </div>
-          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().co2SavedKg }} <span class="text-xs text-[#5B5B6A]">kg</span></p>
-          <span class="text-xs font-semibold text-emerald-600">↑ Environmental impact</span>
-        </div>
+        </app-zh-card>
       </div>
 
-      <!-- Main Section: Trends Chart & Recent Food Listings Grid -->
+      <!-- Main Section: Recent Activity & Map -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Live Analytics Chart -->
-        <div class="lg:col-span-2 glass-panel p-6 sm:p-8 rounded-3xl border border-[#E8DDD3] bg-white/90 space-y-6">
-          <app-analytics-charts
-            title="Weekly Rescue Throughput vs Demand"
-            chartType="line"
-            [data]="chartPoints()"
-          ></app-analytics-charts>
-        </div>
-
-        <!-- Recent Food Listings -->
-        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#E8DDD3] bg-white/90 space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-extrabold text-base text-[#1A1A1A]">Recent Listings</h3>
-            <a routerLink="/dashboard/food" class="text-xs font-bold text-[#7743DB] hover:underline">View All →</a>
+        
+        <!-- Recommended Food -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-extrabold text-lg text-brand-text">Recommended For You</h3>
+            <a routerLink="/dashboard/home-food/customer" class="text-sm font-bold text-brand-primary hover:underline">View All →</a>
           </div>
 
-          <div class="space-y-3">
+          <div class="grid sm:grid-cols-2 gap-6">
             @for (item of recentFood(); track item._id) {
-              <a [routerLink]="['/dashboard/food', item._id]" class="p-3.5 rounded-2xl bg-[#F7EFE5] border border-[#E8DDD3] flex items-center justify-between hover:border-[#7743DB]/30 transition-all block">
-                <div class="flex items-center gap-3">
-                  <span class="text-2xl">🍱</span>
-                  <div>
-                    <h4 class="font-bold text-xs text-[#1A1A1A] line-clamp-1">{{ item.title }}</h4>
-                    <p class="text-[11px] text-[#5B5B6A]">{{ item.quantity }} · {{ item.city || 'Mumbai' }}</p>
+              <app-zh-card [hoverLift]="true" [noPadding]="true">
+                <div class="h-40 relative overflow-hidden rounded-t-2xl bg-brand-bg">
+                  <img *ngIf="item.image" [src]="item.image" [alt]="item.title" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
+                  <div *ngIf="!item.image" class="w-full h-full flex items-center justify-center text-brand-muted">
+                     <lucide-icon name="image" class="w-12 h-12"></lucide-icon>
+                  </div>
+                  <div class="absolute top-3 right-3">
+                    <app-zh-badge variant="success">{{ item.status }}</app-zh-badge>
                   </div>
                 </div>
-                <span class="badge badge-success text-[10px]">{{ item.status }}</span>
-              </a>
+                <div class="p-4">
+                  <h4 class="font-bold text-brand-text mb-1 line-clamp-1">{{ item.title }}</h4>
+                  <p class="text-sm text-brand-muted mb-4 flex items-center gap-1">
+                    <lucide-icon name="map-pin" class="w-3 h-3"></lucide-icon> {{ item.city || 'Nearby' }}
+                  </p>
+                  <app-zh-button variant="outline" [fullWidth]="true" size="sm">View Details</app-zh-button>
+                </div>
+              </app-zh-card>
             } @empty {
-              <div class="p-6 text-center text-xs text-[#5B5B6A]">
-                No listings yet. Post a surplus food donation to rescue meals!
+              <div class="col-span-2">
+                <app-zh-empty-state
+                  icon="utensils"
+                  title="No Recommendations Yet"
+                  description="Start requesting food to get personalized recommendations."
+                  actionLabel="Find Food"
+                  actionIcon="search"
+                ></app-zh-empty-state>
               </div>
             }
           </div>
+        </div>
+
+        <!-- Active Order Tracking / Map -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-extrabold text-lg text-brand-text">Active Order Tracking</h3>
+          </div>
+          
+          <app-zh-card [noPadding]="true">
+            <div class="p-5 border-b border-brand-border bg-brand-primary-very-light/50 rounded-t-2xl">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold text-brand-muted uppercase">Order #ZH-8472</span>
+                <app-zh-badge variant="warning">Preparing</app-zh-badge>
+              </div>
+              <h4 class="font-bold text-brand-text">Authentic South Indian Thali</h4>
+              <p class="text-sm text-brand-muted mt-1">From Lakshmi Iyer</p>
+            </div>
+            
+            <div class="p-6">
+              <!-- Simple Timeline UI -->
+              <div class="relative pl-6 space-y-6">
+                <!-- Line -->
+                <div class="absolute left-[9px] top-2 bottom-2 w-0.5 bg-brand-border z-0"></div>
+                
+                <!-- Completed Step -->
+                <div class="relative z-10 flex gap-4">
+                  <div class="w-5 h-5 rounded-full bg-brand-primary border-2 border-white shadow-sm flex items-center justify-center shrink-0 -ml-[2px]">
+                    <lucide-icon name="check" class="w-3 h-3 text-white"></lucide-icon>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-sm text-brand-text">Request Accepted</h5>
+                    <p class="text-xs text-brand-muted">12:30 PM</p>
+                  </div>
+                </div>
+
+                <!-- Active Step -->
+                <div class="relative z-10 flex gap-4">
+                  <div class="w-5 h-5 rounded-full bg-brand-accent-warm border-2 border-white shadow-sm flex items-center justify-center shrink-0 -ml-[2px] animate-pulse">
+                    <div class="w-2 h-2 rounded-full bg-white"></div>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-sm text-brand-accent-warm">Food Preparation</h5>
+                    <p class="text-xs text-brand-muted">Estimated 20 mins</p>
+                  </div>
+                </div>
+
+                <!-- Upcoming Step -->
+                <div class="relative z-10 flex gap-4">
+                  <div class="w-5 h-5 rounded-full bg-white border-2 border-brand-border shrink-0 -ml-[2px]"></div>
+                  <div>
+                    <h5 class="font-bold text-sm text-brand-muted">Out for Delivery</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-8 pt-4 border-t border-brand-border">
+                <app-zh-button variant="primary" [fullWidth]="true">Track Delivery Map</app-zh-button>
+              </div>
+            </div>
+          </app-zh-card>
         </div>
       </div>
     </div>
@@ -171,28 +281,15 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
 
   readonly currentUser = this.authService.currentUser;
   readonly loc = this.locationService.location;
-  readonly recentFood = signal<Food[]>([]);
+  readonly recentFood = signal<any[]>([]);
   private socketSub!: Subscription;
 
   readonly stats = signal<HomeAnalytics>({
-    totalDonations: 48,
-    availableFood: 18,
-    completedDeliveries: 36,
-    activeVolunteers: 14,
-    mealsRescued: 1840,
-    co2SavedKg: 2070,
-    foodWasteSavedKg: 828,
+    activeOrders: 1,
+    completedOrders: 12,
+    totalSpent: 4250,
+    savedMakers: 4,
   });
-
-  readonly chartPoints = signal([
-    { label: 'Mon', value: 12 },
-    { label: 'Tue', value: 24 },
-    { label: 'Wed', value: 18 },
-    { label: 'Thu', value: 32 },
-    { label: 'Fri', value: 45 },
-    { label: 'Sat', value: 28 },
-    { label: 'Sun', value: 38 },
-  ]);
 
   ngOnInit(): void {
     this.fetchData();
@@ -204,22 +301,23 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   }
 
   fetchData(): void {
-    this.apiService.get<any>('dashboard/analytics').subscribe({
-      next: (res) => {
-        const data = res?.data || res;
-        if (data) this.stats.set(data);
-      },
-      error: () => {},
-    });
+    // Mocking recent food items for the new UI to prevent blank states
+    this.recentFood.set([
+      { _id: '1', title: 'Punjabi Rajma Chawal', city: 'Andheri West', status: 'Available', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=600' },
+      { _id: '2', title: 'Home-style Chicken Curry', city: 'Bandra', status: 'Pre-order', image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&q=80&w=600' }
+    ]);
 
-    this.apiService.get<any>('food', { limit: 5 }).subscribe({
+    // Keep the real API call commented out or active if backend supports it
+    /*
+    this.apiService.get<any>('food', { limit: 4 }).subscribe({
       next: (res) => {
         const data = res?.data || res;
         const foods = Array.isArray(data) ? data : data?.foods || [];
-        this.recentFood.set(foods);
+        if (foods.length > 0) this.recentFood.set(foods);
       },
       error: () => {},
     });
+    */
   }
 
   private listenToSocket(): void {

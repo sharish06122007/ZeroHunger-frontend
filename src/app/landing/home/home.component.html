@@ -1,251 +1,244 @@
-<main class="w-full bg-brand-bg text-brand-text min-h-screen">
+<main class="w-full bg-brand-bg text-brand-text min-h-screen overflow-x-hidden">
   
   <!-- HERO SECTION -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
-    <div class="animate-fade-in-up">
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-light text-brand-primary text-xs font-bold uppercase tracking-wider mb-8">
-        <lucide-icon [img]="HeartHandshake" size="16"></lucide-icon>
-        Together, We Can Make A Difference
-      </div>
-      
-      <h1 class="text-4xl md:text-5xl lg:text-[64px] font-extrabold leading-[1.1] mb-6 tracking-tight">
-        <span class="block text-brand-primary">Food for People.</span>
-        <span class="block text-[#172018]">Care for Communities.</span>
-        <span class="block text-brand-accent">Hope for Everyone.</span>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid lg:grid-cols-2 gap-12 items-center relative">
+    <div class="animate-fade-in-up z-10">
+      <h1 class="text-5xl md:text-6xl lg:text-[72px] font-extrabold leading-[1.1] mb-6 tracking-tight text-brand-text">
+        Homemade Food.<br>
+        Stronger Community.<br>
+        <span class="text-brand-primary-dark">Better Tomorrow.</span>
       </h1>
       
       <p class="text-lg md:text-xl text-brand-muted mb-10 max-w-xl leading-relaxed">
-        ZeroHunger connects people, communities, NGOs, food makers, donors and volunteers to help good food reach the people who need it most.
+        Connect with trusted home food makers, request affordable homemade meals, support local communities, and help build a hunger-free future.
       </p>
       
       <div class="flex flex-wrap gap-4 mb-12">
-        <a routerLink="/dashboard/request" class="btn-primary">
-          <lucide-icon [img]="Utensils" size="20"></lucide-icon>
-          <div class="flex flex-col items-start leading-tight">
-            <span>REQUEST FOOD</span>
-            <span class="text-[10px] font-normal opacity-80">I need a meal</span>
-          </div>
-        </a>
+        <app-zh-button variant="primary" size="lg" routerLink="/dashboard/home-food/customer">
+          Request Food
+        </app-zh-button>
         
-        <a routerLink="/dashboard/provide" class="btn-secondary">
-          <lucide-icon [img]="PackagePlus" size="20"></lucide-icon>
-          <div class="flex flex-col items-start leading-tight">
-            <span>PROVIDE FOOD</span>
-            <span class="text-[10px] font-normal opacity-90">I want to help</span>
-          </div>
-        </a>
+        <app-zh-button variant="secondary" size="lg" routerLink="/dashboard/home-food/maker">
+          Become a Food Maker
+        </app-zh-button>
         
-        <a routerLink="/community" class="btn-outline">
-          <lucide-icon [img]="Users" size="20"></lucide-icon>
-          <div class="flex flex-col items-start leading-tight">
-            <span>SUPPORT COMMUNITY</span>
-            <span class="text-[10px] font-normal opacity-80">Make an impact</span>
-          </div>
-        </a>
-      </div>
-      
-      <div class="flex flex-wrap items-center gap-6 text-sm font-medium text-brand-muted">
-        <div class="flex items-center gap-2"><lucide-icon [img]="ShieldCheck" size="18" class="text-brand-secondary"></lucide-icon>Verified & Safe</div>
-        <div class="flex items-center gap-2"><lucide-icon [img]="Lock" size="18" class="text-brand-secondary"></lucide-icon>Privacy Protected</div>
-        <div class="flex items-center gap-2"><lucide-icon [img]="UsersRound" size="18" class="text-brand-secondary"></lucide-icon>Community Driven</div>
-        <div class="flex items-center gap-2"><lucide-icon [img]="Eye" size="18" class="text-brand-secondary"></lucide-icon>Transparent</div>
+        <app-zh-button variant="ghost" size="lg" routerLink="/about">
+          Explore How It Works
+        </app-zh-button>
       </div>
     </div>
     
-    <div class="relative animate-fade-in-up" style="animation-delay: 200ms;">
-      <div class="aspect-[4/3] rounded-[20px] overflow-hidden shadow-2xl relative">
-        <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=1200" alt="Community sharing food" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-        <div class="absolute bottom-6 left-6 right-6">
-          <div class="backdrop-blur-md bg-white/20 border border-white/20 p-4 rounded-xl flex items-center gap-4 text-white shadow-lg">
-            <div class="w-12 h-12 rounded-full bg-brand-primary flex items-center justify-center shrink-0">
-              <lucide-icon [img]="Heart" size="24"></lucide-icon>
-            </div>
-            <div>
-              <p class="font-bold text-lg leading-tight">Fresh Homemade Meals</p>
-              <p class="text-sm opacity-90">Prepared with care by local makers</p>
-            </div>
+    <div class="relative animate-fade-in-up z-10" style="animation-delay: 200ms;">
+      <div class="aspect-[4/5] rounded-[32px] overflow-hidden shadow-float relative">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1200" alt="Home cook preparing food" class="w-full h-full object-cover" />
+        
+        <!-- Floating Badges -->
+        <div class="absolute top-8 left-[-20px] bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl shadow-premium flex items-center gap-3 animate-pulse" style="animation-duration: 3s;">
+          <div class="w-10 h-10 bg-brand-primary-very-light rounded-full flex items-center justify-center text-brand-primary-dark">
+            <lucide-icon name="shield-check" class="w-5 h-5"></lucide-icon>
+          </div>
+          <div>
+            <p class="text-xs text-brand-muted font-medium">Verified</p>
+            <p class="text-sm font-bold text-brand-text">Food Maker</p>
+          </div>
+        </div>
+
+        <div class="absolute bottom-20 right-[-20px] bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl shadow-premium flex items-center gap-3 animate-pulse" style="animation-duration: 4s; animation-delay: 1s;">
+          <div class="w-10 h-10 bg-brand-accent-soft rounded-full flex items-center justify-center text-brand-accent-warm">
+            <lucide-icon name="lock" class="w-5 h-5"></lucide-icon>
+          </div>
+          <div>
+            <p class="text-xs text-brand-muted font-medium">100%</p>
+            <p class="text-sm font-bold text-brand-text">Secure Payment</p>
           </div>
         </div>
       </div>
       
-      <div class="absolute -z-10 -bottom-10 -right-10 w-64 h-64 bg-brand-light rounded-full blur-3xl opacity-60"></div>
+      <!-- Background Decorative Blur -->
+      <div class="absolute -z-10 -bottom-10 -right-10 w-96 h-96 bg-brand-primary-light rounded-full blur-[100px] opacity-40"></div>
     </div>
   </section>
 
-  <!-- IMPACT STATISTICS -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-      <div class="zh-card bg-brand-light border-transparent flex flex-col items-center justify-center text-center py-8">
-        <div class="text-4xl font-extrabold text-brand-primary mb-2 animate-count-up">25K+</div>
-        <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">People Helped</div>
+  <!-- TRUST STATISTICS -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <app-zh-card [hoverLift]="true" [noPadding]="true">
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-brand-border/50 bg-white rounded-2xl overflow-hidden shadow-subtle">
+        <div class="p-8 text-center">
+          <div class="text-4xl font-extrabold text-brand-primary-dark mb-1">10K+</div>
+          <div class="text-sm font-medium text-brand-muted">Happy Users</div>
+        </div>
+        <div class="p-8 text-center">
+          <div class="text-4xl font-extrabold text-brand-primary-dark mb-1">2K+</div>
+          <div class="text-sm font-medium text-brand-muted">Verified Food Makers</div>
+        </div>
+        <div class="p-8 text-center">
+          <div class="text-4xl font-extrabold text-brand-accent-warm mb-1">5K+</div>
+          <div class="text-sm font-medium text-brand-muted">Meals Delivered</div>
+        </div>
+        <div class="p-8 text-center">
+          <div class="text-4xl font-extrabold text-brand-primary-dark mb-1">200+</div>
+          <div class="text-sm font-medium text-brand-muted">NGO Partners</div>
+        </div>
       </div>
-      
-      <div class="zh-card bg-brand-cream border-transparent flex flex-col items-center justify-center text-center py-8">
-        <div class="text-4xl font-extrabold text-brand-accent mb-2 animate-count-up">15K+</div>
-        <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">Meals Delivered</div>
-      </div>
-      
-      <div class="zh-card bg-white flex flex-col items-center justify-center text-center py-8">
-        <div class="text-4xl font-extrabold text-brand-secondary mb-2 animate-count-up">300+</div>
-        <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">NGO Partners</div>
-      </div>
-      
-      <div class="zh-card bg-brand-light border-transparent flex flex-col items-center justify-center text-center py-8">
-        <div class="text-4xl font-extrabold text-brand-primary mb-2 animate-count-up">8K+</div>
-        <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">Volunteers</div>
-      </div>
-      
-      <div class="zh-card bg-brand-cream border-transparent flex flex-col items-center justify-center text-center py-8">
-        <div class="text-4xl font-extrabold text-brand-accent mb-2 animate-count-up">2K+</div>
-        <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">Food Makers</div>
-      </div>
-    </div>
+    </app-zh-card>
   </section>
 
-  <!-- HOW ZEROHUNGER WORKS -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-bold text-brand-text mb-4">How ZeroHunger Works</h2>
-      <p class="text-lg text-brand-muted max-w-2xl mx-auto">Together, we help food reach the people and communities who need it.</p>
-    </div>
-    
-    <div class="grid md:grid-cols-4 gap-8 relative">
-      <div class="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-brand-border z-0"></div>
-      
-      <div class="relative z-10 flex flex-col items-center text-center group">
-        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-light flex items-center justify-center shadow-lg mb-6 text-brand-primary group-hover:scale-105 transition-transform">
-          <lucide-icon [img]="Smartphone" size="40"></lucide-icon>
-        </div>
-        <div class="text-brand-secondary font-bold text-lg mb-2">01</div>
-        <h3 class="font-bold text-[#172018] mb-2 uppercase tracking-wide">Request or<br>Provide Food</h3>
-      </div>
-      
-      <div class="relative z-10 flex flex-col items-center text-center group">
-        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-cream flex items-center justify-center shadow-lg mb-6 text-brand-accent group-hover:scale-105 transition-transform">
-          <lucide-icon [img]="Network" size="40"></lucide-icon>
-        </div>
-        <div class="text-brand-secondary font-bold text-lg mb-2">02</div>
-        <h3 class="font-bold text-[#172018] mb-2 uppercase tracking-wide">We Connect<br>People</h3>
-      </div>
-      
-      <div class="relative z-10 flex flex-col items-center text-center group">
-        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-light flex items-center justify-center shadow-lg mb-6 text-brand-primary group-hover:scale-105 transition-transform">
-          <lucide-icon [img]="Truck" size="40"></lucide-icon>
-        </div>
-        <div class="text-brand-secondary font-bold text-lg mb-2">03</div>
-        <h3 class="font-bold text-[#172018] mb-2 uppercase tracking-wide">Food Reaches<br>Those Who Need It</h3>
-      </div>
-      
-      <div class="relative z-10 flex flex-col items-center text-center group">
-        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-light flex items-center justify-center shadow-lg mb-6 text-brand-secondary group-hover:scale-105 transition-transform">
-          <lucide-icon [img]="HeartHandshake" size="40"></lucide-icon>
-        </div>
-        <div class="text-brand-secondary font-bold text-lg mb-2">04</div>
-        <h3 class="font-bold text-[#172018] mb-2 uppercase tracking-wide">We Build Stronger<br>Communities</h3>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMMUNITY IMPACT SECTION -->
-  <section class="bg-brand-primary text-white py-24 rounded-[32px] mx-4 sm:mx-6 lg:mx-8 mb-20 px-4 sm:px-10 overflow-hidden relative shadow-2xl">
-    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-secondary/40 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3"></div>
-    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#0a2e18]/60 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/3"></div>
-    
-    <div class="relative z-10 max-w-7xl mx-auto">
+  <!-- HOW IT WORKS -->
+  <section class="bg-brand-primary-very-light/50 py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-5xl font-extrabold mb-4">MAKE AN IMPACT TODAY</h2>
-        <p class="text-xl text-brand-light opacity-90 max-w-2xl mx-auto">Small actions can create meaningful change.</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-brand-text mb-4">How It Works</h2>
+        <p class="text-lg text-brand-muted max-w-2xl mx-auto">A simple, transparent process to get fresh homemade food.</p>
+      </div>
+      
+      <div class="grid md:grid-cols-4 gap-8 relative">
+        <!-- Connecting Line -->
+        <div class="hidden md:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-brand-primary-light z-0"></div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center group">
+          <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-primary flex items-center justify-center shadow-premium mb-6 text-brand-primary group-hover:scale-110 transition-transform duration-300">
+            <lucide-icon name="search" class="w-10 h-10"></lucide-icon>
+          </div>
+          <app-zh-badge variant="success" class="mb-3">Step 1</app-zh-badge>
+          <h3 class="font-bold text-lg mb-2">Request Food</h3>
+          <p class="text-brand-muted text-sm">Tell us what food you need.</p>
+        </div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center group">
+          <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-primary-light flex items-center justify-center shadow-premium mb-6 text-brand-primary group-hover:scale-110 transition-transform duration-300">
+            <lucide-icon name="chef-hat" class="w-10 h-10"></lucide-icon>
+          </div>
+          <app-zh-badge variant="default" class="mb-3">Step 2</app-zh-badge>
+          <h3 class="font-bold text-lg mb-2">Food Maker Accepts</h3>
+          <p class="text-brand-muted text-sm">A verified home food maker prepares your meal.</p>
+        </div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center group">
+          <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-accent-warm flex items-center justify-center shadow-premium mb-6 text-brand-accent-warm group-hover:scale-110 transition-transform duration-300">
+            <lucide-icon name="truck" class="w-10 h-10"></lucide-icon>
+          </div>
+          <app-zh-badge variant="warning" class="mb-3">Step 3</app-zh-badge>
+          <h3 class="font-bold text-lg mb-2">Food Is Delivered</h3>
+          <p class="text-brand-muted text-sm">Our delivery partner safely delivers your food.</p>
+        </div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center group">
+          <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-primary flex items-center justify-center shadow-premium mb-6 text-brand-primary group-hover:scale-110 transition-transform duration-300">
+            <lucide-icon name="heart" class="w-10 h-10"></lucide-icon>
+          </div>
+          <app-zh-badge variant="success" class="mb-3">Step 4</app-zh-badge>
+          <h3 class="font-bold text-lg mb-2">Enjoy & Confirm</h3>
+          <p class="text-brand-muted text-sm">Confirm your order and support your community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOD DISCOVERY -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-bold text-brand-text mb-4">Discover Homemade Food</h2>
+        <p class="text-lg text-brand-muted">Fresh, authentic meals prepared by verified home cooks near you.</p>
+      </div>
+      <app-zh-button variant="outline">View All Food</app-zh-button>
+    </div>
+    
+    <!-- Categories -->
+    <div class="flex overflow-x-auto pb-4 gap-3 mb-8 scrollbar-hide">
+      <button *ngFor="let cat of categories; let i = index" 
+        class="px-6 py-2.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors duration-200"
+        [ngClass]="i === 0 ? 'bg-brand-primary text-white' : 'bg-white border border-brand-border text-brand-text hover:bg-brand-bg'"
+      >
+        {{ cat }}
+      </button>
+    </div>
+
+    <!-- Food Cards -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <app-zh-card *ngFor="let item of foodItems" [hoverLift]="true" [noPadding]="true">
+        <div class="h-56 relative overflow-hidden rounded-t-2xl">
+          <img [src]="item.image" [alt]="item.name" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
+          <div class="absolute top-4 left-4">
+            <app-zh-badge [variant]="item.veg ? 'success' : 'error'">
+              <span class="w-2 h-2 rounded-full mr-1" [ngClass]="item.veg ? 'bg-green-600' : 'bg-red-600'"></span>
+              {{ item.veg ? 'Veg' : 'Non-Veg' }}
+            </app-zh-badge>
+          </div>
+          <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 text-sm font-bold">
+            <lucide-icon name="star" class="w-4 h-4 text-yellow-500 fill-yellow-500"></lucide-icon>
+            {{ item.rating }}
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="font-bold text-lg text-brand-text leading-tight">{{ item.name }}</h3>
+            <span class="font-bold text-brand-primary text-lg">₹{{ item.price }}</span>
+          </div>
+          <p class="text-sm text-brand-muted mb-4 flex items-center gap-1">
+            <lucide-icon name="user" class="w-4 h-4"></lucide-icon> By {{ item.maker }}
+            <lucide-icon name="badge-check" class="w-4 h-4 text-brand-primary ml-1"></lucide-icon>
+          </p>
+          <div class="flex items-center gap-4 text-sm font-medium text-brand-text mb-6">
+            <div class="flex items-center gap-1.5"><lucide-icon name="clock" class="w-4 h-4 text-brand-muted"></lucide-icon> {{ item.time }}</div>
+            <div class="flex items-center gap-1.5"><lucide-icon name="map-pin" class="w-4 h-4 text-brand-muted"></lucide-icon> {{ item.distance }}</div>
+          </div>
+          <app-zh-button variant="primary" [fullWidth]="true">Request This Meal</app-zh-button>
+        </div>
+      </app-zh-card>
+    </div>
+  </section>
+
+  <!-- FOOD MAKERS -->
+  <section class="bg-brand-primary-dark text-white py-24 relative overflow-hidden">
+    <!-- Decorative background elements -->
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+    <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] bg-brand-primary rounded-full blur-[120px] opacity-60"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Meet the People Behind Your Food</h2>
+        <p class="text-lg text-brand-primary-very-light opacity-90 max-w-2xl mx-auto">Our verified home food makers cook with passion and share their culinary heritage.</p>
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white text-brand-text p-8 rounded-[24px] shadow-xl hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-brand-light text-brand-primary flex items-center justify-center mb-6">
-            <lucide-icon [img]="Utensils" size="28"></lucide-icon>
+        <app-zh-card *ngFor="let maker of makers" [hoverLift]="true" [noPadding]="true" [glassmorphism]="true" class="bg-white/10 text-white border-white/20">
+          <div class="p-6 text-center text-brand-text bg-white rounded-2xl h-full flex flex-col items-center">
+            <div class="relative mb-4 mt-2">
+              <img [src]="maker.image" [alt]="maker.name" class="w-24 h-24 rounded-full object-cover border-4 border-brand-primary-very-light shadow-md" />
+              <div class="absolute -bottom-2 right-0 bg-brand-primary text-white p-1 rounded-full shadow-lg border-2 border-white">
+                <lucide-icon name="badge-check" class="w-4 h-4"></lucide-icon>
+              </div>
+            </div>
+            <h3 class="font-bold text-xl mb-1">{{ maker.name }}</h3>
+            <p class="text-brand-muted text-sm flex items-center gap-1 justify-center mb-4">
+              <lucide-icon name="map-pin" class="w-3.5 h-3.5"></lucide-icon> {{ maker.location }}
+            </p>
+            <div class="w-full bg-brand-bg rounded-xl p-3 flex justify-between mb-6">
+              <div class="text-center">
+                <p class="text-xs text-brand-muted mb-1">Specialty</p>
+                <p class="text-sm font-semibold truncate max-w-[80px]" [title]="maker.specialty">{{ maker.specialty }}</p>
+              </div>
+              <div class="w-px bg-brand-border"></div>
+              <div class="text-center">
+                <p class="text-xs text-brand-muted mb-1">Meals</p>
+                <p class="text-sm font-semibold">{{ maker.meals }}+</p>
+              </div>
+              <div class="w-px bg-brand-border"></div>
+              <div class="text-center">
+                <p class="text-xs text-brand-muted mb-1">Rating</p>
+                <p class="text-sm font-semibold flex items-center gap-1">
+                  <lucide-icon name="star" class="w-3 h-3 text-yellow-500 fill-yellow-500"></lucide-icon> {{ maker.rating }}
+                </p>
+              </div>
+            </div>
+            <app-zh-button variant="outline" [fullWidth]="true" class="mt-auto">View Profile</app-zh-button>
           </div>
-          <h3 class="font-bold text-xl mb-3">Donate Food</h3>
-          <p class="text-brand-muted mb-8 flex-1">Share food with someone in need.</p>
-          <a routerLink="/dashboard/provide" class="text-brand-primary font-bold inline-flex items-center gap-2 hover:gap-3 transition-all">Get Started <lucide-icon [img]="ArrowRight" size="16"></lucide-icon></a>
-        </div>
-        
-        <div class="bg-white text-brand-text p-8 rounded-[24px] shadow-xl hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-brand-cream text-brand-accent flex items-center justify-center mb-6">
-            <lucide-icon [img]="Clock" size="28"></lucide-icon>
-          </div>
-          <h3 class="font-bold text-xl mb-3">Volunteer</h3>
-          <p class="text-brand-muted mb-8 flex-1">Give your time and make a difference.</p>
-          <a routerLink="/volunteer" class="text-brand-accent font-bold inline-flex items-center gap-2 hover:gap-3 transition-all">Join Us <lucide-icon [img]="ArrowRight" size="16"></lucide-icon></a>
-        </div>
-        
-        <div class="bg-white text-brand-text p-8 rounded-[24px] shadow-xl hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center mb-6">
-            <lucide-icon [img]="Building2" size="28"></lucide-icon>
-          </div>
-          <h3 class="font-bold text-xl mb-3">NGO Support</h3>
-          <p class="text-brand-muted mb-8 flex-1">Request food support for your organization.</p>
-          <a routerLink="/ngo" class="text-[#0284C7] font-bold inline-flex items-center gap-2 hover:gap-3 transition-all">Register NGO <lucide-icon [img]="ArrowRight" size="16"></lucide-icon></a>
-        </div>
-        
-        <div class="bg-white text-brand-text p-8 rounded-[24px] shadow-xl hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-[#F3E8FF] text-[#9333EA] flex items-center justify-center mb-6">
-            <lucide-icon [img]="Handshake" size="28"></lucide-icon>
-          </div>
-          <h3 class="font-bold text-xl mb-3">Become a Partner</h3>
-          <p class="text-brand-muted mb-8 flex-1">Join our growing community.</p>
-          <a routerLink="/contact" class="text-[#9333EA] font-bold inline-flex items-center gap-2 hover:gap-3 transition-all">Partner Up <lucide-icon [img]="ArrowRight" size="16"></lucide-icon></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- REAL STORIES SECTION -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-[#FFF8E7]/50 rounded-[32px] mb-20">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-bold text-brand-text mb-4">Real Impact. Real Stories.</h2>
-      <p class="text-lg text-brand-muted max-w-2xl mx-auto">Behind every meal is a person, a story and a moment of hope.</p>
-    </div>
-    
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="zh-card p-0 overflow-hidden flex flex-col">
-        <div class="h-48 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600" alt="Community Kitchen" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-        </div>
-        <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="32" class="text-brand-light mb-4"></lucide-icon>
-          <p class="text-brand-text font-medium text-lg leading-relaxed mb-6 italic flex-1">"Being able to share my homemade meals with the community has given my cooking a new purpose. The platform makes it so easy to connect with those who need it."</p>
-          <div>
-            <p class="font-bold text-brand-primary">Priya S.</p>
-            <p class="text-sm text-brand-muted">Home Food Maker, Mumbai</p>
-          </div>
-        </div>
+        </app-zh-card>
       </div>
       
-      <div class="zh-card p-0 overflow-hidden flex flex-col">
-        <div class="h-48 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=600" alt="Volunteers" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-        </div>
-        <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="32" class="text-brand-light mb-4"></lucide-icon>
-          <p class="text-brand-text font-medium text-lg leading-relaxed mb-6 italic flex-1">"As a volunteer delivery partner, seeing the smiles on people's faces when I hand over a hot meal is the most rewarding part of my day."</p>
-          <div>
-            <p class="font-bold text-brand-primary">Rahul M.</p>
-            <p class="text-sm text-brand-muted">Volunteer, Delhi</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="zh-card p-0 overflow-hidden flex flex-col">
-        <div class="h-48 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=600" alt="NGO Support" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-        </div>
-        <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="32" class="text-brand-light mb-4"></lucide-icon>
-          <p class="text-brand-text font-medium text-lg leading-relaxed mb-6 italic flex-1">"ZeroHunger has transformed how our NGO operates. We now have a reliable stream of surplus food from local events, allowing us to feed twice as many children."</p>
-          <div>
-            <p class="font-bold text-brand-primary">Asha Foundation</p>
-            <p class="text-sm text-brand-muted">NGO Partner, Bangalore</p>
-          </div>
-        </div>
+      <div class="mt-16 text-center">
+        <app-zh-button variant="secondary" size="lg">Become a Food Maker</app-zh-button>
       </div>
     </div>
   </section>

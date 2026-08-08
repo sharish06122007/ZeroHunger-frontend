@@ -5,11 +5,14 @@ import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/authentication/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { LucideAngularModule } from 'lucide-angular';
+import { ZhInputComponent } from '../../../shared/components/ui/zh-input/zh-input.component';
+import { ZhButtonComponent } from '../../../shared/components/ui/zh-button/zh-button.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule, ZhInputComponent, ZhButtonComponent],
   animations: [
     trigger('slideIn', [
       transition(':enter', [
@@ -19,142 +22,129 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ]),
   ],
   template: `
-    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#FFFBF5]">
+    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-brand-bg">
       <!-- Left Premium Hero Panel -->
-      <div class="relative hidden lg:flex flex-col justify-between p-12 bg-[#1A1A1A] text-white overflow-hidden">
-        <!-- Ambient Purple Orbs -->
-        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#7743DB]/30 blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#C3ACD0]/20 blur-3xl pointer-events-none"></div>
+      <div class="relative hidden lg:flex flex-col justify-between p-12 bg-brand-dark text-white overflow-hidden">
+        <!-- Ambient Background -->
+        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-brand-primary-light/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-brand-accent/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1200')] opacity-20 mix-blend-overlay object-cover"></div>
 
         <!-- Brand Top Bar -->
         <a routerLink="/" class="relative z-10 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#7743DB] via-[#9055EE] to-[#C3ACD0] p-0.5 shadow-lg">
-            <div class="w-full h-full bg-[#1A1A1A] rounded-[14px] flex items-center justify-center font-black text-[#C3ACD0]">
-              ZH
-            </div>
+          <div class="w-10 h-10 rounded-2xl bg-brand-primary flex items-center justify-center shadow-lg">
+            <lucide-icon name="home" class="w-6 h-6 text-white"></lucide-icon>
           </div>
-          <span class="font-extrabold text-xl tracking-tight text-white">Zero<span class="text-[#C3ACD0]">Hunger</span></span>
+          <span class="font-extrabold text-2xl tracking-tight text-white">Zero<span class="text-brand-primary-light">Hunger</span></span>
         </a>
 
-        <!-- Hero Content & Impact Card -->
-        <div class="relative z-10 space-y-8 max-w-lg">
+        <!-- Hero Content -->
+        <div class="relative z-10 space-y-8 max-w-lg mt-12">
           <div class="space-y-4">
-            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-[#C3ACD0] border border-white/15">
-              <span class="w-2 h-2 rounded-full bg-[#22C55E]"></span>
-              Trusted by 500+ Enterprises & NGOs
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-brand-primary-very-light border border-white/15 backdrop-blur-sm">
+              <span class="w-2 h-2 rounded-full bg-brand-fresh"></span>
+              Welcome back to our community
             </span>
             <h1 class="text-4xl font-extrabold tracking-tight leading-tight">
-              Empowering Real-Time Food Rescue Network
+              Homemade Food.<br/>Stronger Community.
             </h1>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              Connect commercial kitchens, courier networks, and local shelters with real-time dispatch, route optimization, and verified distribution logs.
+            <p class="text-sm text-brand-primary-very-light/80 leading-relaxed">
+              Sign in to manage your food requests, connect with verified home food makers, or coordinate deliveries and impact activities.
             </p>
           </div>
 
-          <!-- Glass Testimonial Card -->
-          <div class="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl space-y-4 shadow-2xl">
-            <p class="text-xs italic text-slate-200 leading-relaxed">
-              "ZeroHunger reduced our surplus pickup turnaround to under 20 minutes. It's the most reliable food logistics platform we've deployed."
-            </p>
-            <div class="flex items-center gap-3 pt-2 border-t border-white/10">
-              <div class="w-8 h-8 rounded-xl bg-[#7743DB] text-white font-bold text-xs flex items-center justify-center">
-                RK
-              </div>
-              <div>
-                <p class="text-xs font-bold text-white">Chef Ramesh Kumar</p>
-                <span class="text-[10px] text-[#C3ACD0]">Taj Palace Operations</span>
-              </div>
-            </div>
+          <!-- Trust Badge -->
+          <div class="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl flex items-start gap-4 mt-8">
+             <div class="w-12 h-12 rounded-full bg-brand-primary/80 flex items-center justify-center shrink-0">
+                <lucide-icon name="shield-check" class="text-white w-6 h-6"></lucide-icon>
+             </div>
+             <div>
+               <p class="text-sm font-bold text-white mb-1">100% Secure & Verified</p>
+               <p class="text-xs text-brand-primary-very-light/70 leading-relaxed">
+                 Every member of our community is verified to ensure safety, trust, and the best quality homemade food experience.
+               </p>
+             </div>
           </div>
         </div>
 
         <!-- Footer Note -->
-        <div class="relative z-10 text-xs text-slate-400">
-          © 2026 ZeroHunger Inc. Enterprise SaaS Platform.
+        <div class="relative z-10 text-xs text-brand-primary-very-light/50 mt-12">
+          © 2026 ZeroHunger. 100% Hope.
         </div>
       </div>
 
       <!-- Right Form Panel -->
       <div class="flex items-center justify-center p-6 sm:p-12" @slideIn>
         <div class="w-full max-w-md space-y-8">
+          
+          <!-- Mobile Brand (Visible only on small screens) -->
+          <div class="lg:hidden text-center mb-8 flex flex-col items-center">
+            <div class="w-12 h-12 rounded-2xl bg-brand-primary flex items-center justify-center shadow-lg mb-4">
+              <lucide-icon name="home" class="w-6 h-6 text-white"></lucide-icon>
+            </div>
+            <h2 class="font-extrabold text-2xl tracking-tight text-brand-dark">Zero<span class="text-brand-primary">Hunger</span></h2>
+          </div>
+
           <!-- Form Header -->
           <div class="space-y-2 text-center lg:text-left">
-            <h2 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">Welcome Back</h2>
-            <p class="text-sm text-[#5B5B6A]">Sign in to manage food rescue operations and donations</p>
+            <h2 class="text-3xl font-extrabold text-brand-text tracking-tight">Sign In</h2>
+            <p class="text-sm text-brand-muted">Enter your details to access your account</p>
           </div>
 
           <!-- Login Form Card -->
-          <div class="glass-panel p-8 rounded-3xl shadow-xl border border-[#E8DDD3] bg-white/90 space-y-6">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
-              <!-- Email Input -->
-              <div class="form-group">
-                <label class="form-label" for="email">Email Address <span class="text-rose-500">*</span></label>
-                <input
-                  id="email"
-                  type="email"
-                  class="input-field"
-                  [class.border-rose-400]="isInvalid('email')"
-                  formControlName="email"
-                  placeholder="name@organization.org"
-                  autocomplete="email"
-                />
-                @if (isInvalid('email')) {
-                  <p class="text-xs text-rose-500 mt-1 font-medium">{{ getError('email') }}</p>
-                }
-              </div>
+          <div class="p-8 rounded-3xl shadow-float bg-white border border-brand-border space-y-6">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-2" novalidate>
+              
+              <app-zh-input
+                formControlName="email"
+                label="Email Address"
+                placeholder="name@example.com"
+                icon="mail"
+                [error]="isInvalid('email') ? getError('email') : ''"
+              ></app-zh-input>
 
-              <!-- Password Input -->
-              <div class="form-group">
+              <div>
                 <div class="flex justify-between items-center mb-1">
-                  <label class="form-label mb-0" for="password">Password <span class="text-rose-500">*</span></label>
-                  <a routerLink="/auth/forgot-password" class="text-xs font-semibold text-[#7743DB] hover:underline">Forgot password?</a>
+                  <label class="block text-sm font-medium text-brand-text mb-1">Password</label>
+                  <a routerLink="/auth/forgot-password" class="text-xs font-semibold text-brand-primary hover:underline">Forgot password?</a>
                 </div>
-                <div class="relative">
-                  <input
-                    id="password"
-                    [type]="showPassword() ? 'text' : 'password'"
-                    class="input-field pr-10"
-                    [class.border-rose-400]="isInvalid('password')"
-                    formControlName="password"
-                    placeholder="••••••••••••"
-                    autocomplete="current-password"
-                  />
-                  <button
-                    type="button"
-                    (click)="showPassword.set(!showPassword())"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 text-[#5B5B6A] hover:text-[#1A1A1A] text-xs font-semibold"
-                  >
-                    {{ showPassword() ? 'Hide' : 'Show' }}
-                  </button>
-                </div>
-                @if (isInvalid('password')) {
-                  <p class="text-xs text-rose-500 mt-1 font-medium">{{ getError('password') }}</p>
-                }
+                <app-zh-input
+                  formControlName="password"
+                  [type]="showPassword() ? 'text' : 'password'"
+                  placeholder="••••••••"
+                  icon="lock"
+                  [error]="isInvalid('password') ? getError('password') : ''"
+                ></app-zh-input>
+                <button
+                  type="button"
+                  (click)="showPassword.set(!showPassword())"
+                  class="absolute right-12 mt-[-52px] text-brand-muted hover:text-brand-text text-xs font-semibold z-10 px-2 py-1"
+                >
+                  {{ showPassword() ? 'Hide' : 'Show' }}
+                </button>
               </div>
 
               <!-- Submit Button -->
-              <button
-                type="submit"
-                class="btn-primary w-full py-3.5 text-sm font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30"
-                [disabled]="isLoading()"
-              >
-                @if (isLoading()) {
-                  <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                  <span>Signing In...</span>
-                } @else {
-                  <span>Sign In to Dashboard →</span>
-                }
-              </button>
+              <div class="pt-4">
+                <app-zh-button 
+                  variant="primary" 
+                  [fullWidth]="true" 
+                  [loading]="isLoading()"
+                  type="submit"
+                >
+                  Sign In
+                </app-zh-button>
+              </div>
             </form>
 
-            <div class="relative flex items-center justify-center my-4">
-              <div class="border-t border-[#E8DDD3] w-full"></div>
-              <span class="bg-white px-3 text-[11px] font-bold text-[#5B5B6A] uppercase tracking-wider relative">or</span>
+            <div class="relative flex items-center justify-center my-6">
+              <div class="border-t border-brand-border w-full"></div>
+              <span class="bg-white px-3 text-[11px] font-bold text-brand-muted uppercase tracking-wider relative">or</span>
             </div>
 
-            <p class="text-center text-xs text-[#5B5B6A]">
-              Don't have an enterprise account?
-              <a routerLink="/auth/register" class="font-bold text-[#7743DB] hover:underline ml-1">Create one free →</a>
+            <p class="text-center text-sm text-brand-muted">
+              Don't have an account yet?
+              <a routerLink="/auth/register" class="font-bold text-brand-primary hover:underline ml-1">Create one</a>
             </p>
           </div>
         </div>
@@ -175,7 +165,6 @@ export class LoginComponent {
   readonly loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    rememberMe: [false],
   });
 
   isInvalid(field: string): boolean {
