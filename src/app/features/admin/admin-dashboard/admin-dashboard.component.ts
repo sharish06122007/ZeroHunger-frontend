@@ -43,9 +43,9 @@ interface SystemAnalytics {
   template: `
     <div class="space-y-8 pb-12" @fadeIn>
       <!-- Admin Header -->
-      <div class="p-8 rounded-3xl bg-gradient-to-r from-[var(--text-main)] via-[#2A1F45] to-[var(--primary)] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
+      <div class="p-8 rounded-3xl bg-gradient-to-r from-[var(--text-main)] via-[var(--primary-deep)] to-[var(--primary)] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
         <div class="space-y-2 relative z-10">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[11px] font-extrabold text-[#C3ACD0] border border-white/15">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[11px] font-extrabold text-[var(--text-light)] border border-white/15">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             REAL-TIME SYSTEM CONTROL
           </div>

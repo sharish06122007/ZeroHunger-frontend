@@ -36,14 +36,15 @@ interface HomeAnalytics {
   template: `
     <div class="space-y-8" @fadeInUp>
       <!-- Hero Welcome Banner -->
-      <div class="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[var(--dark)] to-[var(--primary)] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
+      <div class="p-8 sm:p-10 rounded-[32px] bg-gradient-to-r from-[var(--primary)] via-[var(--primary-indigo)] to-[var(--accent)] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-none">
+        <div class="absolute inset-0 bg-black/10"></div>
         <div class="space-y-3 relative z-10 max-w-xl">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-extrabold text-[var(--secondary)] border border-white/15">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             {{ currentUser()?.role | uppercase }} DASHBOARD
           </div>
-          <h1 class="text-3xl sm:text-4xl font-black tracking-tight">
-            Welcome back, {{ currentUser()?.fullName }} 👋
+          <h1 class="text-3xl sm:text-4xl font-black tracking-tight drop-shadow-md">
+            {{ greeting() }}, {{ currentUser()?.fullName?.split(' ')?.[0] || 'User' }} 👋
           </h1>
           <p class="text-xs sm:text-sm text-white/80 leading-relaxed">
             Real-time surplus food monitoring, automated route dispatching, and live rescue operations.
@@ -172,6 +173,7 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   readonly currentUser = this.authService.currentUser;
   readonly loc = this.locationService.location;
   readonly recentFood = signal<Food[]>([]);
+  readonly greeting = signal<string>('Good morning');
   private socketSub!: Subscription;
 
   readonly stats = signal<HomeAnalytics>({
@@ -195,8 +197,16 @@ export class DashboardHomeComponent implements OnInit, OnDestroy {
   ]);
 
   ngOnInit(): void {
+    this.updateGreeting();
     this.fetchData();
     this.listenToSocket();
+  }
+
+  updateGreeting(): void {
+    const hour = new Date().getHours();
+    if (hour < 12) this.greeting.set('Good morning');
+    else if (hour < 18) this.greeting.set('Good afternoon');
+    else this.greeting.set('Good evening');
   }
 
   refreshLocation(): void {

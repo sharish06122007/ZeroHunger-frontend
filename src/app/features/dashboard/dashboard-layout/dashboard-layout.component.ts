@@ -36,7 +36,7 @@ interface NavItem {
         class="fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 ease-out p-4"
         [ngClass]="sidebarCollapsed() ? 'w-24' : 'w-72'"
       >
-        <div class="h-full bg-[var(--dark)] text-white rounded-3xl p-4 flex flex-col justify-between shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl">
+        <div class="h-full bg-[var(--sidebar)] text-white rounded-3xl p-4 flex flex-col justify-between shadow-2xl border border-white/10 relative overflow-hidden backdrop-blur-xl">
           <!-- Background Subtle Gradient Overlay -->
           <div class="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-[var(--primary)]/30 blur-3xl pointer-events-none"></div>
 
@@ -44,8 +44,8 @@ interface NavItem {
           <div class="relative z-10">
             <div class="flex items-center justify-between gap-3 pb-6 border-b border-white/10">
               <a routerLink="/" class="flex items-center gap-3 overflow-hidden">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] p-0.5 shadow-lg flex-shrink-0">
-                  <div class="w-full h-full bg-[var(--dark)] rounded-[14px] flex items-center justify-center font-black text-white">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[var(--primary)] via-[var(--primary-indigo)] to-[var(--accent)] p-0.5 shadow-lg flex-shrink-0">
+                  <div class="w-full h-full bg-[var(--sidebar)] rounded-[14px] flex items-center justify-center font-black text-white">
                     ZH
                   </div>
                 </div>
@@ -71,7 +71,7 @@ interface NavItem {
             <!-- Profile Summary Card -->
             @if (!sidebarCollapsed() && currentUser(); as user) {
               <div class="mt-4 p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] text-white flex items-center justify-center font-bold text-sm shadow-md">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[var(--primary)] via-[var(--primary-indigo)] to-[var(--accent)] text-white flex items-center justify-center font-bold text-sm shadow-md">
                   {{ user.fullName.charAt(0).toUpperCase() }}
                 </div>
                 <div class="overflow-hidden flex-1">
@@ -207,18 +207,23 @@ export class DashboardLayoutComponent {
   readonly notificationsCount = signal(3);
 
   readonly navItems: NavItem[] = [
-    { path: '/dashboard', label: 'Executive Analytics', icon: '📊' },
-    { path: '/dashboard/food', label: 'Food Rescue Listings', icon: '🍱' },
-    { path: '/dashboard/food/create', label: 'Post Donation', icon: '➕', roles: ['restaurant', 'donor', 'admin'] },
+    { path: '/dashboard', label: 'Dashboard', icon: '📊' },
+    { path: '/dashboard/food', label: 'Food Rescue', icon: '🍱' },
     { path: '/dashboard/requests', label: 'Food Requests', icon: '📝' },
-    { path: '/dashboard/donations', label: 'Donations Hub', icon: '🎁' },
-    { path: '/dashboard/volunteer', label: 'Volunteer Courier', icon: '🤝', roles: ['volunteer', 'admin'] },
-    { path: '/dashboard/ngo', label: 'NGO Partner Portal', icon: '🏢', roles: ['ngo', 'admin'] },
-    { path: '/dashboard/home-food/customer', label: 'Request Home Food', icon: '🍲', roles: ['customer', 'admin'] },
-    { path: '/dashboard/home-food/maker', label: 'Maker Dashboard', icon: '👩‍🍳', roles: ['home_food_maker', 'admin'] },
-    { path: '/dashboard/home-food/delivery', label: 'Food Deliveries', icon: '🛵', roles: ['delivery_partner', 'admin'] },
-    { path: '/dashboard/admin', label: 'Platform Control', icon: '⚙️', roles: ['admin'] },
-    { path: '/dashboard/settings', label: 'System Settings', icon: '🛠️' },
+    { path: '/dashboard/donations', label: 'Food Donations', icon: '🎁', roles: ['donor', 'admin'] },
+    { path: '/dashboard/home-food/customer', label: 'Home Food', icon: '🍲' },
+    { path: '/dashboard/home-food/delivery', label: 'Deliveries', icon: '🛵', roles: ['delivery_partner', 'admin'] },
+    { path: '/dashboard/volunteer', label: 'Volunteers', icon: '🤝', roles: ['volunteer', 'admin'] },
+    { path: '/dashboard/ngo', label: 'NGO Partners', icon: '🏢', roles: ['ngo', 'admin'] },
+    { path: '/dashboard/home-food/maker', label: 'Home Food Maker', icon: '👩‍🍳', roles: ['home_food_maker', 'admin'] },
+    { path: '/dashboard/secure-chat', label: 'Messages', icon: '💬' },
+    { path: '/dashboard/settings', label: 'Settings', icon: '⚙️' },
+    
+    // Admin Only
+    { path: '/dashboard/admin', label: 'Platform Control', icon: '⚡', roles: ['admin'] },
+    { path: '/dashboard/admin/users', label: 'User Management', icon: '👥', roles: ['admin'] },
+    { path: '/dashboard/admin/analytics', label: 'Impact Analytics', icon: '📈', roles: ['admin'] },
+    { path: '/dashboard/admin/reports', label: 'Reports', icon: '📑', roles: ['admin'] },
   ];
 
   notifications = [

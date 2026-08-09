@@ -26,7 +26,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
       <div class="zh-card max-w-lg w-full p-8 sm:p-10 relative z-10" @fadeIn>
         <div class="text-center space-y-3">
-          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] text-white mx-auto flex items-center justify-center text-2xl font-black shadow-lg shadow-[var(--primary)]/30">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[var(--primary)] via-[var(--primary-indigo)] to-[var(--accent)] text-white mx-auto flex items-center justify-center text-2xl font-black shadow-lg shadow-[var(--primary)]/30">
             ZH
           </div>
           <h1 class="text-2xl font-extrabold text-[var(--text-main)]">Setup Your Profile</h1>

@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-[#FFFBF5] p-6 relative overflow-hidden text-center">
+    <div class="min-h-screen flex items-center justify-center bg-[var(--bg-main)] p-6 relative overflow-hidden text-center">
       <!-- Ambient Orbs -->
       <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[var(--primary)]/15 blur-3xl pointer-events-none"></div>
       <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-[var(--accent)]/20 blur-3xl pointer-events-none"></div>

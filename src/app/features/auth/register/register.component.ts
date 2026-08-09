@@ -34,48 +34,37 @@ function strongPasswordValidator(ctrl: AbstractControl): ValidationErrors | null
   ],
   template: `
     <div class="min-h-screen grid grid-cols-1 lg:grid-cols-3 bg-[var(--bg-main)]">
-      <!-- Left Steps Progress Bar Sidebar -->
-      <div class="hidden lg:flex flex-col justify-between p-10 bg-[var(--dark)] text-white border-r border-white/10 relative overflow-hidden">
-        <div class="absolute -top-32 -left-32 w-80 h-80 rounded-full bg-[var(--primary)]/30 blur-3xl pointer-events-none"></div>
+      <!-- Left Premium Hero Panel -->
+      <div class="relative hidden lg:flex flex-col justify-between p-12 bg-[var(--sidebar)] text-white overflow-hidden">
+        <!-- Background Image overlaying dark -->
+        <div class="absolute inset-0 z-0 opacity-40">
+           <img src="assets/images/community-food.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1593113565694-c676714f17ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Community" />
+        </div>
+        <div class="absolute inset-0 z-0 bg-gradient-to-t from-[var(--sidebar)] via-[var(--sidebar)]/80 to-transparent"></div>
+        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[var(--primary)]/50 blur-3xl pointer-events-none z-0"></div>
 
         <!-- Brand Top Bar -->
         <a routerLink="/" class="relative z-10 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] p-0.5 shadow-lg">
-            <div class="w-full h-full bg-[var(--dark)] rounded-[14px] flex items-center justify-center font-black text-white">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[var(--primary)] via-[var(--primary-indigo)] to-[var(--accent)] p-0.5 shadow-lg">
+            <div class="w-full h-full bg-[var(--sidebar)] rounded-[14px] flex items-center justify-center font-black text-white">
               ZH
             </div>
           </div>
           <span class="font-extrabold text-xl tracking-tight text-white">Zero<span class="text-[var(--accent)]">Hunger</span></span>
         </a>
 
-        <!-- Vertical Step Indicator List -->
-        <div class="relative z-10 space-y-6">
-          <div class="space-y-1 mb-8">
-            <span class="text-xs font-bold text-[var(--secondary)] uppercase tracking-wider">Enterprise Signup</span>
-            <h2 class="text-2xl font-extrabold">Create Your Account</h2>
+        <div class="space-y-4">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold text-white border border-white/20">
+              <span class="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse"></span>
+              Join the Movement
+            </span>
+            <h1 class="text-4xl font-extrabold tracking-tight leading-tight text-white drop-shadow-md">
+              Start Your Food Rescue Journey Today
+            </h1>
+            <p class="text-sm text-slate-200 leading-relaxed drop-shadow-md">
+              Create an enterprise account to list surplus food, manage logistics, and track your environmental impact in real-time.
+            </p>
           </div>
-
-          <div class="space-y-5">
-            @for (s of stepLabels; track s.step; let i = $index) {
-              <div class="flex items-center gap-4">
-                <div
-                  class="w-9 h-9 rounded-2xl font-bold text-xs flex items-center justify-center border transition-all"
-                  [ngClass]="{
-                    'bg-[var(--primary)] text-white border-white/30 shadow-lg shadow-[#7743DB]/40': currentStep() === i + 1,
-                    'bg-[var(--success)] text-white border-emerald-400': currentStep() > i + 1,
-                    'bg-white/5 text-white/50 border-white/10': currentStep() < i + 1
-                  }"
-                >
-                  @if (currentStep() > i + 1) { ✓ } @else { {{ i + 1 }} }
-                </div>
-                <div>
-                  <p class="text-xs font-bold" [ngClass]="currentStep() === i + 1 ? 'text-white' : 'text-white/60'">{{ s.label }}</p>
-                  <span class="text-[10px] text-white/40">Step {{ i + 1 }} of {{ stepLabels.length }}</span>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
 
         <div class="relative z-10 text-xs text-slate-400">
           Already registered? <a routerLink="/auth/login" class="text-[var(--secondary)] font-bold hover:underline">Sign In</a>
@@ -92,7 +81,7 @@ function strongPasswordValidator(ctrl: AbstractControl): ValidationErrors | null
               <span>{{ (currentStep() / stepLabels.length) * 100 }}% Complete</span>
             </div>
             <div class="h-2 bg-[var(--bg-surface)] rounded-full overflow-hidden border border-[var(--border-color)]">
-              <div class="h-full bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] transition-all duration-300 ease-out" [style.width.%]="(currentStep() / stepLabels.length) * 100"></div>
+              <div class="h-full bg-gradient-to-r from-[var(--primary)] via-[var(--primary-indigo)] to-[var(--accent)] transition-all duration-300 ease-out" [style.width.%]="(currentStep() / stepLabels.length) * 100"></div>
             </div>
           </div>
 

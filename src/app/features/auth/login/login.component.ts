@@ -21,15 +21,18 @@ import { animate, style, transition, trigger } from '@angular/animations';
   template: `
     <div class="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[var(--bg-main)]">
       <!-- Left Premium Hero Panel -->
-      <div class="relative hidden lg:flex flex-col justify-between p-12 bg-[var(--dark)] text-white overflow-hidden">
-        <!-- Ambient Purple Orbs -->
-        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[var(--primary)]/30 blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[var(--secondary)]/20 blur-3xl pointer-events-none"></div>
+      <div class="relative hidden lg:flex flex-col justify-between p-12 bg-[var(--sidebar)] text-white overflow-hidden">
+        <!-- Background Image overlaying dark -->
+        <div class="absolute inset-0 z-0 opacity-40">
+           <img src="assets/images/community-food.jpg" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1593113565694-c676714f17ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'" alt="Community" />
+        </div>
+        <div class="absolute inset-0 z-0 bg-gradient-to-t from-[var(--sidebar)] via-[var(--sidebar)]/80 to-transparent"></div>
+        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[var(--primary)]/50 blur-3xl pointer-events-none z-0"></div>
 
         <!-- Brand Top Bar -->
         <a routerLink="/" class="relative z-10 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] p-0.5 shadow-lg">
-            <div class="w-full h-full bg-[var(--dark)] rounded-[14px] flex items-center justify-center font-black text-white">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[var(--primary)] via-[var(--primary-indigo)] to-[var(--accent)] p-0.5 shadow-lg">
+            <div class="w-full h-full bg-[var(--sidebar)] rounded-[14px] flex items-center justify-center font-black text-white">
               ZH
             </div>
           </div>
@@ -39,14 +42,14 @@ import { animate, style, transition, trigger } from '@angular/animations';
         <!-- Hero Content & Impact Card -->
         <div class="relative z-10 space-y-8 max-w-lg">
           <div class="space-y-4">
-            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-white border border-white/15">
-              <span class="w-2 h-2 rounded-full bg-[var(--success)]"></span>
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold text-white border border-white/20">
+              <span class="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse"></span>
               Trusted by 500+ Enterprises & NGOs
             </span>
-            <h1 class="text-4xl font-extrabold tracking-tight leading-tight">
+            <h1 class="text-4xl font-extrabold tracking-tight leading-tight text-white drop-shadow-md">
               Empowering Real-Time Food Rescue Network
             </h1>
-            <p class="text-sm text-slate-300 leading-relaxed">
+            <p class="text-sm text-slate-200 leading-relaxed drop-shadow-md">
               Connect commercial kitchens, courier networks, and local shelters with real-time dispatch, route optimization, and verified distribution logs.
             </p>
           </div>
