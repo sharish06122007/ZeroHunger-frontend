@@ -7,35 +7,42 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="py-6">
-      <h3 class="text-lg font-medium text-gray-900 mb-6">Order Status</h3>
-      <div class="relative">
+      <h3 class="text-xl font-bold text-brand-text mb-8">Order Status</h3>
+      <div class="relative pl-4">
         <!-- Vertical line -->
-        <div class="absolute inset-0 flex items-center justify-center w-8 h-full" aria-hidden="true">
-          <div class="w-0.5 h-full bg-gray-200"></div>
-        </div>
+        <div class="absolute top-0 bottom-0 left-8 w-[2px] bg-brand-borderLight -z-10" aria-hidden="true"></div>
         
-        <ul class="relative space-y-6">
-          <li *ngFor="let step of steps; let i = index" class="relative">
-            <div class="flex items-center">
-              <div class="relative flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center z-10 transition-colors duration-300"
-                   [ngClass]="getStepIconClass(i)">
-                <!-- Check Icon for completed -->
-                <svg *ngIf="i < currentStepIndex" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                <!-- Dot for current/pending -->
-                <span *ngIf="i >= currentStepIndex" class="w-2.5 h-2.5 rounded-full"
-                      [ngClass]="i === currentStepIndex ? 'bg-emerald-600' : 'bg-transparent'"></span>
+        <ul class="relative space-y-8">
+          @for (step of steps; track step.id; let i = $index) {
+            <li class="relative">
+              <div class="flex items-start">
+                <div class="relative flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all duration-300 shadow-sm mt-1"
+                     [ngClass]="getStepIconClass(i)">
+                  <!-- Check Icon for completed -->
+                  @if (i < currentStepIndex) {
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                  }
+                  <!-- Dot for current/pending -->
+                  @if (i >= currentStepIndex) {
+                    <span class="w-3 h-3 rounded-full"
+                          [ngClass]="i === currentStepIndex ? 'bg-brand-primary' : 'bg-transparent'"></span>
+                  }
+                </div>
+                <div class="ml-6 min-w-0 flex-1 bg-brand-bgWarm/50 p-4 rounded-2xl border border-brand-borderLight transition-all"
+                     [ngClass]="i === currentStepIndex ? 'border-brand-primary/50 shadow-sm' : ''">
+                  <p class="text-base font-bold transition-colors duration-300"
+                     [ngClass]="i <= currentStepIndex ? 'text-brand-text' : 'text-brand-textSec'">
+                    {{ step.label }}
+                  </p>
+                  <p class="text-sm mt-1" [ngClass]="i <= currentStepIndex ? 'text-brand-textSec' : 'text-brand-textSec/60'">
+                    {{ step.description }}
+                  </p>
+                </div>
               </div>
-              <div class="ml-4 min-w-0 flex-1">
-                <p class="text-sm font-medium transition-colors duration-300"
-                   [ngClass]="i <= currentStepIndex ? 'text-gray-900' : 'text-gray-500'">
-                  {{ step.label }}
-                </p>
-                <p class="text-sm text-gray-500">{{ step.description }}</p>
-              </div>
-            </div>
-          </li>
+            </li>
+          }
         </ul>
       </div>
     </div>
@@ -54,16 +61,17 @@ export class OrderStatusTimelineComponent {
   ];
 
   get currentStepIndex(): number {
-    return this.steps.findIndex(s => s.id === this.currentStatus);
+    const idx = this.steps.findIndex(s => s.id === this.currentStatus);
+    return idx === -1 ? 0 : idx;
   }
 
   getStepIconClass(index: number): string {
     if (index < this.currentStepIndex) {
-      return 'bg-emerald-500 border-2 border-emerald-500 ring-4 ring-white';
+      return 'bg-brand-primary border-4 border-white';
     } else if (index === this.currentStepIndex) {
-      return 'bg-white border-2 border-emerald-600 ring-4 ring-white';
+      return 'bg-white border-4 border-brand-primary ring-2 ring-brand-primary/20 ring-offset-2';
     } else {
-      return 'bg-white border-2 border-gray-300 ring-4 ring-white';
+      return 'bg-brand-bgWarm border-4 border-white ring-1 ring-brand-borderLight';
     }
   }
 }

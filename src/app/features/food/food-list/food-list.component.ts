@@ -33,41 +33,42 @@ function extractArray<T>(data: any): T[] {
     ]),
   ],
   template: `
-    <div class="space-y-8 pb-12" @fadeIn>
-      <!-- Header -->
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div class="space-y-10 pb-12" @fadeIn>
+      <!-- Premium Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
         <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7743DB]/10 text-xs font-bold text-[#7743DB]">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            LIVE REAL-TIME FEED
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 text-[11px] font-bold text-brand-primary mb-3">
+            <span class="w-2 h-2 rounded-full bg-brand-success animate-pulse"></span>
+            LIVE RESCUE FEED
           </div>
-          <h1 class="text-3xl font-black text-[#1A1A1A] tracking-tight mt-1">Food Rescue Listings</h1>
-          <p class="text-xs text-[#5B5B6A]">Surplus food available for immediate claim and volunteer dispatch</p>
+          <h1 class="text-4xl font-black text-brand-text tracking-tighter mt-1">Food Rescue Listings</h1>
+          <p class="text-sm text-brand-textSec mt-1">Discover surplus food available for immediate claim or volunteer dispatch</p>
         </div>
-        <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
-          + Post Surplus Food
+        <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-sm font-bold shadow-premium-hover">
+          <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          Post Surplus Food
         </a>
       </div>
 
       <!-- Filters & Search Bar -->
-      <div class="glass-panel p-4 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-sm flex flex-col md:flex-row gap-3 items-center">
+      <div class="zh-card p-5 flex flex-col md:flex-row gap-4 items-center">
         <!-- Search Input -->
         <div class="relative flex-1 w-full">
-          <svg class="w-4 h-4 text-[#5B5B6A] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-5 h-5 text-brand-textSec absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <input
             type="text"
             placeholder="Search by food title, donor, or city..."
-            class="input-field pl-10"
+            class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 pl-12 pr-4 text-sm text-brand-text placeholder-brand-textSec focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all"
             [(ngModel)]="searchQuery"
             (input)="applyFilters()"
           />
         </div>
 
         <!-- Filter Dropdowns -->
-        <div class="flex flex-wrap gap-2 w-full md:w-auto">
-          <select class="input-field py-2.5 text-xs font-semibold" [(ngModel)]="selectedCategory" (change)="applyFilters()">
+        <div class="flex flex-wrap gap-3 w-full md:w-auto">
+          <select class="bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm font-medium text-brand-text focus:outline-none focus:border-brand-primary transition-all" [(ngModel)]="selectedCategory" (change)="applyFilters()">
             <option value="">All Categories</option>
             <option value="cooked">Cooked Meals</option>
             <option value="raw">Raw Produce</option>
@@ -76,80 +77,100 @@ function extractArray<T>(data: any): T[] {
             <option value="beverage">Beverage</option>
           </select>
 
-          <select class="input-field py-2.5 text-xs font-semibold" [(ngModel)]="selectedStatus" (change)="applyFilters()">
+          <select class="bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm font-medium text-brand-text focus:outline-none focus:border-brand-primary transition-all" [(ngModel)]="selectedStatus" (change)="applyFilters()">
             <option value="">All Statuses</option>
             <option value="available">Available</option>
             <option value="reserved">Reserved</option>
             <option value="collected">Collected</option>
           </select>
 
-          <button (click)="resetFilters()" class="btn-secondary py-2.5 px-4 text-xs font-semibold rounded-2xl">Reset</button>
+          <button (click)="resetFilters()" class="btn-secondary h-[46px] px-5 text-sm font-semibold">Reset</button>
         </div>
       </div>
 
       <!-- Cards Grid -->
       @if (isLoading()) {
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="skeleton h-64 rounded-3xl"></div>
-          <div class="skeleton h-64 rounded-3xl"></div>
-          <div class="skeleton h-64 rounded-3xl"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="animate-shimmer h-[400px] rounded-[24px]"></div>
+          <div class="animate-shimmer h-[400px] rounded-[24px]"></div>
+          <div class="animate-shimmer h-[400px] rounded-[24px]"></div>
         </div>
       } @else if (filteredFood().length === 0) {
-        <div class="glass-panel p-12 text-center rounded-3xl border border-[#E8DDD3] space-y-3">
-          <span class="text-4xl block">🍱</span>
-          <h3 class="font-extrabold text-base text-[#1A1A1A]">No Food Rescue Listings Found</h3>
-          <p class="text-xs text-[#5B5B6A]">Adjust your search query or reset active filters</p>
-          <button (click)="resetFilters()" class="btn-secondary py-2 px-4 text-xs font-semibold rounded-xl">Clear Filters</button>
+        <div class="zh-card p-16 text-center space-y-4">
+          <div class="w-24 h-24 mx-auto bg-brand-bg rounded-full flex items-center justify-center">
+            <span class="text-5xl block">🍱</span>
+          </div>
+          <h3 class="font-extrabold text-xl text-brand-text">No Food Rescue Listings Found</h3>
+          <p class="text-sm text-brand-textSec">Adjust your search query or reset active filters</p>
+          <button (click)="resetFilters()" class="btn-secondary mt-4">Clear Filters</button>
         </div>
       } @else {
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           @for (food of filteredFood(); track food._id) {
             <div
               [routerLink]="['/dashboard/food', food._id]"
-              class="glass-card rounded-3xl border border-[#E8DDD3] bg-white/90 overflow-hidden flex flex-col justify-between hover:border-[#7743DB]/40 hover:shadow-xl transition-all cursor-pointer group"
+              class="zh-card p-0 flex flex-col group cursor-pointer border-brand-borderLight hover:border-brand-primary/30"
             >
-              <div class="p-6 space-y-4">
-                <div class="flex items-center justify-between">
-                  <span class="badge badge-primary text-[10px] uppercase font-bold">{{ food.category }}</span>
-                  <span class="badge badge-{{ food.status === 'available' ? 'success' : 'warning' }} text-[10px] uppercase font-bold">
+              <!-- Food Image -->
+              <div class="relative h-48 overflow-hidden rounded-t-[24px]">
+                <img [src]="food.imageUrl || 'https://images.unsplash.com/photo-149883716733f-a5189f1af408?auto=format&fit=crop&q=80&w=800'" alt="{{food.title}}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                
+                <!-- Status Badge Overlay -->
+                <div class="absolute top-4 right-4">
+                  <span class="px-3 py-1 rounded-full text-[10px] uppercase font-bold text-white shadow-lg backdrop-blur-md" 
+                    [ngClass]="food.status === 'available' ? 'bg-brand-success/90 border border-white/20' : 'bg-brand-gold/90 border border-white/20'">
                     {{ food.status }}
                   </span>
                 </div>
-
-                <div class="space-y-1">
-                  <h3 class="font-black text-base text-[#1A1A1A] group-hover:text-[#7743DB] transition-colors leading-snug">
-                    {{ food.title }}
-                  </h3>
-                  <p class="text-xs text-[#5B5B6A] line-clamp-2 leading-relaxed">
-                    {{ food.description || 'Verified surplus food donation ready for pickup.' }}
-                  </p>
-                </div>
-
-                <div class="space-y-2 pt-2 border-t border-[#E8DDD3] text-xs text-[#5B5B6A]">
-                  <div class="flex items-center justify-between">
-                    <span class="flex items-center gap-1.5">
-                      <span>📦</span>
-                      <strong class="text-[#1A1A1A]">{{ food.quantity }}</strong>
-                    </span>
-                    <span class="badge badge-success text-[9px]">NGO Eligible</span>
-                  </div>
-                  <div class="flex items-center gap-1.5">
-                    <span>📍</span>
-                    <span>{{ food.city || 'Mumbai' }} · {{ food.pickupAddress || 'Central Hub' }}</span>
-                  </div>
-                  <div class="flex items-center gap-1.5">
-                    <span>🏢</span>
-                    <span class="font-semibold text-[#1A1A1A]">{{ food.restaurantName || food.donatedBy.fullName }}</span>
+                
+                <!-- Urgency Indicator / Distance Overlay -->
+                <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white">
+                  <div class="flex items-center gap-1.5 text-xs font-bold px-2 py-1 bg-black/30 backdrop-blur-md rounded-lg">
+                    <svg class="w-3.5 h-3.5 text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Expires {{ food.expiryTime | date:'shortTime' }}
                   </div>
                 </div>
               </div>
 
-              <div class="px-6 py-4 bg-[#F7EFE5]/60 border-t border-[#E8DDD3] flex items-center justify-between text-xs">
-                <div class="flex items-center gap-1 text-amber-700 font-bold text-[11px]">
-                  <span>⏳</span>
-                  <span>Expires {{ food.expiryTime | date:'shortTime' }}</span>
+              <!-- Card Content -->
+              <div class="p-6 flex-1 flex flex-col">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="px-2 py-1 rounded bg-brand-primary/10 text-brand-primary text-[10px] uppercase font-bold tracking-wider">{{ food.category }}</span>
                 </div>
-                <span class="font-bold text-[#7743DB] group-hover:translate-x-1 transition-transform">Details →</span>
+
+                <h3 class="font-bold text-lg text-brand-text group-hover:text-brand-primary transition-colors leading-tight mb-2">
+                  {{ food.title }}
+                </h3>
+                
+                <p class="text-sm text-brand-textSec line-clamp-2 leading-relaxed mb-4 flex-1">
+                  {{ food.description || 'Verified surplus food donation ready for pickup.' }}
+                </p>
+
+                <!-- Key Metrics row -->
+                <div class="grid grid-cols-2 gap-4 py-4 border-t border-brand-borderLight text-sm">
+                  <div>
+                    <span class="block text-[11px] text-brand-textSec font-semibold uppercase tracking-wider mb-1">Quantity</span>
+                    <span class="font-bold text-brand-text flex items-center gap-1.5">📦 {{ food.quantity }}</span>
+                  </div>
+                  <div>
+                    <span class="block text-[11px] text-brand-textSec font-semibold uppercase tracking-wider mb-1">Location</span>
+                    <span class="font-bold text-brand-text flex items-center gap-1.5 truncate">📍 {{ food.city || 'Mumbai' }}</span>
+                  </div>
+                </div>
+                
+                <!-- Donor Info Row -->
+                <div class="pt-4 border-t border-brand-borderLight flex items-center justify-between">
+                  <div class="flex items-center gap-2 overflow-hidden">
+                    <div class="w-6 h-6 rounded-full bg-brand-bgWarm border border-brand-border flex items-center justify-center shrink-0">
+                      <span class="text-[10px]">🏢</span>
+                    </div>
+                    <span class="text-xs font-semibold text-brand-text truncate">{{ food.restaurantName || food.donatedBy?.fullName || 'Anonymous Donor' }}</span>
+                  </div>
+                  <button class="btn-primary h-8 px-4 text-[11px] rounded-lg shadow-none group-hover:shadow-premium-hover transition-all shrink-0">
+                    Rescue
+                  </button>
+                </div>
               </div>
             </div>
           }
