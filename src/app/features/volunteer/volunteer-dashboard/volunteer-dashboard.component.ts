@@ -20,7 +20,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
   template: `
     <div class="space-y-8 pb-12" @fadeIn>
       <!-- Volunteer Banner -->
-      <div class="p-8 rounded-3xl bg-gradient-to-r from-[#1A1A1A] via-[#2A1F45] to-[#7743DB] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
+      <div class="p-8 rounded-3xl bg-gradient-to-r from-[var(--text-main)] via-[#2A1F45] to-[var(--primary)] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
         <div class="space-y-2 relative z-10">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[11px] font-extrabold text-[#C3ACD0] border border-white/15">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -35,35 +35,35 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
       <!-- Volunteer Metrics Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
             <span>Leaderboard Rank</span>
             <span class="text-2xl">🏆</span>
           </div>
-          <p class="text-3xl font-black text-[#7743DB]">#{{ stats().leaderboardRank }}</p>
+          <p class="text-3xl font-black text-[var(--primary)]">#{{ stats().leaderboardRank }}</p>
           <span class="text-[11px] font-semibold text-emerald-600">Top 5% Volunteer</span>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
             <span>Rescue Score</span>
             <span class="text-2xl">⚡</span>
           </div>
-          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().rescueScore }} pts</p>
+          <p class="text-3xl font-black text-[var(--text-main)]">{{ stats().rescueScore }} pts</p>
           <span class="text-[11px] font-semibold text-emerald-600">Level 4 Courier</span>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
             <span>Distance Covered</span>
             <span class="text-2xl">🗺️</span>
           </div>
-          <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().distanceCoveredKm }} <span class="text-xs">km</span></p>
+          <p class="text-3xl font-black text-[var(--text-main)]">{{ stats().distanceCoveredKm }} <span class="text-xs">km</span></p>
           <span class="text-[11px] font-semibold text-emerald-600">Green transport</span>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
             <span>Meals Delivered</span>
             <span class="text-2xl">🎁</span>
           </div>
@@ -73,19 +73,19 @@ import { animate, style, transition, trigger } from '@angular/animations';
       </div>
 
       <!-- Live Route Map Preview -->
-      <div class="glass-panel p-6 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-md space-y-3">
-        <h3 class="font-extrabold text-sm text-[#1A1A1A]">Live Rescue Map & Pickup Routes</h3>
+      <div class="zh-card p-6 rounded-3xl border border-[var(--border-color)] bg-white/90 shadow-md space-y-3">
+        <h3 class="font-extrabold text-sm text-[var(--text-main)]">Live Rescue Map & Pickup Routes</h3>
         <div class="h-64 w-full">
           <app-map-view [markers]="mapMarkers()"></app-map-view>
         </div>
       </div>
 
       <!-- Active & Available Missions Table -->
-      <div class="glass-panel rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-xl overflow-hidden p-6 sm:p-8 space-y-6">
+      <div class="zh-card p-6 sm:p-8 space-y-6 overflow-hidden">
         <div class="flex justify-between items-center">
           <div>
-            <h3 class="font-black text-lg text-[#1A1A1A]">Mission Dispatch Center</h3>
-            <p class="text-xs text-[#5B5B6A]">Select available missions or complete assigned dispatches</p>
+            <h3 class="font-black text-lg text-[var(--text-main)]">Mission Dispatch Center</h3>
+            <p class="text-xs text-[var(--text-muted)]">Select available missions or complete assigned dispatches</p>
           </div>
           <button (click)="fetchMissions()" class="btn-secondary py-1.5 px-4 text-xs font-semibold rounded-xl">
             🔄 Refresh Missions
@@ -93,8 +93,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-[#1A1A1A]">
-            <thead class="bg-[#F7EFE5] text-[#5B5B6A] font-bold uppercase tracking-wider text-[10px] border-b border-[#E8DDD3]">
+          <table class="w-full text-left text-xs text-[var(--text-main)]">
+            <thead class="bg-[var(--bg-surface)] text-[var(--text-muted)] font-bold uppercase tracking-wider text-[10px] border-b border-[var(--border-color)]">
               <tr>
                 <th class="py-4 px-6">Mission / Food Item</th>
                 <th class="py-4 px-6">Pickup Point</th>
@@ -104,20 +104,20 @@ import { animate, style, transition, trigger } from '@angular/animations';
                 <th class="py-4 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-[#E8DDD3]">
+            <tbody class="divide-y divide-[var(--border-color)]">
               <!-- Assigned / In-Transit Missions First -->
               @for (mission of assignedMissions(); track mission._id) {
-                <tr class="bg-[#7743DB]/5 hover:bg-[#7743DB]/10 transition-colors">
-                  <td class="py-4 px-6 font-bold text-[#1A1A1A]">
+                <tr class="bg-[var(--primary)]/5 hover:bg-[var(--primary)]/10 transition-colors">
+                  <td class="py-4 px-6 font-bold text-[var(--text-main)]">
                     <div class="flex items-center gap-2">
                       <span class="badge badge-primary text-[9px]">ASSIGNED TO YOU</span>
                       <span class="line-clamp-1">{{ mission.food?.title || 'Surplus Meal Rescue' }}</span>
                     </div>
-                    <div class="text-[10px] text-[#5B5B6A] mt-0.5">{{ mission.food?.quantity || '30 servings' }}</div>
+                    <div class="text-[10px] text-[var(--text-muted)] mt-0.5">{{ mission.food?.quantity || '30 servings' }}</div>
                   </td>
-                  <td class="py-4 px-6 text-[#5B5B6A]">{{ mission.pickupAddress || mission.food?.pickupAddress || 'Restaurant HQ' }}</td>
-                  <td class="py-4 px-6 text-[#5B5B6A]">{{ mission.deliveryAddress || 'Community Shelter' }}</td>
-                  <td class="py-4 px-6 font-semibold text-[#7743DB]">2.4 km</td>
+                  <td class="py-4 px-6 text-[var(--text-muted)]">{{ mission.pickupAddress || mission.food?.pickupAddress || 'Restaurant HQ' }}</td>
+                  <td class="py-4 px-6 text-[var(--text-muted)]">{{ mission.deliveryAddress || 'Community Shelter' }}</td>
+                  <td class="py-4 px-6 font-semibold text-[var(--primary)]">2.4 km</td>
                   <td class="py-4 px-6">
                     <span class="badge badge-warning text-[10px] animate-pulse">In-Transit 🚚</span>
                   </td>
@@ -131,14 +131,14 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
               <!-- Available Missions -->
               @for (mission of availableMissions(); track mission._id) {
-                <tr class="hover:bg-[#F7EFE5]/50 transition-colors">
-                  <td class="py-4 px-6 font-bold text-[#1A1A1A]">
+                <tr class="hover:bg-[var(--bg-surface)]/50 transition-colors">
+                  <td class="py-4 px-6 font-bold text-[var(--text-main)]">
                     <div>{{ mission.food?.title || 'Surplus Food Rescue' }}</div>
-                    <div class="text-[10px] text-[#5B5B6A] font-normal">{{ mission.food?.quantity || '25 boxes' }}</div>
+                    <div class="text-[10px] text-[var(--text-muted)] font-normal">{{ mission.food?.quantity || '25 boxes' }}</div>
                   </td>
-                  <td class="py-4 px-6 text-[#5B5B6A]">{{ mission.pickupAddress || 'Local Bakery' }}</td>
-                  <td class="py-4 px-6 text-[#5B5B6A]">{{ mission.deliveryAddress || 'NGO Shelter' }}</td>
-                  <td class="py-4 px-6 font-semibold text-[#5B5B6A]">3.1 km</td>
+                  <td class="py-4 px-6 text-[var(--text-muted)]">{{ mission.pickupAddress || 'Local Bakery' }}</td>
+                  <td class="py-4 px-6 text-[var(--text-muted)]">{{ mission.deliveryAddress || 'NGO Shelter' }}</td>
+                  <td class="py-4 px-6 font-semibold text-[var(--text-muted)]">3.1 km</td>
                   <td class="py-4 px-6">
                     <span class="badge badge-success text-[10px]">Open Rescue</span>
                   </td>
@@ -151,7 +151,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
               } @empty {
                 @if (assignedMissions().length === 0) {
                   <tr>
-                    <td colspan="6" class="py-8 text-center text-xs text-[#5B5B6A]">
+                    <td colspan="6" class="py-8 text-center text-xs text-[var(--text-muted)]">
                       No active missions available right now. New missions will appear automatically!
                     </td>
                   </tr>

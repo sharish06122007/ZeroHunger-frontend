@@ -24,35 +24,35 @@ import { animate, style, transition, trigger } from '@angular/animations';
     <div class="space-y-8" @fadeIn>
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">Donor Impact Hub</h1>
-          <p class="text-xs text-[#5B5B6A] mt-1">Manage your food contributions and download tax receipts</p>
+          <h1 class="text-3xl font-extrabold text-[var(--text-main)] tracking-tight">Donor Impact Hub</h1>
+          <p class="text-xs text-[var(--text-muted)] mt-1">Manage your food contributions and download tax receipts</p>
         </div>
-        <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+        <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[var(--primary)]/30">
           + Post Food Rescue
         </a>
       </div>
 
       <!-- Impact Metrics -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider block">Meals Contributed</span>
-          <p class="text-3xl font-extrabold text-[#1A1A1A]">1,240</p>
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <span class="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider block">Meals Contributed</span>
+          <p class="text-3xl font-extrabold text-[var(--text-main)]">1,240</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider block">Active Listings</span>
-          <p class="text-3xl font-extrabold text-[#7743DB]">6</p>
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <span class="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider block">Active Listings</span>
+          <p class="text-3xl font-extrabold text-[var(--primary)]">6</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <span class="text-xs font-bold text-[#5B5B6A] uppercase tracking-wider block">Tax Receipts Downloaded</span>
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <span class="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider block">Tax Receipts Downloaded</span>
           <p class="text-3xl font-extrabold text-emerald-600">12</p>
         </div>
       </div>
 
       <!-- Quick Listing Form Card -->
-      <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#E8DDD3] bg-white/90 space-y-6">
-        <h3 class="font-extrabold text-lg text-[#1A1A1A]">Quick Food Rescue Intake</h3>
+      <div class="zh-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] bg-white/90 space-y-6">
+        <h3 class="font-extrabold text-lg text-[var(--text-main)]">Quick Food Rescue Intake</h3>
 
         <form (ngSubmit)="submitDonation()" class="space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -85,7 +85,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
           </div>
 
           <div class="flex justify-end pt-2">
-            <button type="submit" [disabled]="isSubmitting" class="btn-primary py-3 px-8 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+            <button type="submit" [disabled]="isSubmitting" class="btn-primary py-3 px-8 text-xs font-bold rounded-2xl shadow-lg shadow-[var(--primary)]/30">
               @if (isSubmitting) {
                 <span>Submitting...</span>
               } @else {

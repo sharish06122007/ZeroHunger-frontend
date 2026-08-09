@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="flex flex-col h-[500px] bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+    <div class="flex flex-col h-[500px] bg-[var(--bg-surface)] rounded-xl shadow-lg border border-gray-200 overflow-hidden">
       <!-- Header -->
       <div class="px-4 py-3 bg-emerald-600 text-white flex items-center justify-between">
         <div class="flex items-center space-x-2">
@@ -25,7 +25,7 @@ import { Subscription } from 'rxjs';
       <div class="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4">
         <div *ngFor="let msg of messages" 
              class="flex" [ngClass]="{'justify-end': msg.senderId === currentUserId, 'justify-start': msg.senderId !== currentUserId}">
-          <div [ngClass]="{'bg-emerald-100 text-emerald-900 rounded-br-none': msg.senderId === currentUserId, 'bg-white border border-gray-200 text-gray-800 rounded-bl-none': msg.senderId !== currentUserId}"
+          <div [ngClass]="{'bg-emerald-100 text-emerald-900 rounded-br-none': msg.senderId === currentUserId, 'bg-[var(--bg-surface)] border border-gray-200 text-gray-800 rounded-bl-none': msg.senderId !== currentUserId}"
                class="max-w-[75%] rounded-2xl px-4 py-2 shadow-sm">
             <p class="text-sm">{{ msg.text }}</p>
             <p class="text-[10px] text-gray-500 mt-1 text-right">{{ msg.timestamp | date:'shortTime' }}</p>
@@ -34,7 +34,7 @@ import { Subscription } from 'rxjs';
       </div>
 
       <!-- Input Area -->
-      <div class="p-3 bg-white border-t border-gray-200">
+      <div class="p-3 bg-[var(--bg-surface)] border-t border-gray-200">
         <form (ngSubmit)="sendMessage()" class="flex space-x-2">
           <input type="text" [(ngModel)]="newMessage" name="newMessage" placeholder="Type a message..." 
             class="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm">

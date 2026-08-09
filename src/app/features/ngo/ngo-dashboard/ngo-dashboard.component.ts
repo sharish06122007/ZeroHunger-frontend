@@ -20,59 +20,59 @@ import { animate, style, transition, trigger } from '@angular/animations';
     <div class="space-y-8" @fadeIn>
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">NGO Partner Operations</h1>
-          <p class="text-xs text-[#5B5B6A] mt-1">Coordinate community feeding programs and bulk food requests</p>
+          <h1 class="text-3xl font-extrabold text-[var(--text-main)] tracking-tight">NGO Partner Operations</h1>
+          <p class="text-xs text-[var(--text-muted)] mt-1">Coordinate community feeding programs and bulk food requests</p>
         </div>
-        <a routerLink="/dashboard/requests" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+        <a routerLink="/dashboard/requests" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[var(--primary)]/30">
           + Post Bulk Demand Request
         </a>
       </div>
 
       <!-- Quick Metrics Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
             <span>Beneficiaries Served</span>
             <span class="text-xl">🏢</span>
           </div>
-          <p class="text-3xl font-extrabold text-[#1A1A1A]">1,450</p>
+          <p class="text-3xl font-extrabold text-[var(--text-main)]">1,450</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
             <span>Meals Claimed</span>
             <span class="text-xl">🍱</span>
           </div>
-          <p class="text-3xl font-extrabold text-[#1A1A1A]">320</p>
+          <p class="text-3xl font-extrabold text-[var(--text-main)]">320</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
             <span>Distribution Hubs</span>
             <span class="text-xl">📍</span>
           </div>
-          <p class="text-3xl font-extrabold text-[#1A1A1A]">4</p>
+          <p class="text-3xl font-extrabold text-[var(--text-main)]">4</p>
         </div>
 
-        <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3]">
-          <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+        <div class="zh-card p-6 space-y-2 cursor-pointer">
+          <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
             <span>Assigned Couriers</span>
             <span class="text-xl">🤝</span>
           </div>
-          <p class="text-3xl font-extrabold text-[#7743DB]">18</p>
+          <p class="text-3xl font-extrabold text-[var(--primary)]">18</p>
         </div>
       </div>
 
       <!-- Active Batches Table -->
-      <div class="glass-panel rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-xl overflow-hidden p-6 sm:p-8 space-y-4">
+      <div class="zh-card p-6 sm:p-8 space-y-4 overflow-hidden">
         <div class="flex justify-between items-center">
-          <h3 class="font-extrabold text-lg text-[#1A1A1A]">Active Bulk Demand & Dispatch Batches</h3>
-          <a routerLink="/dashboard/requests" class="text-xs font-bold text-[#7743DB] hover:underline">Manage Requests →</a>
+          <h3 class="font-extrabold text-lg text-[var(--text-main)]">Active Bulk Demand & Dispatch Batches</h3>
+          <a routerLink="/dashboard/requests" class="text-xs font-bold text-[var(--primary)] hover:underline">Manage Requests →</a>
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-[#1A1A1A]">
-            <thead class="bg-[#F7EFE5] text-[#5B5B6A] font-bold uppercase tracking-wider text-[10px] border-b border-[#E8DDD3]">
+          <table class="w-full text-left text-xs text-[var(--text-main)]">
+            <thead class="bg-[var(--bg-surface)] text-[var(--text-muted)] font-bold uppercase tracking-wider text-[10px] border-b border-[var(--border-color)]">
               <tr>
                 <th class="py-4 px-6">Batch Title</th>
                 <th class="py-4 px-6">Target Quantity</th>
@@ -81,18 +81,18 @@ import { animate, style, transition, trigger } from '@angular/animations';
                 <th class="py-4 px-6">Dispatch Schedule</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-[#E8DDD3]">
+            <tbody class="divide-y divide-[var(--border-color)]">
               @for (batch of activeBatches(); track batch.id) {
-                <tr class="hover:bg-[#F7EFE5]/50 transition-colors">
-                  <td class="py-4 px-6 font-bold text-[#1A1A1A]">{{ batch.title }}</td>
+                <tr class="hover:bg-[var(--bg-surface)]/50 transition-colors">
+                  <td class="py-4 px-6 font-bold text-[var(--text-main)]">{{ batch.title }}</td>
                   <td class="py-4 px-6 font-semibold">{{ batch.qty }}</td>
-                  <td class="py-4 px-6 text-[#5B5B6A]">{{ batch.donor }}</td>
+                  <td class="py-4 px-6 text-[var(--text-muted)]">{{ batch.donor }}</td>
                   <td class="py-4 px-6">
                     <span class="badge badge-{{ batch.status === 'Dispatched' ? 'success' : 'warning' }} text-[10px]">
                       {{ batch.status }}
                     </span>
                   </td>
-                  <td class="py-4 px-6 text-[#5B5B6A] font-medium">{{ batch.time }}</td>
+                  <td class="py-4 px-6 text-[var(--text-muted)] font-medium">{{ batch.time }}</td>
                 </tr>
               }
             </tbody>

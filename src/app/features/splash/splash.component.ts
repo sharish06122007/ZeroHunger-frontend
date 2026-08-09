@@ -43,18 +43,18 @@ import { AuthService } from '../../core/authentication/auth.service';
     ]),
   ],
   template: `
-    <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-br from-[#FFFBF5] via-[#F7EFE5] to-[#FFFBF5] text-[#1A1A1A] overflow-hidden p-6 sm:p-10 select-none" @splashMaster>
+    <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-br from-[#FFFBF5] via-[var(--bg-surface)] to-[#FFFBF5] text-[var(--text-main)] overflow-hidden p-6 sm:p-10 select-none" @splashMaster>
       
       <!-- Animated Radial Background Lighting -->
       <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#7743DB]/15 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-[var(--primary)]/15 rounded-full blur-3xl animate-pulse"></div>
         <div class="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#06B6D4]/10 rounded-full blur-3xl"></div>
       </div>
 
       <!-- Top Header Badge -->
       <div class="relative z-10 pt-4 title-badge">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 text-xs font-bold text-[#7743DB] border border-[#7743DB]/20 shadow-sm backdrop-blur-md">
-          <span class="w-2 h-2 rounded-full bg-[#7743DB] animate-pulse"></span>
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--bg-surface)]/80 text-xs font-bold text-[var(--primary)] border border-[var(--primary)]/20 shadow-sm backdrop-blur-md">
+          <span class="w-2 h-2 rounded-full bg-[var(--primary)] animate-pulse"></span>
           ZERO HUNGER. ZERO WASTE. 100% HOPE.
         </div>
       </div>
@@ -64,10 +64,10 @@ import { AuthService } from '../../core/authentication/auth.service';
         <!-- ZeroHunger Centered Main Logo with Glow Aura -->
         <div class="logo-glow-aura relative flex justify-center items-center">
           <!-- Subtle natural glow behind the logo -->
-          <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#7743DB] via-[#6366F1] to-[#06B6D4] opacity-20 blur-2xl scale-125 animate-pulse"></div>
+          <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[var(--primary)] via-[#6366F1] to-[#06B6D4] opacity-20 blur-2xl scale-125 animate-pulse"></div>
           
           <!-- Exact ZeroHunger Logo Image -->
-          <div class="relative w-32 h-32 flex items-center justify-center rounded-3xl overflow-hidden shadow-[0_12px_40px_rgba(119,67,219,0.15)] ring-1 ring-[#7743DB]/20 bg-white backdrop-blur-sm z-10">
+          <div class="relative w-32 h-32 flex items-center justify-center rounded-3xl overflow-hidden shadow-[0_12px_40px_rgba(119,67,219,0.15)] ring-1 ring-[var(--primary)]/20 bg-[var(--bg-surface)] backdrop-blur-sm z-10">
             <img src="assets/images/logo.png" alt="ZeroHunger Logo" class="w-full h-full object-cover p-2" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzc0M2RiIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJhMTAgMTAgMCAxIDAgMTAgMTAgMTAgMTAgMCAwIDAtMTAtMTBaIi8+PHBhdGggZD0iTTEyIDEydjQuNSIvPjxwaXRoIGQ9Ik0xMiAxNmguMDEiLz48L3N2Zz4='"/>
           </div>
         </div>
@@ -76,19 +76,19 @@ import { AuthService } from '../../core/authentication/auth.service';
         <div class="space-y-2">
           <div class="flex items-center justify-center gap-[1px]">
             @for (char of brandLetters; track $index) {
-              <span class="letter-char font-black text-5xl sm:text-7xl tracking-tighter text-[#1A1A1A]">
+              <span class="letter-char font-black text-5xl sm:text-7xl tracking-tighter text-[var(--text-main)]">
                 {{ char }}
               </span>
             }
           </div>
 
-          <h2 class="text-sm sm:text-base font-bold text-[#7743DB] tracking-wide mt-2">
+          <h2 class="text-sm sm:text-base font-bold text-[var(--primary)] tracking-wide mt-2">
             "Turning Surplus Food Into Hope"
           </h2>
         </div>
 
         <!-- Hero Description -->
-        <p class="hero-description text-sm text-[#5B5B6A] max-w-md leading-relaxed font-medium">
+        <p class="hero-description text-sm text-[var(--text-muted)] max-w-md leading-relaxed font-medium">
           Connect surplus food, caring communities, volunteers, NGOs, and homemade food makers to create a world with less hunger and less waste.
         </p>
 
@@ -103,28 +103,28 @@ import { AuthService } from '../../core/authentication/auth.service';
         </div>
 
         <!-- Dynamic Loading Progress Card -->
-        <div class="loading-card w-full max-w-sm mx-auto mt-6 p-4 rounded-[20px] space-y-3 bg-white/80 backdrop-blur-xl border border-[#E8DDD3] shadow-[0_8px_30px_rgba(119,67,219,0.08)]">
-          <div class="h-1.5 bg-[#F7EFE5] rounded-full overflow-hidden">
+        <div class="loading-card w-full max-w-sm mx-auto mt-6 p-4 rounded-[20px] space-y-3 bg-[var(--bg-surface)]/80 backdrop-blur-xl border border-[var(--border-color)] shadow-[0_8px_30px_rgba(119,67,219,0.08)]">
+          <div class="h-1.5 bg-[var(--bg-surface)] rounded-full overflow-hidden">
             <div
-              class="h-full bg-gradient-to-r from-[#7743DB] to-[#06B6D4] rounded-full transition-all duration-300 ease-out"
+              class="h-full bg-gradient-to-r from-[var(--primary)] to-[#06B6D4] rounded-full transition-all duration-300 ease-out"
               [style.width.%]="progress()"
             ></div>
           </div>
 
-          <div class="flex items-center justify-between text-xs font-semibold text-[#5B5B6A]">
+          <div class="flex items-center justify-between text-xs font-semibold text-[var(--text-muted)]">
             <span class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#7743DB] animate-ping"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--primary)] animate-ping"></span>
               {{ currentMessage }}
             </span>
-            <span class="font-mono text-[#7743DB] font-bold">{{ progress() }}%</span>
+            <span class="font-mono text-[var(--primary)] font-bold">{{ progress() }}%</span>
           </div>
         </div>
       </div>
 
       <!-- Footer Info -->
-      <div class="relative z-10 text-center text-xs font-medium text-[#5B5B6A] pb-2 tracking-wide">
+      <div class="relative z-10 text-center text-xs font-medium text-[var(--text-muted)] pb-2 tracking-wide">
         <span>ZeroHunger Platform</span>
-        <span class="mx-2 text-[#7743DB] opacity-50">•</span>
+        <span class="mx-2 text-[var(--primary)] opacity-50">•</span>
         <span>Premium Food Rescue</span>
       </div>
     </div>

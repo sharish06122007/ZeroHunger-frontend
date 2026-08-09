@@ -21,7 +21,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
   ],
   template: `
     <div class="space-y-6 max-w-5xl mx-auto" @fadeIn>
-      <a routerLink="/dashboard/food" class="text-xs font-bold text-[#7743DB] hover:underline flex items-center gap-1">
+      <a routerLink="/dashboard/food" class="text-xs font-bold text-[var(--primary)] hover:underline flex items-center gap-1">
         ← Back to Food Listings
       </a>
 
@@ -35,40 +35,40 @@ import { animate, style, transition, trigger } from '@angular/animations';
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <!-- Main Content -->
           <div class="lg:col-span-2 space-y-6">
-            <div class="glass-panel p-8 rounded-3xl border border-[#E8DDD3] bg-white/90 space-y-6">
+            <div class="glass-panel p-8 rounded-3xl border border-[var(--border-color)] bg-[var(--bg-surface)] space-y-6">
               <div class="flex justify-between items-start gap-4">
                 <div>
                   <div class="flex items-center gap-2 mb-2">
                     <span class="badge badge-primary">{{ food()?.category }}</span>
-                    <span class="text-[11px] text-[#5B5B6A]">Posted {{ food()?.createdAt | date:'mediumDate' }}</span>
+                    <span class="text-[11px] text-[var(--text-muted)]">Posted {{ food()?.createdAt | date:'mediumDate' }}</span>
                   </div>
-                  <h1 class="text-3xl font-extrabold text-[#1A1A1A] leading-snug">{{ food()?.title }}</h1>
+                  <h1 class="text-3xl font-extrabold text-[var(--text-main)] leading-snug">{{ food()?.title }}</h1>
                 </div>
                 <span class="badge badge-success text-xs font-bold">{{ food()?.status }}</span>
               </div>
 
-              <p class="text-sm text-[#5B5B6A] leading-relaxed">
+              <p class="text-sm text-[var(--text-muted)] leading-relaxed">
                 {{ food()?.description || 'Commercial surplus food package prepared under certified food safety standards.' }}
               </p>
 
-              <div class="border-t border-[#E8DDD3] pt-6 space-y-4">
-                <h3 class="font-extrabold text-sm text-[#1A1A1A]">Donation Metadata</h3>
+              <div class="border-t border-[var(--border-color)] pt-6 space-y-4">
+                <h3 class="font-extrabold text-sm text-[var(--text-main)]">Donation Metadata</h3>
                 <div class="grid grid-cols-2 gap-4">
-                  <div class="p-4 rounded-2xl bg-[#F7EFE5] border border-[#E8DDD3]">
-                    <span class="text-[10px] font-bold text-[#5B5B6A] uppercase tracking-wider block">Quantity</span>
-                    <p class="font-bold text-sm text-[#1A1A1A] mt-1">{{ food()?.quantity }}</p>
+                  <div class="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-color)]">
+                    <span class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider block">Quantity</span>
+                    <p class="font-bold text-sm text-[var(--text-main)] mt-1">{{ food()?.quantity }}</p>
                   </div>
-                  <div class="p-4 rounded-2xl bg-[#F7EFE5] border border-[#E8DDD3]">
-                    <span class="text-[10px] font-bold text-[#5B5B6A] uppercase tracking-wider block">Expires At</span>
-                    <p class="font-bold text-sm text-[#1A1A1A] mt-1">{{ food()?.expiryTime | date:'medium' }}</p>
+                  <div class="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-color)]">
+                    <span class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider block">Expires At</span>
+                    <p class="font-bold text-sm text-[var(--text-main)] mt-1">{{ food()?.expiryTime | date:'medium' }}</p>
                   </div>
-                  <div class="p-4 rounded-2xl bg-[#F7EFE5] border border-[#E8DDD3]">
-                    <span class="text-[10px] font-bold text-[#5B5B6A] uppercase tracking-wider block">Location</span>
-                    <p class="font-bold text-sm text-[#1A1A1A] mt-1">{{ food()?.city || 'San Francisco' }}</p>
+                  <div class="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-color)]">
+                    <span class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider block">Location</span>
+                    <p class="font-bold text-sm text-[var(--text-main)] mt-1">{{ food()?.city || 'San Francisco' }}</p>
                   </div>
-                  <div class="p-4 rounded-2xl bg-[#F7EFE5] border border-[#E8DDD3]">
-                    <span class="text-[10px] font-bold text-[#5B5B6A] uppercase tracking-wider block">Pickup Window</span>
-                    <p class="font-bold text-sm text-[#1A1A1A] mt-1">{{ food()?.pickupTime || 'Immediate' }}</p>
+                  <div class="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-color)]">
+                    <span class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider block">Pickup Window</span>
+                    <p class="font-bold text-sm text-[var(--text-main)] mt-1">{{ food()?.pickupTime || 'Immediate' }}</p>
                   </div>
                 </div>
               </div>
@@ -77,32 +77,32 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
           <!-- Sidebar Actions & Donor Card -->
           <div class="space-y-6">
-            <div class="glass-panel p-6 rounded-3xl border border-[#E8DDD3] bg-white/90 space-y-4">
-              <h3 class="font-extrabold text-sm text-[#1A1A1A]">Donor Organization</h3>
+            <div class="glass-panel p-6 rounded-3xl border border-[var(--border-color)] bg-[var(--bg-surface)] space-y-4">
+              <h3 class="font-extrabold text-sm text-[var(--text-main)]">Donor Organization</h3>
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-[#7743DB] text-white flex items-center justify-center font-bold text-sm">
+                <div class="w-10 h-10 rounded-2xl bg-[var(--primary)] text-white flex items-center justify-center font-bold text-sm">
                   {{ food()?.donatedBy?.fullName?.charAt(0) || 'D' }}
                 </div>
                 <div>
-                  <p class="font-bold text-xs text-[#1A1A1A]">{{ food()?.donatedBy?.fullName }}</p>
-                  <span class="text-[10px] text-[#5B5B6A] block">Verified Donor</span>
+                  <p class="font-bold text-xs text-[var(--text-main)]">{{ food()?.donatedBy?.fullName }}</p>
+                  <span class="text-[10px] text-[var(--text-muted)] block">Verified Donor</span>
                 </div>
               </div>
 
               @if (food()?.pickupAddress) {
-                <div class="pt-3 border-t border-[#E8DDD3] text-xs">
-                  <span class="text-[#5B5B6A] font-medium block">Pickup Address:</span>
-                  <p class="font-semibold text-[#1A1A1A] mt-0.5">{{ food()?.pickupAddress }}</p>
+                <div class="pt-3 border-t border-[var(--border-color)] text-xs">
+                  <span class="text-[var(--text-muted)] font-medium block">Pickup Address:</span>
+                  <p class="font-semibold text-[var(--text-main)] mt-0.5">{{ food()?.pickupAddress }}</p>
                 </div>
               }
             </div>
 
             <!-- Claim Button -->
-            <div class="glass-panel p-6 rounded-3xl border border-[#E8DDD3] bg-white/90 space-y-3">
-              <h3 class="font-extrabold text-sm text-[#1A1A1A]">Claim & Dispatch</h3>
-              <p class="text-xs text-[#5B5B6A]">Reserve this listing for NGO pickup or volunteer courier assignment</p>
+            <div class="glass-panel p-6 rounded-3xl border border-[var(--border-color)] bg-[var(--bg-surface)] space-y-3">
+              <h3 class="font-extrabold text-sm text-[var(--text-main)]">Claim & Dispatch</h3>
+              <p class="text-xs text-[var(--text-muted)]">Reserve this listing for NGO pickup or volunteer courier assignment</p>
               @if (food()?.status === 'available') {
-                <button (click)="claimFood()" [disabled]="isClaiming()" class="btn-primary w-full py-3.5 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+                <button (click)="claimFood()" [disabled]="isClaiming()" class="btn-primary w-full py-3.5 text-xs font-bold rounded-2xl shadow-lg shadow-[var(--primary)]/30">
                   @if (isClaiming()) {
                     <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                     <span>Reserving...</span>
@@ -111,7 +111,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
                   }
                 </button>
               } @else {
-                <div class="p-3 text-center rounded-2xl bg-[#F7EFE5] text-xs font-bold text-[#5B5B6A]">
+                <div class="p-3 text-center rounded-2xl bg-[var(--bg-surface)] text-xs font-bold text-[var(--text-muted)]">
                   Listing is {{ food()?.status }}
                 </div>
               }

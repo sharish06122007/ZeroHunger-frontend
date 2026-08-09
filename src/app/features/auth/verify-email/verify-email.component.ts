@@ -45,7 +45,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
                 [id]="'otp-' + i"
                 type="text"
                 maxlength="1"
-                class="w-11 h-14 text-center font-bold text-xl rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-color)] text-[var(--text-main)] focus:border-[var(--primary)] focus:bg-white focus:outline-none transition-all"
+                class="w-11 h-14 text-center font-bold text-xl rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-color)] text-[var(--text-main)] focus:border-[var(--primary)] focus:bg-[var(--bg-surface)] focus:outline-none transition-all"
                 [class.border-primary]="otpDigits[i]"
                 [(ngModel)]="otpDigits[i]"
                 [name]="'digit-' + i"

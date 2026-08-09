@@ -21,24 +21,24 @@ import { animate, style, transition, trigger } from '@angular/animations';
   template: `
     <div class="max-w-3xl mx-auto space-y-8" @fadeIn>
       <div class="space-y-2">
-        <a routerLink="/dashboard/food" class="text-xs font-bold text-[#7743DB] hover:underline flex items-center gap-1">
+        <a routerLink="/dashboard/food" class="text-xs font-bold text-[var(--primary)] hover:underline flex items-center gap-1">
           ← Back to Food Listings
         </a>
-        <h1 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">Post Surplus Food Donation</h1>
-        <p class="text-xs text-[#5B5B6A]">List your surplus meals or ingredients for rapid dispatch to local NGOs</p>
+        <h1 class="text-3xl font-extrabold text-[var(--text-main)] tracking-tight">Post Surplus Food Donation</h1>
+        <p class="text-xs text-[var(--text-muted)]">List your surplus meals or ingredients for rapid dispatch to local NGOs</p>
       </div>
 
-      <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-xl">
+      <div class="zh-card p-8 sm:p-10">
         <form [formGroup]="foodForm" (ngSubmit)="onSubmit()" class="space-y-6">
           <div class="form-group">
-            <label class="form-label" for="title">Listing Title <span class="text-rose-500">*</span></label>
-            <input id="title" type="text" class="input-field" formControlName="title" placeholder="e.g. 50 Fresh Prepared Gourmet Dinner Boxes" />
+            <label class="zh-label" for="title">Listing Title <span class="text-rose-500">*</span></label>
+            <input id="title" type="text" class="zh-input" formControlName="title" placeholder="e.g. 50 Fresh Prepared Gourmet Dinner Boxes" />
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="form-group">
-              <label class="form-label" for="category">Category <span class="text-rose-500">*</span></label>
-              <select id="category" class="input-field" formControlName="category">
+              <label class="zh-label" for="category">Category <span class="text-rose-500">*</span></label>
+              <select id="category" class="zh-input" formControlName="category">
                 <option value="cooked">Cooked Meals</option>
                 <option value="raw">Raw Produce</option>
                 <option value="packaged">Packaged Items</option>
@@ -49,45 +49,45 @@ import { animate, style, transition, trigger } from '@angular/animations';
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="quantity">Quantity / Unit <span class="text-rose-500">*</span></label>
-              <input id="quantity" type="text" class="input-field" formControlName="quantity" placeholder="e.g. 50 boxes or 30 kg" />
+              <label class="zh-label" for="quantity">Quantity / Unit <span class="text-rose-500">*</span></label>
+              <input id="quantity" type="text" class="zh-input" formControlName="quantity" placeholder="e.g. 50 boxes or 30 kg" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="form-group">
-              <label class="form-label" for="expiry">Expiration Date & Time <span class="text-rose-500">*</span></label>
-              <input id="expiry" type="datetime-local" class="input-field" formControlName="expiryTime" />
+              <label class="zh-label" for="expiry">Expiration Date & Time <span class="text-rose-500">*</span></label>
+              <input id="expiry" type="datetime-local" class="zh-input" formControlName="expiryTime" />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="pickup">Preferred Pickup Window</label>
-              <input id="pickup" type="text" class="input-field" formControlName="pickupTime" placeholder="e.g. Today between 5 PM - 8 PM" />
+              <label class="zh-label" for="pickup">Preferred Pickup Window</label>
+              <input id="pickup" type="text" class="zh-input" formControlName="pickupTime" placeholder="e.g. Today between 5 PM - 8 PM" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="form-group">
-              <label class="form-label" for="city">City / Metro Area <span class="text-rose-500">*</span></label>
-              <input id="city" type="text" class="input-field" formControlName="city" placeholder="San Francisco" />
+              <label class="zh-label" for="city">City / Metro Area <span class="text-rose-500">*</span></label>
+              <input id="city" type="text" class="zh-input" formControlName="city" placeholder="San Francisco" />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="address">Pickup Address / Loading Dock</label>
-              <input id="address" type="text" class="input-field" formControlName="pickupAddress" placeholder="123 Market St, Dock 4" />
+              <label class="zh-label" for="address">Pickup Address / Loading Dock</label>
+              <input id="address" type="text" class="zh-input" formControlName="pickupAddress" placeholder="123 Market St, Dock 4" />
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="desc">Food Description & Safety Notes</label>
-            <textarea id="desc" rows="3" class="input-field resize-none" formControlName="description" placeholder="Dietary info, storage instructions, hot/cold requirements..."></textarea>
+            <label class="zh-label" for="desc">Food Description & Safety Notes</label>
+            <textarea id="desc" rows="3" class="zh-input resize-none" formControlName="description" placeholder="Dietary info, storage instructions, hot/cold requirements..."></textarea>
           </div>
 
-          <div class="flex items-center justify-between pt-4 border-t border-[#E8DDD3]">
+          <div class="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
             <a routerLink="/dashboard/food" class="btn-secondary py-3 px-6 text-xs font-semibold rounded-2xl">
               Cancel
             </a>
-            <button type="submit" [disabled]="isLoading()" class="btn-primary py-3 px-8 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+            <button type="submit" [disabled]="isLoading()" class="btn-primary py-3 px-8 text-xs font-bold rounded-2xl shadow-lg shadow-[var(--primary)]/30">
               @if (isLoading()) {
                 <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 <span>Publishing Listing...</span>

@@ -43,7 +43,7 @@ interface SystemAnalytics {
   template: `
     <div class="space-y-8 pb-12" @fadeIn>
       <!-- Admin Header -->
-      <div class="p-8 rounded-3xl bg-gradient-to-r from-[#1A1A1A] via-[#2A1F45] to-[#7743DB] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
+      <div class="p-8 rounded-3xl bg-gradient-to-r from-[var(--text-main)] via-[#2A1F45] to-[var(--primary)] text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-white/10">
         <div class="space-y-2 relative z-10">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[11px] font-extrabold text-[#C3ACD0] border border-white/15">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -56,22 +56,22 @@ interface SystemAnalytics {
         </div>
 
         <div class="relative z-10 flex items-center gap-3">
-          <button (click)="refreshAllData()" class="btn-primary py-3 px-5 text-xs font-bold rounded-2xl shadow-xl shadow-[#7743DB]/40">
+          <button (click)="refreshAllData()" class="btn-primary py-3 px-5 text-xs font-bold rounded-2xl shadow-xl shadow-[var(--primary)]/40">
             🔄 Live Sync
           </button>
         </div>
       </div>
 
       <!-- Real-Time Location Card -->
-      <div class="glass-panel p-6 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-md space-y-4">
+      <div class="zh-card p-6 rounded-3xl border border-[var(--border-color)] bg-white/90 shadow-md space-y-4">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] flex items-center justify-center text-2xl font-bold">
+            <div class="w-12 h-12 rounded-2xl bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-2xl font-bold">
               📍
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h4 class="font-extrabold text-sm text-[#1A1A1A]">Current Service Location</h4>
+                <h4 class="font-extrabold text-sm text-[var(--text-main)]">Current Service Location</h4>
                 @if (loc().status === 'granted') {
                   <span class="badge badge-success text-[10px]">✓ Live GPS Active</span>
                 } @else if (loc().status === 'denied') {
@@ -80,9 +80,9 @@ interface SystemAnalytics {
                   <span class="badge badge-primary text-[10px]">Detecting...</span>
                 }
               </div>
-              <p class="text-xs text-[#5B5B6A] font-semibold mt-1">{{ loc().formattedAddress }}</p>
+              <p class="text-xs text-[var(--text-muted)] font-semibold mt-1">{{ loc().formattedAddress }}</p>
               @if (loc().latitude && loc().longitude) {
-                <p class="text-[10px] text-[#7743DB] font-mono mt-0.5">
+                <p class="text-[10px] text-[var(--primary)] font-mono mt-0.5">
                   Lat: {{ loc().latitude?.toFixed(4) }} | Long: {{ loc().longitude?.toFixed(4) }} | Accuracy: ±{{ loc().accuracy }}m
                 </p>
               }
@@ -116,34 +116,34 @@ interface SystemAnalytics {
       <!-- 16 Real-Time System Overview Cards -->
       <div class="space-y-4">
         <div class="flex items-center justify-between">
-          <h3 class="font-black text-lg text-[#1A1A1A]">Real-Time System Overview</h3>
-          <span class="text-xs text-[#5B5B6A] font-semibold">Live updates active</span>
+          <h3 class="font-black text-lg text-[var(--text-main)]">Real-Time System Overview</h3>
+          <span class="text-xs text-[var(--text-muted)] font-semibold">Live updates active</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <!-- 1. Total Donations -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Total Donations</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">🍱</span>
             </div>
-            <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().totalDonations }}</p>
+            <p class="text-3xl font-black text-[var(--text-main)]">{{ stats().totalDonations }}</p>
             <span class="text-[11px] font-semibold text-emerald-600">↑ Total registered items</span>
           </div>
 
           <!-- 2. Today's Donations -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Today's Donations</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">☀️</span>
             </div>
-            <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().todaysDonations }}</p>
+            <p class="text-3xl font-black text-[var(--text-main)]">{{ stats().todaysDonations }}</p>
             <span class="text-[11px] font-semibold text-emerald-600">↑ Logged today</span>
           </div>
 
           <!-- 3. Pending Requests -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Pending Requests</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">⏳</span>
             </div>
@@ -152,8 +152,8 @@ interface SystemAnalytics {
           </div>
 
           <!-- 4. Completed Deliveries -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Completed Deliveries</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">✅</span>
             </div>
@@ -162,38 +162,38 @@ interface SystemAnalytics {
           </div>
 
           <!-- 5. Available Food -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Available Food</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">🟢</span>
             </div>
-            <p class="text-3xl font-black text-[#7743DB]">{{ stats().availableFood }}</p>
-            <span class="text-[11px] font-semibold text-[#7743DB]">Ready for pickup</span>
+            <p class="text-3xl font-black text-[var(--primary)]">{{ stats().availableFood }}</p>
+            <span class="text-[11px] font-semibold text-[var(--primary)]">Ready for pickup</span>
           </div>
 
           <!-- 6. Active Volunteers -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Active Volunteers</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">🚴</span>
             </div>
-            <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().activeVolunteers }}</p>
+            <p class="text-3xl font-black text-[var(--text-main)]">{{ stats().activeVolunteers }}</p>
             <span class="text-[11px] font-semibold text-emerald-600">On active duty</span>
           </div>
 
           <!-- 7. Active NGOs -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Active NGOs</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">🏢</span>
             </div>
-            <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().activeNgos }}</p>
+            <p class="text-3xl font-black text-[var(--text-main)]">{{ stats().activeNgos }}</p>
             <span class="text-[11px] font-semibold text-emerald-600">Verified partners</span>
           </div>
 
           <!-- 8. Meals Rescued -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Meals Rescued</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">🎁</span>
             </div>
@@ -202,18 +202,18 @@ interface SystemAnalytics {
           </div>
 
           <!-- 9. Users Registered -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Users Registered</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">👥</span>
             </div>
-            <p class="text-3xl font-black text-[#1A1A1A]">{{ stats().usersRegistered }}</p>
+            <p class="text-3xl font-black text-[var(--text-main)]">{{ stats().usersRegistered }}</p>
             <span class="text-[11px] font-semibold text-emerald-600">All ecosystem roles</span>
           </div>
 
           <!-- 10. Live Rescue Operations -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Live Rescue Ops</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">🚨</span>
             </div>
@@ -222,18 +222,18 @@ interface SystemAnalytics {
           </div>
 
           <!-- 11. Pending Pickup -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Pending Pickup</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">📦</span>
             </div>
-            <p class="text-3xl font-black text-[#7743DB]">{{ stats().pendingPickup }}</p>
-            <span class="text-[11px] font-semibold text-[#7743DB]">Awaiting volunteer</span>
+            <p class="text-3xl font-black text-[var(--primary)]">{{ stats().pendingPickup }}</p>
+            <span class="text-[11px] font-semibold text-[var(--primary)]">Awaiting volunteer</span>
           </div>
 
           <!-- 12. Cancelled Donations -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Cancelled / Expired</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">⚠️</span>
             </div>
@@ -242,8 +242,8 @@ interface SystemAnalytics {
           </div>
 
           <!-- 13. Food Waste Saved -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Food Waste Saved</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">♻️</span>
             </div>
@@ -252,8 +252,8 @@ interface SystemAnalytics {
           </div>
 
           <!-- 14. CO₂ Saved -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>CO₂ Saved</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">🌱</span>
             </div>
@@ -262,8 +262,8 @@ interface SystemAnalytics {
           </div>
 
           <!-- 15. Success Rate -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Success Rate</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">🎯</span>
             </div>
@@ -272,20 +272,20 @@ interface SystemAnalytics {
           </div>
 
           <!-- 16. Monthly Growth -->
-          <div class="glass-card p-6 rounded-3xl space-y-2 border border-[#E8DDD3] hover:shadow-xl transition-all group">
-            <div class="flex justify-between items-center text-xs font-bold text-[#5B5B6A]">
+          <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
+            <div class="flex justify-between items-center text-xs font-bold text-[var(--text-muted)]">
               <span>Monthly Growth</span>
               <span class="text-2xl group-hover:scale-110 transition-transform">📈</span>
             </div>
-            <p class="text-3xl font-black text-[#7743DB]">+{{ stats().monthlyGrowth }}%</p>
-            <span class="text-[11px] font-semibold text-[#7743DB]">vs Previous month</span>
+            <p class="text-3xl font-black text-[var(--primary)]">+{{ stats().monthlyGrowth }}%</p>
+            <span class="text-[11px] font-semibold text-[var(--primary)]">vs Previous month</span>
           </div>
         </div>
       </div>
 
       <!-- Real-Time Analytics Charts -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-md">
+        <div class="zh-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] bg-white/90 shadow-md">
           <app-analytics-charts
             title="Daily Donations & Rescues (Last 7 Days)"
             chartType="area"
@@ -293,7 +293,7 @@ interface SystemAnalytics {
           ></app-analytics-charts>
         </div>
 
-        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-md">
+        <div class="zh-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] bg-white/90 shadow-md">
           <app-analytics-charts
             title="Food Categories Surplus Breakdown"
             chartType="bar"
@@ -303,11 +303,11 @@ interface SystemAnalytics {
       </div>
 
       <!-- Platform User Management & Role Control -->
-      <div class="glass-panel rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-xl overflow-hidden p-6 sm:p-8 space-y-6">
+      <div class="zh-card p-6 sm:p-8 space-y-6 overflow-hidden">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h3 class="font-extrabold text-lg text-[#1A1A1A]">Platform Users & Role Permissions</h3>
-            <p class="text-xs text-[#5B5B6A]">Manage registered donors, NGOs, volunteers, and restaurants</p>
+            <h3 class="font-extrabold text-lg text-[var(--text-main)]">Platform Users & Role Permissions</h3>
+            <p class="text-xs text-[var(--text-muted)]">Manage registered donors, NGOs, volunteers, and restaurants</p>
           </div>
 
           <div class="flex items-center gap-3 w-full sm:w-auto">
@@ -316,14 +316,14 @@ interface SystemAnalytics {
               placeholder="Search user by name, email..."
               [value]="searchQuery()"
               (input)="onSearchInput($event)"
-              class="form-input text-xs py-2 px-4 rounded-xl border border-[#E8DDD3] w-full sm:w-64"
+              class="form-input text-xs py-2 px-4 rounded-xl border border-[var(--border-color)] w-full sm:w-64"
             />
           </div>
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-[#1A1A1A]">
-            <thead class="bg-[#F7EFE5] text-[#5B5B6A] font-bold uppercase tracking-wider text-[10px] border-b border-[#E8DDD3]">
+          <table class="w-full text-left text-xs text-[var(--text-main)]">
+            <thead class="bg-[var(--bg-surface)] text-[var(--text-muted)] font-bold uppercase tracking-wider text-[10px] border-b border-[var(--border-color)]">
               <tr>
                 <th class="py-4 px-6">User / Organization</th>
                 <th class="py-4 px-6">Email</th>
@@ -333,20 +333,20 @@ interface SystemAnalytics {
                 <th class="py-4 px-6 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-[#E8DDD3]">
+            <tbody class="divide-y divide-[var(--border-color)]">
               @for (user of usersList(); track user._id) {
-                <tr class="hover:bg-[#F7EFE5]/50 transition-colors">
-                  <td class="py-4 px-6 font-bold text-[#1A1A1A]">
+                <tr class="hover:bg-[var(--bg-surface)]/50 transition-colors">
+                  <td class="py-4 px-6 font-bold text-[var(--text-main)]">
                     <div>{{ user.fullName }}</div>
                     @if (user.organizationName) {
-                      <div class="text-[10px] text-[#5B5B6A] font-normal">{{ user.organizationName }}</div>
+                      <div class="text-[10px] text-[var(--text-muted)] font-normal">{{ user.organizationName }}</div>
                     }
                   </td>
-                  <td class="py-4 px-6 font-mono text-[#5B5B6A]">{{ user.email }}</td>
+                  <td class="py-4 px-6 font-mono text-[var(--text-muted)]">{{ user.email }}</td>
                   <td class="py-4 px-6">
                     <span class="badge badge-primary uppercase text-[10px]">{{ user.role }}</span>
                   </td>
-                  <td class="py-4 px-6 text-[#5B5B6A]">{{ user.city || 'Mumbai' }}</td>
+                  <td class="py-4 px-6 text-[var(--text-muted)]">{{ user.city || 'Mumbai' }}</td>
                   <td class="py-4 px-6">
                     <span class="badge badge-{{ user.isVerified ? 'success' : 'warning' }} text-[10px]">
                       {{ user.isVerified ? 'Verified' : 'Pending' }}
@@ -360,7 +360,7 @@ interface SystemAnalytics {
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="6" class="py-8 text-center text-xs text-[#5B5B6A]">
+                  <td colspan="6" class="py-8 text-center text-xs text-[var(--text-muted)]">
                     No platform users found matching your search.
                   </td>
                 </tr>

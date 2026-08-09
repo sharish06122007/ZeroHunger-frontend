@@ -61,9 +61,9 @@ export class OrderStatusTimelineComponent {
     if (index < this.currentStepIndex) {
       return 'bg-emerald-500 border-2 border-emerald-500 ring-4 ring-white';
     } else if (index === this.currentStepIndex) {
-      return 'bg-white border-2 border-emerald-600 ring-4 ring-white';
+      return 'bg-[var(--bg-surface)] border-2 border-emerald-600 ring-4 ring-white';
     } else {
-      return 'bg-white border-2 border-gray-300 ring-4 ring-white';
+      return 'bg-[var(--bg-surface)] border-2 border-gray-300 ring-4 ring-white';
     }
   }
 }

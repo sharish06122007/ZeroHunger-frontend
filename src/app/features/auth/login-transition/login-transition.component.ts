@@ -30,17 +30,17 @@ import { FallingFoodBackgroundComponent } from '../../../shared/components/falli
     ]),
   ],
   template: `
-    <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-b from-[#FAFAF9] via-[#F0FDF4] to-[#FFFBF5] text-[#1A1A1A] overflow-hidden p-6 sm:p-10 select-none" @loginMaster>
+    <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-b from-[#FAFAF9] via-[#F0FDF4] to-[#FFFBF5] text-[var(--text-main)] overflow-hidden p-6 sm:p-10 select-none" @loginMaster>
       <!-- Falling Food Canvas Background -->
       <app-falling-food-background></app-falling-food-background>
 
       <!-- Ambient Soft Blurs -->
       <div class="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-[#16A34A]/05 blur-[140px] pointer-events-none"></div>
-      <div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full bg-[#7743DB]/05 blur-[140px] pointer-events-none"></div>
+      <div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full bg-[var(--primary)]/05 blur-[140px] pointer-events-none"></div>
 
       <!-- Top Header Badge -->
       <div class="relative z-10 pt-4">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 text-xs font-bold text-[#16A34A] border border-[#16A34A]/20 shadow-md backdrop-blur-md">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--bg-surface)]/80 text-xs font-bold text-[#16A34A] border border-[#16A34A]/20 shadow-md backdrop-blur-md">
           <span class="w-2.5 h-2.5 rounded-full bg-[#16A34A] animate-pulse"></span>
           AUTHENTICATION SUCCESSFUL • INITIALIZING SESSION
         </div>
@@ -50,7 +50,7 @@ import { FallingFoodBackgroundComponent } from '../../../shared/components/falli
       <div class="relative z-10 max-w-xl w-full flex flex-col items-center text-center space-y-6 my-auto">
         <!-- Logo Capsule -->
         <div class="logo-glow relative group">
-          <div class="w-28 h-28 rounded-3xl bg-white border border-[#16A34A]/30 flex items-center justify-center shadow-xl shadow-[#16A34A]/10">
+          <div class="w-28 h-28 rounded-3xl bg-[var(--bg-surface)] border border-[#16A34A]/30 flex items-center justify-center shadow-xl shadow-[#16A34A]/10">
             <span class="text-5xl">🍱</span>
           </div>
         </div>
@@ -58,7 +58,7 @@ import { FallingFoodBackgroundComponent } from '../../../shared/components/falli
         <!-- ZEROHUNGER 360 Title -->
         <div class="space-y-1 title-text">
           <div class="flex items-center justify-center gap-2">
-            <h1 class="font-black text-4xl sm:text-6xl tracking-tight text-[#1A1A1A]">
+            <h1 class="font-black text-4xl sm:text-6xl tracking-tight text-[var(--text-main)]">
               ZEROHUNGER
             </h1>
             <span class="font-black text-4xl sm:text-6xl text-[#16A34A]">
@@ -70,14 +70,14 @@ import { FallingFoodBackgroundComponent } from '../../../shared/components/falli
           </p>
         </div>
 
-        <p class="text-xs text-[#5B5B6A] max-w-md font-semibold leading-relaxed">
+        <p class="text-xs text-[var(--text-muted)] max-w-md font-semibold leading-relaxed">
           Connecting surplus food with people who need it. Building a hunger-free world...
         </p>
 
         <!-- Dynamic 5-Step Progress Card -->
-        <div class="progress-card w-full max-w-md p-6 rounded-3xl space-y-4 bg-white/90 backdrop-blur-xl border border-[#E8DDD3] shadow-xl">
+        <div class="progress-card w-full max-w-md p-6 rounded-3xl space-y-4 bg-[var(--bg-surface)] backdrop-blur-xl border border-[var(--border-color)] shadow-xl">
           <!-- Progress Bar -->
-          <div class="h-3 bg-[#F7EFE5] rounded-full overflow-hidden p-0.5 border border-[#E8DDD3]">
+          <div class="h-3 bg-[var(--bg-surface)] rounded-full overflow-hidden p-0.5 border border-[var(--border-color)]">
             <div
               class="h-full bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#0284C7] rounded-full transition-all duration-300 ease-out shadow-md"
               [style.width.%]="progress()"
@@ -85,7 +85,7 @@ import { FallingFoodBackgroundComponent } from '../../../shared/components/falli
           </div>
 
           <!-- Dynamic Status Step Message -->
-          <div class="flex items-center justify-between text-xs font-bold text-[#5B5B6A]">
+          <div class="flex items-center justify-between text-xs font-bold text-[var(--text-muted)]">
             <span class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-[#16A34A] animate-ping"></span>
               {{ currentStepMessage }}
@@ -96,7 +96,7 @@ import { FallingFoodBackgroundComponent } from '../../../shared/components/falli
       </div>
 
       <!-- Footer Info -->
-      <div class="relative z-10 text-center text-xs font-semibold text-[#5B5B6A] pb-2">
+      <div class="relative z-10 text-center text-xs font-semibold text-[var(--text-muted)] pb-2">
         <span>ZeroHunger AI Logistics Engine</span>
         <span class="mx-2 text-[#16A34A]">•</span>
         <span>Enterprise Platform</span>
