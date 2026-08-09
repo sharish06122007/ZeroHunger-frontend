@@ -19,28 +19,28 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ]),
   ],
   template: `
-    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[#FFFBF5]">
+    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-[var(--bg-main)]">
       <!-- Left Premium Hero Panel -->
-      <div class="relative hidden lg:flex flex-col justify-between p-12 bg-[#1A1A1A] text-white overflow-hidden">
+      <div class="relative hidden lg:flex flex-col justify-between p-12 bg-[var(--dark)] text-white overflow-hidden">
         <!-- Ambient Purple Orbs -->
-        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#7743DB]/30 blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#C3ACD0]/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[var(--primary)]/30 blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[var(--secondary)]/20 blur-3xl pointer-events-none"></div>
 
         <!-- Brand Top Bar -->
         <a routerLink="/" class="relative z-10 flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#7743DB] via-[#9055EE] to-[#C3ACD0] p-0.5 shadow-lg">
-            <div class="w-full h-full bg-[#1A1A1A] rounded-[14px] flex items-center justify-center font-black text-[#C3ACD0]">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[var(--primary)] to-[var(--accent)] p-0.5 shadow-lg">
+            <div class="w-full h-full bg-[var(--dark)] rounded-[14px] flex items-center justify-center font-black text-white">
               ZH
             </div>
           </div>
-          <span class="font-extrabold text-xl tracking-tight text-white">Zero<span class="text-[#C3ACD0]">Hunger</span></span>
+          <span class="font-extrabold text-xl tracking-tight text-white">Zero<span class="text-[var(--accent)]">Hunger</span></span>
         </a>
 
         <!-- Hero Content & Impact Card -->
         <div class="relative z-10 space-y-8 max-w-lg">
           <div class="space-y-4">
-            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-[#C3ACD0] border border-white/15">
-              <span class="w-2 h-2 rounded-full bg-[#22C55E]"></span>
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-white border border-white/15">
+              <span class="w-2 h-2 rounded-full bg-[var(--success)]"></span>
               Trusted by 500+ Enterprises & NGOs
             </span>
             <h1 class="text-4xl font-extrabold tracking-tight leading-tight">
@@ -57,12 +57,12 @@ import { animate, style, transition, trigger } from '@angular/animations';
               "ZeroHunger reduced our surplus pickup turnaround to under 20 minutes. It's the most reliable food logistics platform we've deployed."
             </p>
             <div class="flex items-center gap-3 pt-2 border-t border-white/10">
-              <div class="w-8 h-8 rounded-xl bg-[#7743DB] text-white font-bold text-xs flex items-center justify-center">
+              <div class="w-8 h-8 rounded-xl bg-[var(--primary)] text-white font-bold text-xs flex items-center justify-center">
                 RK
               </div>
               <div>
                 <p class="text-xs font-bold text-white">Chef Ramesh Kumar</p>
-                <span class="text-[10px] text-[#C3ACD0]">Taj Palace Operations</span>
+                <span class="text-[10px] text-slate-400">Taj Palace Operations</span>
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
         <!-- Footer Note -->
         <div class="relative z-10 text-xs text-slate-400">
-          © 2026 ZeroHunger Inc. Enterprise SaaS Platform.
+          © 2026 ZeroHunger Inc. Enterprise Platform.
         </div>
       </div>
 
@@ -79,42 +79,42 @@ import { animate, style, transition, trigger } from '@angular/animations';
         <div class="w-full max-w-md space-y-8">
           <!-- Form Header -->
           <div class="space-y-2 text-center lg:text-left">
-            <h2 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">Welcome Back</h2>
-            <p class="text-sm text-[#5B5B6A]">Sign in to manage food rescue operations and donations</p>
+            <h2 class="text-3xl font-extrabold text-[var(--text-main)] tracking-tight">Welcome Back</h2>
+            <p class="text-sm text-[var(--text-muted)]">Sign in to manage food rescue operations and donations</p>
           </div>
 
           <!-- Login Form Card -->
-          <div class="glass-panel p-8 rounded-3xl shadow-xl border border-[#E8DDD3] bg-white/90 space-y-6">
+          <div class="zh-card space-y-6">
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
               <!-- Email Input -->
               <div class="form-group">
-                <label class="form-label" for="email">Email Address <span class="text-rose-500">*</span></label>
+                <label class="zh-label" for="email">Email Address <span class="text-[var(--danger)]">*</span></label>
                 <input
                   id="email"
                   type="email"
-                  class="input-field"
-                  [class.border-rose-400]="isInvalid('email')"
+                  class="zh-input"
+                  [class.border-red-400]="isInvalid('email')"
                   formControlName="email"
                   placeholder="name@organization.org"
                   autocomplete="email"
                 />
                 @if (isInvalid('email')) {
-                  <p class="text-xs text-rose-500 mt-1 font-medium">{{ getError('email') }}</p>
+                  <p class="text-xs text-[var(--danger)] mt-1 font-medium">{{ getError('email') }}</p>
                 }
               </div>
 
               <!-- Password Input -->
               <div class="form-group">
                 <div class="flex justify-between items-center mb-1">
-                  <label class="form-label mb-0" for="password">Password <span class="text-rose-500">*</span></label>
-                  <a routerLink="/auth/forgot-password" class="text-xs font-semibold text-[#7743DB] hover:underline">Forgot password?</a>
+                  <label class="zh-label mb-0" for="password">Password <span class="text-[var(--danger)]">*</span></label>
+                  <a routerLink="/auth/forgot-password" class="text-xs font-semibold text-[var(--primary)] hover:underline">Forgot password?</a>
                 </div>
                 <div class="relative">
                   <input
                     id="password"
                     [type]="showPassword() ? 'text' : 'password'"
-                    class="input-field pr-10"
-                    [class.border-rose-400]="isInvalid('password')"
+                    class="zh-input pr-10"
+                    [class.border-red-400]="isInvalid('password')"
                     formControlName="password"
                     placeholder="••••••••••••"
                     autocomplete="current-password"
@@ -122,20 +122,20 @@ import { animate, style, transition, trigger } from '@angular/animations';
                   <button
                     type="button"
                     (click)="showPassword.set(!showPassword())"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 text-[#5B5B6A] hover:text-[#1A1A1A] text-xs font-semibold"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-main)] text-xs font-semibold"
                   >
                     {{ showPassword() ? 'Hide' : 'Show' }}
                   </button>
                 </div>
                 @if (isInvalid('password')) {
-                  <p class="text-xs text-rose-500 mt-1 font-medium">{{ getError('password') }}</p>
+                  <p class="text-xs text-[var(--danger)] mt-1 font-medium">{{ getError('password') }}</p>
                 }
               </div>
 
               <!-- Submit Button -->
               <button
                 type="submit"
-                class="btn-primary w-full py-3.5 text-sm font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30"
+                class="btn-primary w-full"
                 [disabled]="isLoading()"
               >
                 @if (isLoading()) {
@@ -148,13 +148,13 @@ import { animate, style, transition, trigger } from '@angular/animations';
             </form>
 
             <div class="relative flex items-center justify-center my-4">
-              <div class="border-t border-[#E8DDD3] w-full"></div>
-              <span class="bg-white px-3 text-[11px] font-bold text-[#5B5B6A] uppercase tracking-wider relative">or</span>
+              <div class="border-t border-[var(--border-color)] w-full"></div>
+              <span class="bg-white px-3 text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider relative">or</span>
             </div>
 
-            <p class="text-center text-xs text-[#5B5B6A]">
+            <p class="text-center text-xs text-[var(--text-muted)]">
               Don't have an enterprise account?
-              <a routerLink="/auth/register" class="font-bold text-[#7743DB] hover:underline ml-1">Create one free →</a>
+              <a routerLink="/auth/register" class="font-bold text-[var(--primary)] hover:underline ml-1">Create one free →</a>
             </p>
           </div>
         </div>

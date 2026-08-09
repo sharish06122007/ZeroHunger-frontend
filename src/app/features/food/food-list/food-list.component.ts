@@ -37,29 +37,29 @@ function extractArray<T>(data: any): T[] {
       <!-- Header -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7743DB]/10 text-xs font-bold text-[#7743DB]">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)]/10 text-xs font-bold text-[var(--primary)]">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             LIVE REAL-TIME FEED
           </div>
-          <h1 class="text-3xl font-black text-[#1A1A1A] tracking-tight mt-1">Food Rescue Listings</h1>
-          <p class="text-xs text-[#5B5B6A]">Surplus food available for immediate claim and volunteer dispatch</p>
+          <h1 class="text-3xl font-black text-[var(--text-main)] tracking-tight mt-1">Food Rescue Listings</h1>
+          <p class="text-xs text-[var(--text-muted)]">Surplus food available for immediate claim and volunteer dispatch</p>
         </div>
-        <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+        <a routerLink="/dashboard/food/create" class="btn-primary">
           + Post Surplus Food
         </a>
       </div>
 
       <!-- Filters & Search Bar -->
-      <div class="glass-panel p-4 rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-sm flex flex-col md:flex-row gap-3 items-center">
+      <div class="zh-card p-4 bg-[var(--bg-surface)] border border-[var(--border-color)] flex flex-col md:flex-row gap-3 items-center">
         <!-- Search Input -->
         <div class="relative flex-1 w-full">
-          <svg class="w-4 h-4 text-[#5B5B6A] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <input
             type="text"
             placeholder="Search by food title, donor, or city..."
-            class="input-field pl-10"
+            class="zh-input pl-10 w-full"
             [(ngModel)]="searchQuery"
             (input)="applyFilters()"
           />
@@ -67,7 +67,7 @@ function extractArray<T>(data: any): T[] {
 
         <!-- Filter Dropdowns -->
         <div class="flex flex-wrap gap-2 w-full md:w-auto">
-          <select class="input-field py-2.5 text-xs font-semibold" [(ngModel)]="selectedCategory" (change)="applyFilters()">
+          <select class="zh-input w-full md:w-auto text-xs font-semibold" [(ngModel)]="selectedCategory" (change)="applyFilters()">
             <option value="">All Categories</option>
             <option value="cooked">Cooked Meals</option>
             <option value="raw">Raw Produce</option>
@@ -76,14 +76,14 @@ function extractArray<T>(data: any): T[] {
             <option value="beverage">Beverage</option>
           </select>
 
-          <select class="input-field py-2.5 text-xs font-semibold" [(ngModel)]="selectedStatus" (change)="applyFilters()">
+          <select class="zh-input w-full md:w-auto text-xs font-semibold" [(ngModel)]="selectedStatus" (change)="applyFilters()">
             <option value="">All Statuses</option>
             <option value="available">Available</option>
             <option value="reserved">Reserved</option>
             <option value="collected">Collected</option>
           </select>
 
-          <button (click)="resetFilters()" class="btn-secondary py-2.5 px-4 text-xs font-semibold rounded-2xl">Reset</button>
+          <button (click)="resetFilters()" class="btn-secondary">Reset</button>
         </div>
       </div>
 
@@ -95,18 +95,18 @@ function extractArray<T>(data: any): T[] {
           <div class="skeleton h-64 rounded-3xl"></div>
         </div>
       } @else if (filteredFood().length === 0) {
-        <div class="glass-panel p-12 text-center rounded-3xl border border-[#E8DDD3] space-y-3">
+        <div class="zh-card p-12 text-center border-[var(--border-color)] space-y-3">
           <span class="text-4xl block">🍱</span>
-          <h3 class="font-extrabold text-base text-[#1A1A1A]">No Food Rescue Listings Found</h3>
-          <p class="text-xs text-[#5B5B6A]">Adjust your search query or reset active filters</p>
-          <button (click)="resetFilters()" class="btn-secondary py-2 px-4 text-xs font-semibold rounded-xl">Clear Filters</button>
+          <h3 class="font-extrabold text-base text-[var(--text-main)]">No Food Rescue Listings Found</h3>
+          <p class="text-xs text-[var(--text-muted)]">Adjust your search query or reset active filters</p>
+          <button (click)="resetFilters()" class="btn-secondary">Clear Filters</button>
         </div>
       } @else {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           @for (food of filteredFood(); track food._id) {
             <div
               [routerLink]="['/dashboard/food', food._id]"
-              class="glass-card rounded-3xl border border-[#E8DDD3] bg-white/90 overflow-hidden flex flex-col justify-between hover:border-[#7743DB]/40 hover:shadow-xl transition-all cursor-pointer group"
+              class="zh-card p-0 border-[var(--border-color)] bg-[var(--bg-surface)] overflow-hidden flex flex-col justify-between hover:border-[var(--primary)]/40 hover:shadow-xl transition-all cursor-pointer group"
             >
               <div class="p-6 space-y-4">
                 <div class="flex items-center justify-between">
@@ -117,19 +117,19 @@ function extractArray<T>(data: any): T[] {
                 </div>
 
                 <div class="space-y-1">
-                  <h3 class="font-black text-base text-[#1A1A1A] group-hover:text-[#7743DB] transition-colors leading-snug">
+                  <h3 class="font-black text-base text-[var(--text-main)] group-hover:text-[var(--primary)] transition-colors leading-snug">
                     {{ food.title }}
                   </h3>
-                  <p class="text-xs text-[#5B5B6A] line-clamp-2 leading-relaxed">
+                  <p class="text-xs text-[var(--text-muted)] line-clamp-2 leading-relaxed">
                     {{ food.description || 'Verified surplus food donation ready for pickup.' }}
                   </p>
                 </div>
 
-                <div class="space-y-2 pt-2 border-t border-[#E8DDD3] text-xs text-[#5B5B6A]">
+                <div class="space-y-2 pt-2 border-t border-[var(--border-color)] text-xs text-[var(--text-muted)]">
                   <div class="flex items-center justify-between">
                     <span class="flex items-center gap-1.5">
                       <span>📦</span>
-                      <strong class="text-[#1A1A1A]">{{ food.quantity }}</strong>
+                      <strong class="text-[var(--text-main)]">{{ food.quantity }}</strong>
                     </span>
                     <span class="badge badge-success text-[9px]">NGO Eligible</span>
                   </div>
@@ -139,17 +139,17 @@ function extractArray<T>(data: any): T[] {
                   </div>
                   <div class="flex items-center gap-1.5">
                     <span>🏢</span>
-                    <span class="font-semibold text-[#1A1A1A]">{{ food.restaurantName || food.donatedBy.fullName }}</span>
+                    <span class="font-semibold text-[var(--text-main)]">{{ food.restaurantName || food.donatedBy.fullName }}</span>
                   </div>
                 </div>
               </div>
 
-              <div class="px-6 py-4 bg-[#F7EFE5]/60 border-t border-[#E8DDD3] flex items-center justify-between text-xs">
+              <div class="px-6 py-4 bg-[var(--bg-main)] border-t border-[var(--border-color)] flex items-center justify-between text-xs">
                 <div class="flex items-center gap-1 text-amber-700 font-bold text-[11px]">
                   <span>⏳</span>
                   <span>Expires {{ food.expiryTime | date:'shortTime' }}</span>
                 </div>
-                <span class="font-bold text-[#7743DB] group-hover:translate-x-1 transition-transform">Details →</span>
+                <span class="font-bold text-[var(--primary)] group-hover:translate-x-1 transition-transform">Details →</span>
               </div>
             </div>
           }

@@ -41,15 +41,15 @@ function extractArray<T>(data: any): T[] {
     <div class="space-y-6" @fadeIn>
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">Food Requests Portal</h1>
-          <p class="text-xs text-[#5B5B6A] mt-1">Manage NGO food distribution claims and fulfillment workflows</p>
+          <h1 class="text-3xl font-extrabold text-[var(--text-main)] tracking-tight">Food Requests Portal</h1>
+          <p class="text-xs text-[var(--text-muted)] mt-1">Manage NGO food distribution claims and fulfillment workflows</p>
         </div>
-        <button (click)="showNewModal.set(true)" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+        <button (click)="showNewModal.set(true)" class="btn-primary">
           + Create New Request
         </button>
       </div>
 
-      <div class="glass-panel rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-xl overflow-hidden">
+      <div class="zh-card p-0 border-[var(--border-color)] bg-[var(--bg-surface)] overflow-hidden shadow-xl">
         @if (isLoading()) {
           <div class="p-8 space-y-4">
             <div class="skeleton h-10 rounded-xl"></div>
@@ -58,16 +58,16 @@ function extractArray<T>(data: any): T[] {
         } @else if (requests().length === 0) {
           <div class="p-12 text-center space-y-3">
             <span class="text-4xl block">📝</span>
-            <h3 class="font-extrabold text-base text-[#1A1A1A]">No Active Food Requests</h3>
-            <p class="text-xs text-[#5B5B6A]">Submit a new request for your shelter or beneficiary organization</p>
-            <button (click)="showNewModal.set(true)" class="btn-primary inline-block py-2.5 px-6 text-xs font-bold rounded-xl mt-2">
+            <h3 class="font-extrabold text-base text-[var(--text-main)]">No Active Food Requests</h3>
+            <p class="text-xs text-[var(--text-muted)]">Submit a new request for your shelter or beneficiary organization</p>
+            <button (click)="showNewModal.set(true)" class="btn-primary mt-2">
               Create Request
             </button>
           </div>
         } @else {
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-[#1A1A1A]">
-              <thead class="bg-[#F7EFE5] text-[#5B5B6A] font-bold uppercase tracking-wider text-[10px] border-b border-[#E8DDD3]">
+            <table class="w-full text-left text-xs text-[var(--text-main)]">
+              <thead class="bg-[var(--bg-main)] text-[var(--text-muted)] font-bold uppercase tracking-wider text-[10px] border-b border-[var(--border-color)]">
                 <tr>
                   <th class="py-4 px-6">Request ID</th>
                   <th class="py-4 px-6">Food Item</th>
@@ -78,28 +78,28 @@ function extractArray<T>(data: any): T[] {
                   <th class="py-4 px-6 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-[#E8DDD3]">
+              <tbody class="divide-y divide-[var(--border-color)]">
                 @for (req of requests(); track req._id) {
-                  <tr class="hover:bg-[#F7EFE5]/50 transition-colors">
-                    <td class="py-4 px-6 font-mono text-[#7743DB] font-bold">#{{ req._id.slice(-6) }}</td>
-                    <td class="py-4 px-6 font-bold text-[#1A1A1A]">{{ req.foodTitle }}</td>
+                  <tr class="hover:bg-[var(--bg-main)]/50 transition-colors">
+                    <td class="py-4 px-6 font-mono text-[var(--primary)] font-bold">#{{ req._id.slice(-6) }}</td>
+                    <td class="py-4 px-6 font-bold text-[var(--text-main)]">{{ req.foodTitle }}</td>
                     <td class="py-4 px-6">
-                      <p class="font-bold text-[#1A1A1A]">{{ req.requestedBy }}</p>
-                      <span class="text-[10px] text-[#5B5B6A]">{{ req.organization || 'NGO Partner' }}</span>
+                      <p class="font-bold text-[var(--text-main)]">{{ req.requestedBy }}</p>
+                      <span class="text-[10px] text-[var(--text-muted)]">{{ req.organization || 'NGO Partner' }}</span>
                     </td>
                     <td class="py-4 px-6 font-semibold">{{ req.quantityRequested }}</td>
-                    <td class="py-4 px-6 text-[#5B5B6A]">{{ req.createdAt | date:'shortDate' }}</td>
+                    <td class="py-4 px-6 text-[var(--text-muted)]">{{ req.createdAt | date:'shortDate' }}</td>
                     <td class="py-4 px-6">
                       <span class="badge badge-{{ getStatusBadge(req.status) }} text-[10px]">{{ req.status }}</span>
                     </td>
                     <td class="py-4 px-6 text-right space-x-2">
                       @if (req.status === 'pending') {
-                        <button (click)="updateStatus(req._id, 'approved')" class="btn-secondary py-1 px-3 text-[10px] font-bold rounded-lg text-emerald-600">Approve</button>
-                        <button (click)="updateStatus(req._id, 'rejected')" class="btn-secondary py-1 px-3 text-[10px] font-bold rounded-lg text-rose-600">Reject</button>
+                        <button (click)="updateStatus(req._id, 'approved')" class="btn-secondary text-[10px] text-[var(--success)]">Approve</button>
+                        <button (click)="updateStatus(req._id, 'rejected')" class="btn-secondary text-[10px] text-[var(--danger)]">Reject</button>
                       } @else if (req.status === 'approved') {
-                        <button (click)="updateStatus(req._id, 'completed')" class="btn-primary py-1 px-3 text-[10px] font-bold rounded-lg">Mark Delivered</button>
+                        <button (click)="updateStatus(req._id, 'completed')" class="btn-primary text-[10px]">Mark Delivered</button>
                       } @else {
-                        <span class="text-[10px] text-[#5B5B6A] font-semibold">Archived</span>
+                        <span class="text-[10px] text-[var(--text-muted)] font-semibold">Archived</span>
                       }
                     </td>
                   </tr>
@@ -112,31 +112,31 @@ function extractArray<T>(data: any): T[] {
 
       <!-- Quick Request Modal -->
       @if (showNewModal()) {
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1A1A1A]/60 backdrop-blur-sm">
-          <div class="glass-panel max-w-md w-full p-6 sm:p-8 rounded-3xl bg-white space-y-4 shadow-2xl border border-[#E8DDD3]" (click)="$event.stopPropagation()">
-            <h3 class="font-extrabold text-lg text-[#1A1A1A]">Create Food Request</h3>
-            <p class="text-xs text-[#5B5B6A]">Submit a food requirement for your shelter or beneficiary center</p>
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--dark)]/60 backdrop-blur-sm">
+          <div class="zh-card max-w-md w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-[var(--border-color)]" (click)="$event.stopPropagation()">
+            <h3 class="font-extrabold text-lg text-[var(--text-main)]">Create Food Request</h3>
+            <p class="text-xs text-[var(--text-muted)]">Submit a food requirement for your shelter or beneficiary center</p>
 
             <div class="space-y-4 pt-2">
               <div class="form-group">
-                <label class="form-label" for="reqTitle">Food Item / Category</label>
-                <input id="reqTitle" type="text" class="input-field" [(ngModel)]="newFoodTitle" placeholder="e.g. 50 Cooked Meals for Shelter" />
+                <label class="zh-label" for="reqTitle">Food Item / Category</label>
+                <input id="reqTitle" type="text" class="zh-input" [(ngModel)]="newFoodTitle" placeholder="e.g. 50 Cooked Meals for Shelter" />
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="reqQty">Quantity Needed</label>
-                <input id="reqQty" type="text" class="input-field" [(ngModel)]="newQuantity" placeholder="e.g. 50 servings" />
+                <label class="zh-label" for="reqQty">Quantity Needed</label>
+                <input id="reqQty" type="text" class="zh-input" [(ngModel)]="newQuantity" placeholder="e.g. 50 servings" />
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="reqNotes">Notes / Special Instructions</label>
-                <textarea id="reqNotes" rows="2" class="input-field resize-none" [(ngModel)]="newNotes" placeholder="Delivery time window or dietary needs..."></textarea>
+                <label class="zh-label" for="reqNotes">Notes / Special Instructions</label>
+                <textarea id="reqNotes" rows="2" class="zh-input resize-none" [(ngModel)]="newNotes" placeholder="Delivery time window or dietary needs..."></textarea>
               </div>
             </div>
 
-            <div class="flex items-center justify-between pt-4 border-t border-[#E8DDD3]">
-              <button (click)="showNewModal.set(false)" class="btn-secondary py-2.5 px-4 text-xs font-semibold rounded-xl">Cancel</button>
-              <button (click)="createRequest()" class="btn-primary py-2.5 px-6 text-xs font-bold rounded-xl shadow-md">Submit Request 🚀</button>
+            <div class="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
+              <button (click)="showNewModal.set(false)" class="btn-secondary">Cancel</button>
+              <button (click)="createRequest()" class="btn-primary">Submit Request 🚀</button>
             </div>
           </div>
         </div>

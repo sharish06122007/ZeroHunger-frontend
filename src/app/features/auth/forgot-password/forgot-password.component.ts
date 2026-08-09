@@ -19,26 +19,26 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ]),
   ],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-[#FFFBF5] p-6 relative overflow-hidden">
+    <div class="min-h-screen flex items-center justify-center bg-[var(--bg-main)] p-6 relative overflow-hidden">
       <!-- Ambient Orbs -->
-      <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#7743DB]/15 blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-[#C3ACD0]/20 blur-3xl pointer-events-none"></div>
+      <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[var(--primary)]/15 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-[var(--accent)]/20 blur-3xl pointer-events-none"></div>
 
-      <div class="glass-panel max-w-md w-full p-8 sm:p-10 rounded-3xl shadow-2xl border border-[#E8DDD3] bg-white/90 space-y-6 relative z-10 text-center" @fadeIn>
+      <div class="zh-card max-w-md w-full p-8 sm:p-10 relative z-10 text-center" @fadeIn>
         <!-- Step 1: Request Reset OTP -->
         @if (step() === 'request') {
           <div class="space-y-6">
-            <div class="w-16 h-16 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] mx-auto flex items-center justify-center text-3xl">🔑</div>
+            <div class="w-16 h-16 rounded-2xl bg-[var(--primary)]/10 text-[var(--primary)] mx-auto flex items-center justify-center text-3xl">🔑</div>
             <div class="space-y-1">
-              <h1 class="text-2xl font-extrabold text-[#1A1A1A]">Forgot Password?</h1>
-              <p class="text-xs text-[#5B5B6A]">Enter your registered email to receive a password reset OTP</p>
+              <h1 class="text-2xl font-extrabold text-[var(--text-main)]">Forgot Password?</h1>
+              <p class="text-xs text-[var(--text-muted)]">Enter your registered email to receive a password reset OTP</p>
             </div>
             <form [formGroup]="emailForm" (ngSubmit)="onRequestOtp()" class="space-y-4 text-left">
               <div class="form-group">
-                <label class="form-label" for="email">Work Email</label>
-                <input id="email" type="email" class="input-field" formControlName="email" placeholder="name@organization.com" />
+                <label class="zh-label" for="email">Work Email</label>
+                <input id="email" type="email" class="zh-input" formControlName="email" placeholder="name@organization.com" />
               </div>
-              <button type="submit" [disabled]="isLoading()" class="btn-primary w-full py-3.5 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+              <button type="submit" [disabled]="isLoading()" class="btn-primary w-full">
                 @if (isLoading()) {
                   <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                   <span>Sending OTP...</span>
@@ -53,17 +53,17 @@ import { animate, style, transition, trigger } from '@angular/animations';
         <!-- Step 2: Verify OTP -->
         @if (step() === 'otp') {
           <div class="space-y-6">
-            <div class="w-16 h-16 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] mx-auto flex items-center justify-center text-3xl">📩</div>
+            <div class="w-16 h-16 rounded-2xl bg-[var(--primary)]/10 text-[var(--primary)] mx-auto flex items-center justify-center text-3xl">📩</div>
             <div class="space-y-1">
-              <h1 class="text-2xl font-extrabold text-[#1A1A1A]">Enter Reset OTP</h1>
-              <p class="text-xs text-[#5B5B6A]">Code sent to <strong class="text-[#7743DB]">{{ resetEmail() }}</strong></p>
+              <h1 class="text-2xl font-extrabold text-[var(--text-main)]">Enter Reset OTP</h1>
+              <p class="text-xs text-[var(--text-muted)]">Code sent to <strong class="text-[var(--primary)]">{{ resetEmail() }}</strong></p>
             </div>
             <form [formGroup]="otpForm" (ngSubmit)="onVerifyOtp()" class="space-y-4 text-left">
               <div class="form-group">
-                <label class="form-label" for="otp">6-Digit Code</label>
-                <input id="otp" type="text" maxlength="6" class="input-field text-center font-bold text-lg tracking-widest" formControlName="otp" placeholder="123456" />
+                <label class="zh-label" for="otp">6-Digit Code</label>
+                <input id="otp" type="text" maxlength="6" class="zh-input text-center font-bold text-lg tracking-widest" formControlName="otp" placeholder="123456" />
               </div>
-              <button type="submit" [disabled]="isLoading()" class="btn-primary w-full py-3.5 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+              <button type="submit" [disabled]="isLoading()" class="btn-primary w-full">
                 @if (isLoading()) {
                   <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                   <span>Verifying...</span>
@@ -78,17 +78,17 @@ import { animate, style, transition, trigger } from '@angular/animations';
         <!-- Step 3: New Password -->
         @if (step() === 'reset') {
           <div class="space-y-6">
-            <div class="w-16 h-16 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] mx-auto flex items-center justify-center text-3xl">🔒</div>
+            <div class="w-16 h-16 rounded-2xl bg-[var(--primary)]/10 text-[var(--primary)] mx-auto flex items-center justify-center text-3xl">🔒</div>
             <div class="space-y-1">
-              <h1 class="text-2xl font-extrabold text-[#1A1A1A]">Set New Password</h1>
-              <p class="text-xs text-[#5B5B6A]">Create a new secure password for your account</p>
+              <h1 class="text-2xl font-extrabold text-[var(--text-main)]">Set New Password</h1>
+              <p class="text-xs text-[var(--text-muted)]">Create a new secure password for your account</p>
             </div>
             <form [formGroup]="resetForm" (ngSubmit)="onResetPassword()" class="space-y-4 text-left">
               <div class="form-group">
-                <label class="form-label" for="newPw">New Password</label>
-                <input id="newPw" type="password" class="input-field" formControlName="newPassword" placeholder="Minimum 6 characters" />
+                <label class="zh-label" for="newPw">New Password</label>
+                <input id="newPw" type="password" class="zh-input" formControlName="newPassword" placeholder="Minimum 6 characters" />
               </div>
-              <button type="submit" [disabled]="isLoading()" class="btn-primary w-full py-3.5 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+              <button type="submit" [disabled]="isLoading()" class="btn-primary w-full">
                 @if (isLoading()) {
                   <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                   <span>Resetting...</span>
@@ -100,8 +100,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
           </div>
         }
 
-        <div class="pt-4 border-t border-[#E8DDD3]">
-          <a routerLink="/auth/login" class="text-xs font-semibold text-[#5B5B6A] hover:text-[#1A1A1A]">← Back to Sign In</a>
+        <div class="pt-4 border-t border-[var(--border-color)]">
+          <a routerLink="/auth/login" class="text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--text-main)]">← Back to Sign In</a>
         </div>
       </div>
     </div>

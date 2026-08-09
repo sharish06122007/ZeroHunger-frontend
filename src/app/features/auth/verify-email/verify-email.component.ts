@@ -19,22 +19,22 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ]),
   ],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-[#FFFBF5] p-6 relative overflow-hidden">
+    <div class="min-h-screen flex items-center justify-center bg-[var(--bg-main)] p-6 relative overflow-hidden">
       <!-- Ambient Orbs -->
-      <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#7743DB]/15 blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-[#C3ACD0]/20 blur-3xl pointer-events-none"></div>
+      <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[var(--primary)]/15 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-[var(--accent)]/20 blur-3xl pointer-events-none"></div>
 
-      <div class="glass-panel max-w-md w-full p-8 sm:p-10 rounded-3xl shadow-2xl border border-[#E8DDD3] bg-white/90 text-center space-y-6 relative z-10" @fadeIn>
+      <div class="zh-card max-w-md w-full p-8 sm:p-10 text-center space-y-6 relative z-10" @fadeIn>
         <!-- Icon Capsule -->
-        <div class="w-16 h-16 rounded-2xl bg-[#7743DB]/10 text-[#7743DB] mx-auto flex items-center justify-center text-3xl shadow-inner">
+        <div class="w-16 h-16 rounded-2xl bg-[var(--primary)]/10 text-[var(--primary)] mx-auto flex items-center justify-center text-3xl shadow-inner">
           📩
         </div>
 
         <div class="space-y-2">
-          <h1 class="text-2xl font-extrabold text-[#1A1A1A]">Verify Your Email</h1>
-          <p class="text-xs text-[#5B5B6A] leading-relaxed">
+          <h1 class="text-2xl font-extrabold text-[var(--text-main)]">Verify Your Email</h1>
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">
             Enter the 6-digit verification code sent to<br>
-            <strong class="text-[#7743DB] font-bold">{{ email() || 'your email' }}</strong>
+            <strong class="text-[var(--primary)] font-bold">{{ email() || 'your email' }}</strong>
           </p>
         </div>
 
@@ -45,8 +45,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
                 [id]="'otp-' + i"
                 type="text"
                 maxlength="1"
-                class="w-11 h-14 text-center font-bold text-xl rounded-2xl bg-[#F7EFE5] border border-[#E8DDD3] text-[#1A1A1A] focus:border-[#7743DB] focus:bg-white focus:outline-none transition-all"
-                [class.border-[#7743DB]]="otpDigits[i]"
+                class="w-11 h-14 text-center font-bold text-xl rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-color)] text-[var(--text-main)] focus:border-[var(--primary)] focus:bg-white focus:outline-none transition-all"
+                [class.border-primary]="otpDigits[i]"
                 [(ngModel)]="otpDigits[i]"
                 [name]="'digit-' + i"
                 (keyup)="onDigitKeyUp($event, i)"
@@ -58,7 +58,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
           <button
             type="submit"
-            class="btn-primary w-full py-3.5 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30"
+            class="btn-primary w-full"
             [disabled]="isLoading() || !isComplete()"
           >
             @if (isLoading()) {
@@ -70,15 +70,15 @@ import { animate, style, transition, trigger } from '@angular/animations';
           </button>
         </form>
 
-        <div class="space-y-2 pt-2 border-t border-[#E8DDD3]">
+        <div class="space-y-2 pt-2 border-t border-[var(--border-color)]">
           @if (resendTimer() > 0) {
-            <p class="text-xs text-[#5B5B6A]">Resend code in <strong class="text-[#7743DB] font-mono">{{ resendTimer() }}s</strong></p>
+            <p class="text-xs text-[var(--text-muted)]">Resend code in <strong class="text-[var(--primary)] font-mono">{{ resendTimer() }}s</strong></p>
           } @else {
             <button
               type="button"
               (click)="onResend()"
               [disabled]="isResending()"
-              class="text-xs font-bold text-[#7743DB] hover:underline"
+              class="text-xs font-bold text-[var(--primary)] hover:underline"
             >
               @if (isResending()) { Resending Code... } @else { Resend OTP Code }
             </button>
@@ -86,7 +86,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
         </div>
 
         <div>
-          <a routerLink="/auth/register" class="text-xs font-semibold text-[#5B5B6A] hover:text-[#1A1A1A]">← Change Email Address</a>
+          <a routerLink="/auth/register" class="text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--text-main)]">← Change Email Address</a>
         </div>
       </div>
     </div>

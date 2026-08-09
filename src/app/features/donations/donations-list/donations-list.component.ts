@@ -40,15 +40,15 @@ function extractArray<T>(data: any): T[] {
     <div class="space-y-6" @fadeIn>
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 class="text-3xl font-extrabold text-[#1A1A1A] tracking-tight">My Donations Hub</h1>
-          <p class="text-xs text-[#5B5B6A] mt-1">Track and manage your organization's surplus food listings</p>
+          <h1 class="text-3xl font-extrabold text-[var(--text-main)] tracking-tight">My Donations Hub</h1>
+          <p class="text-xs text-[var(--text-muted)] mt-1">Track and manage your organization's surplus food listings</p>
         </div>
-        <a routerLink="/dashboard/food/create" class="btn-primary py-3 px-6 text-xs font-bold rounded-2xl shadow-lg shadow-[#7743DB]/30">
+        <a routerLink="/dashboard/food/create" class="btn-primary">
           + Post New Donation
         </a>
       </div>
 
-      <div class="glass-panel rounded-3xl border border-[#E8DDD3] bg-white/90 shadow-xl overflow-hidden">
+      <div class="zh-card p-0 border-[var(--border-color)] bg-[var(--bg-surface)] overflow-hidden shadow-xl">
         @if (isLoading()) {
           <div class="p-8 space-y-4">
             <div class="skeleton h-10 rounded-xl"></div>
@@ -57,16 +57,16 @@ function extractArray<T>(data: any): T[] {
         } @else if (donations().length === 0) {
           <div class="p-12 text-center space-y-3">
             <span class="text-4xl block">🎁</span>
-            <h3 class="font-extrabold text-base text-[#1A1A1A]">No Donations Contributed Yet</h3>
-            <p class="text-xs text-[#5B5B6A]">Start reducing commercial food waste by posting your first surplus package!</p>
-            <a routerLink="/dashboard/food/create" class="btn-primary inline-block py-2.5 px-6 text-xs font-bold rounded-xl mt-2">
+            <h3 class="font-extrabold text-base text-[var(--text-main)]">No Donations Contributed Yet</h3>
+            <p class="text-xs text-[var(--text-muted)]">Start reducing commercial food waste by posting your first surplus package!</p>
+            <a routerLink="/dashboard/food/create" class="btn-primary mt-2">
               Post First Donation
             </a>
           </div>
         } @else {
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-[#1A1A1A]">
-              <thead class="bg-[#F7EFE5] text-[#5B5B6A] font-bold uppercase tracking-wider text-[10px] border-b border-[#E8DDD3]">
+            <table class="w-full text-left text-xs text-[var(--text-main)]">
+              <thead class="bg-[var(--bg-main)] text-[var(--text-muted)] font-bold uppercase tracking-wider text-[10px] border-b border-[var(--border-color)]">
                 <tr>
                   <th class="py-4 px-6">Listing Title</th>
                   <th class="py-4 px-6">Category</th>
@@ -76,18 +76,18 @@ function extractArray<T>(data: any): T[] {
                   <th class="py-4 px-6 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-[#E8DDD3]">
+              <tbody class="divide-y divide-[var(--border-color)]">
                 @for (don of donations(); track don._id) {
-                  <tr class="hover:bg-[#F7EFE5]/50 transition-colors">
-                    <td class="py-4 px-6 font-bold text-[#1A1A1A]">{{ don.title }}</td>
+                  <tr class="hover:bg-[var(--bg-main)]/50 transition-colors">
+                    <td class="py-4 px-6 font-bold text-[var(--text-main)]">{{ don.title }}</td>
                     <td class="py-4 px-6"><span class="badge badge-primary text-[10px]">{{ don.category }}</span></td>
                     <td class="py-4 px-6 font-semibold">{{ don.quantity }}</td>
-                    <td class="py-4 px-6 text-[#5B5B6A]">{{ don.createdAt | date:'mediumDate' }}</td>
+                    <td class="py-4 px-6 text-[var(--text-muted)]">{{ don.createdAt | date:'mediumDate' }}</td>
                     <td class="py-4 px-6">
                       <span class="badge badge-{{ don.status === 'available' ? 'success' : 'warning' }} text-[10px]">{{ don.status }}</span>
                     </td>
                     <td class="py-4 px-6 text-right">
-                      <a [routerLink]="['/dashboard/food', don._id]" class="btn-secondary py-1.5 px-3 text-[11px] font-bold rounded-xl">
+                      <a [routerLink]="['/dashboard/food', don._id]" class="btn-secondary text-[11px]">
                         Details →
                       </a>
                     </td>

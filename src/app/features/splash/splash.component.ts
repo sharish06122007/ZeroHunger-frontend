@@ -43,19 +43,19 @@ import { AuthService } from '../../core/authentication/auth.service';
     ]),
   ],
   template: `
-    <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-br from-[#FAFAF9] via-[#F0FDF4] to-[#FFFBF5] text-[#1A1A1A] overflow-hidden p-6 sm:p-10 select-none" @splashMaster>
+    <div class="fixed inset-0 z-50 flex flex-col items-center justify-between bg-gradient-to-br from-[#FFFBF5] via-[#F7EFE5] to-[#FFFBF5] text-[#1A1A1A] overflow-hidden p-6 sm:p-10 select-none" @splashMaster>
       
       <!-- Animated Radial Background Lighting -->
       <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 right-[-10%] w-[50%] h-[50%] bg-[#22C55E]/10 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#10B981]/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#7743DB]/15 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#06B6D4]/10 rounded-full blur-3xl"></div>
       </div>
 
       <!-- Top Header Badge -->
       <div class="relative z-10 pt-4 title-badge">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 text-xs font-bold text-[#16A34A] border border-[#16A34A]/25 shadow-md backdrop-blur-md">
-          <span class="w-2.5 h-2.5 rounded-full bg-[#16A34A] animate-pulse"></span>
-          SUSTAINABLE FOOD RESCUE NETWORK
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 text-xs font-bold text-[#7743DB] border border-[#7743DB]/20 shadow-sm backdrop-blur-md">
+          <span class="w-2 h-2 rounded-full bg-[#7743DB] animate-pulse"></span>
+          ZERO HUNGER. ZERO WASTE. 100% HOPE.
         </div>
       </div>
 
@@ -63,72 +63,69 @@ import { AuthService } from '../../core/authentication/auth.service';
       <div class="relative z-10 max-w-xl w-full flex flex-col items-center text-center space-y-6 my-auto">
         <!-- ZeroHunger Centered Main Logo with Glow Aura -->
         <div class="logo-glow-aura relative flex justify-center items-center">
-          <!-- Subtle natural green glow behind the logo -->
-          <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#16A34A] via-[#10B981] to-[#059669] opacity-30 blur-2xl scale-125 animate-pulse"></div>
+          <!-- Subtle natural glow behind the logo -->
+          <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#7743DB] via-[#6366F1] to-[#06B6D4] opacity-20 blur-2xl scale-125 animate-pulse"></div>
           
           <!-- Exact ZeroHunger Logo Image -->
-          <div class="relative w-36 h-36 flex items-center justify-center rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(34,197,94,0.15)] ring-1 ring-white/50 bg-white/50 backdrop-blur-sm z-10">
-            <img src="assets/images/logo.png" alt="ZeroHunger Logo" class="w-full h-full object-cover" />
+          <div class="relative w-32 h-32 flex items-center justify-center rounded-3xl overflow-hidden shadow-[0_12px_40px_rgba(119,67,219,0.15)] ring-1 ring-[#7743DB]/20 bg-white backdrop-blur-sm z-10">
+            <img src="assets/images/logo.png" alt="ZeroHunger Logo" class="w-full h-full object-cover p-2" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzc0M2RiIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJhMTAgMTAgMCAxIDAgMTAgMTAgMTAgMTAgMCAwIDAtMTAtMTBaIi8+PHBhdGggZD0iTTEyIDEydjQuNSIvPjxwaXRoIGQ9Ik0xMiAxNmguMDEiLz48L3N2Zz4='"/>
           </div>
         </div>
 
-        <!-- Main Title ZEROHUNGER 360 -->
-        <div class="space-y-1">
-          <div class="flex items-center justify-center gap-0.5">
+        <!-- Main Title ZEROHUNGER -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-center gap-[1px]">
             @for (char of brandLetters; track $index) {
-              <span class="letter-char font-black text-4xl sm:text-6xl tracking-tight text-[#1A1A1A]">
+              <span class="letter-char font-black text-5xl sm:text-7xl tracking-tighter text-[#1A1A1A]">
                 {{ char }}
               </span>
             }
-            <span class="letter-char font-black text-4xl sm:text-6xl text-[#16A34A] ml-2">
-              360
-            </span>
           </div>
 
-          <h2 class="text-sm sm:text-base font-bold text-[#16A34A] tracking-wide">
-            "Surplus Food Transforming Into Hope"
+          <h2 class="text-sm sm:text-base font-bold text-[#7743DB] tracking-wide mt-2">
+            "Turning Surplus Food Into Hope"
           </h2>
         </div>
 
         <!-- Hero Description -->
-        <p class="hero-description text-xs sm:text-sm text-[#5B5B6A] max-w-lg leading-relaxed font-semibold">
-          Connecting donors, NGOs, and volunteers in a continuous food rescue journey to eliminate food waste.
+        <p class="hero-description text-sm text-[#5B5B6A] max-w-md leading-relaxed font-medium">
+          Connect surplus food, caring communities, volunteers, NGOs, and homemade food makers to create a world with less hunger and less waste.
         </p>
 
         <!-- Action Buttons -->
         <div class="cta-buttons flex flex-wrap items-center justify-center gap-4 pt-2 w-full">
-          <button (click)="proceedToApp()" class="btn-primary py-3.5 px-8 text-xs font-bold rounded-2xl shadow-xl shadow-[#16A34A]/20">
-            Explore Platform 🚀
+          <button (click)="proceedToApp()" class="btn-primary">
+            Get Started
           </button>
-          <button (click)="proceedToNetwork()" class="btn-secondary py-3.5 px-8 text-xs font-bold rounded-2xl bg-white/90 text-[#1A1A1A] border border-[#E8DDD3]">
-            Join Rescue Network 🤝
+          <button (click)="proceedToWelcome()" class="btn-secondary">
+            Explore Impact
           </button>
         </div>
 
         <!-- Dynamic Loading Progress Card -->
-        <div class="loading-card w-full p-5 rounded-3xl space-y-3 bg-white/95 backdrop-blur-xl border border-[#E8DDD3] shadow-xl">
-          <div class="h-2.5 bg-[#F7EFE5] rounded-full overflow-hidden p-0.5 border border-[#E8DDD3]">
+        <div class="loading-card w-full max-w-sm mx-auto mt-6 p-4 rounded-[20px] space-y-3 bg-white/80 backdrop-blur-xl border border-[#E8DDD3] shadow-[0_8px_30px_rgba(119,67,219,0.08)]">
+          <div class="h-1.5 bg-[#F7EFE5] rounded-full overflow-hidden">
             <div
-              class="h-full bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#0284C7] rounded-full transition-all duration-300 ease-out"
+              class="h-full bg-gradient-to-r from-[#7743DB] to-[#06B6D4] rounded-full transition-all duration-300 ease-out"
               [style.width.%]="progress()"
             ></div>
           </div>
 
           <div class="flex items-center justify-between text-xs font-semibold text-[#5B5B6A]">
             <span class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-[#16A34A] animate-ping"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#7743DB] animate-ping"></span>
               {{ currentMessage }}
             </span>
-            <span class="font-mono text-[#16A34A] font-bold text-sm">{{ progress() }}%</span>
+            <span class="font-mono text-[#7743DB] font-bold">{{ progress() }}%</span>
           </div>
         </div>
       </div>
 
       <!-- Footer Info -->
-      <div class="relative z-10 text-center text-xs font-semibold text-[#5B5B6A] pb-2">
-        <span>ZeroHunger 360 Ecosystem</span>
-        <span class="mx-2 text-[#16A34A]">•</span>
-        <span>Sustainable Food Rescue</span>
+      <div class="relative z-10 text-center text-xs font-medium text-[#5B5B6A] pb-2 tracking-wide">
+        <span>ZeroHunger Platform</span>
+        <span class="mx-2 text-[#7743DB] opacity-50">•</span>
+        <span>Premium Food Rescue</span>
       </div>
     </div>
   `,
@@ -137,16 +134,16 @@ export class SplashComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
-  readonly brandLetters = ['Z', 'e', 'r', 'o', 'H', 'u', 'n', 'g', 'e', 'r'];
+  readonly brandLetters = ['Z', 'E', 'R', 'O', 'H', 'U', 'N', 'G', 'E', 'R'];
   readonly progress = signal(0);
   readonly currentMessageIndex = signal(0);
 
   readonly statusMessages = [
-    'Emerging food rescue network...',
+    'Connecting communities...',
     'Matching surplus meals...',
-    'Optimizing delivery routes...',
-    'Transforming food into hope...',
-    'Connecting Food With People...',
+    'Routing local volunteers...',
+    'Turning food into hope...',
+    'Preparing your experience...',
   ];
 
   get currentMessage(): string {
@@ -176,11 +173,11 @@ export class SplashComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/dashboard']);
     } else {
-      this.router.navigate(['/welcome']);
+      this.router.navigate(['/auth/login']);
     }
   }
 
-  proceedToNetwork(): void {
-    this.router.navigate(['/auth/register']);
+  proceedToWelcome(): void {
+    this.router.navigate(['/welcome']);
   }
 }

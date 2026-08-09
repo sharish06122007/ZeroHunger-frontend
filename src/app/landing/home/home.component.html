@@ -3,14 +3,14 @@
   <!-- HERO SECTION -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
     <div class="animate-fade-in-up">
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-light text-brand-primary text-xs font-bold uppercase tracking-wider mb-8">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase tracking-wider mb-8">
         <lucide-icon [img]="HeartHandshake" size="16"></lucide-icon>
         Together, We Can Make A Difference
       </div>
       
       <h1 class="text-4xl md:text-5xl lg:text-[64px] font-extrabold leading-[1.1] mb-6 tracking-tight">
         <span class="block text-brand-primary">Food for People.</span>
-        <span class="block text-[#172018]">Care for Communities.</span>
+        <span class="block text-brand-text">Care for Communities.</span>
         <span class="block text-brand-accent">Hope for Everyone.</span>
       </h1>
       
@@ -35,7 +35,7 @@
           </div>
         </a>
         
-        <a routerLink="/community" class="btn-outline">
+        <a routerLink="/community" class="btn-secondary">
           <lucide-icon [img]="Users" size="20"></lucide-icon>
           <div class="flex flex-col items-start leading-tight">
             <span>SUPPORT COMMUNITY</span>
@@ -69,19 +69,19 @@
         </div>
       </div>
       
-      <div class="absolute -z-10 -bottom-10 -right-10 w-64 h-64 bg-brand-light rounded-full blur-3xl opacity-60"></div>
+      <div class="absolute -z-10 -bottom-10 -right-10 w-64 h-64 bg-brand-primary/20 rounded-full blur-3xl opacity-60"></div>
     </div>
   </section>
 
   <!-- IMPACT STATISTICS -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-      <div class="zh-card bg-brand-light border-transparent flex flex-col items-center justify-center text-center py-8">
+      <div class="zh-card bg-brand-primary/10 border-transparent flex flex-col items-center justify-center text-center py-8">
         <div class="text-4xl font-extrabold text-brand-primary mb-2 animate-count-up">25K+</div>
         <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">People Helped</div>
       </div>
       
-      <div class="zh-card bg-brand-cream border-transparent flex flex-col items-center justify-center text-center py-8">
+      <div class="zh-card bg-brand-surface border-transparent flex flex-col items-center justify-center text-center py-8">
         <div class="text-4xl font-extrabold text-brand-accent mb-2 animate-count-up">15K+</div>
         <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">Meals Delivered</div>
       </div>
@@ -91,12 +91,12 @@
         <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">NGO Partners</div>
       </div>
       
-      <div class="zh-card bg-brand-light border-transparent flex flex-col items-center justify-center text-center py-8">
+      <div class="zh-card bg-brand-primary/10 border-transparent flex flex-col items-center justify-center text-center py-8">
         <div class="text-4xl font-extrabold text-brand-primary mb-2 animate-count-up">8K+</div>
         <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">Volunteers</div>
       </div>
       
-      <div class="zh-card bg-brand-cream border-transparent flex flex-col items-center justify-center text-center py-8">
+      <div class="zh-card bg-brand-surface border-transparent flex flex-col items-center justify-center text-center py-8">
         <div class="text-4xl font-extrabold text-brand-accent mb-2 animate-count-up">2K+</div>
         <div class="text-xs font-bold text-brand-muted uppercase tracking-wider">Food Makers</div>
       </div>
@@ -114,35 +114,35 @@
       <div class="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-brand-border z-0"></div>
       
       <div class="relative z-10 flex flex-col items-center text-center group">
-        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-light flex items-center justify-center shadow-lg mb-6 text-brand-primary group-hover:scale-105 transition-transform">
+        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-primary/20 flex items-center justify-center shadow-lg mb-6 text-brand-primary group-hover:scale-105 transition-transform">
           <lucide-icon [img]="Smartphone" size="40"></lucide-icon>
         </div>
         <div class="text-brand-secondary font-bold text-lg mb-2">01</div>
-        <h3 class="font-bold text-[#172018] mb-2 uppercase tracking-wide">Request or<br>Provide Food</h3>
+        <h3 class="font-bold text-brand-text mb-2 uppercase tracking-wide">Request or<br>Provide Food</h3>
       </div>
       
       <div class="relative z-10 flex flex-col items-center text-center group">
-        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-cream flex items-center justify-center shadow-lg mb-6 text-brand-accent group-hover:scale-105 transition-transform">
+        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-surface flex items-center justify-center shadow-lg mb-6 text-brand-accent group-hover:scale-105 transition-transform">
           <lucide-icon [img]="Network" size="40"></lucide-icon>
         </div>
         <div class="text-brand-secondary font-bold text-lg mb-2">02</div>
-        <h3 class="font-bold text-[#172018] mb-2 uppercase tracking-wide">We Connect<br>People</h3>
+        <h3 class="font-bold text-brand-text mb-2 uppercase tracking-wide">We Connect<br>People</h3>
       </div>
       
       <div class="relative z-10 flex flex-col items-center text-center group">
-        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-light flex items-center justify-center shadow-lg mb-6 text-brand-primary group-hover:scale-105 transition-transform">
+        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-primary/20 flex items-center justify-center shadow-lg mb-6 text-brand-primary group-hover:scale-105 transition-transform">
           <lucide-icon [img]="Truck" size="40"></lucide-icon>
         </div>
         <div class="text-brand-secondary font-bold text-lg mb-2">03</div>
-        <h3 class="font-bold text-[#172018] mb-2 uppercase tracking-wide">Food Reaches<br>Those Who Need It</h3>
+        <h3 class="font-bold text-brand-text mb-2 uppercase tracking-wide">Food Reaches<br>Those Who Need It</h3>
       </div>
       
       <div class="relative z-10 flex flex-col items-center text-center group">
-        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-light flex items-center justify-center shadow-lg mb-6 text-brand-secondary group-hover:scale-105 transition-transform">
+        <div class="w-24 h-24 rounded-full bg-white border-4 border-brand-primary/20 flex items-center justify-center shadow-lg mb-6 text-brand-secondary group-hover:scale-105 transition-transform">
           <lucide-icon [img]="HeartHandshake" size="40"></lucide-icon>
         </div>
         <div class="text-brand-secondary font-bold text-lg mb-2">04</div>
-        <h3 class="font-bold text-[#172018] mb-2 uppercase tracking-wide">We Build Stronger<br>Communities</h3>
+        <h3 class="font-bold text-brand-text mb-2 uppercase tracking-wide">We Build Stronger<br>Communities</h3>
       </div>
     </div>
   </section>
@@ -155,12 +155,12 @@
     <div class="relative z-10 max-w-7xl mx-auto">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-5xl font-extrabold mb-4">MAKE AN IMPACT TODAY</h2>
-        <p class="text-xl text-brand-light opacity-90 max-w-2xl mx-auto">Small actions can create meaningful change.</p>
+        <p class="text-xl text-white/90 max-w-2xl mx-auto">Small actions can create meaningful change.</p>
       </div>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="bg-white text-brand-text p-8 rounded-[24px] shadow-xl hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-brand-light text-brand-primary flex items-center justify-center mb-6">
+          <div class="w-14 h-14 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-6">
             <lucide-icon [img]="Utensils" size="28"></lucide-icon>
           </div>
           <h3 class="font-bold text-xl mb-3">Donate Food</h3>
@@ -169,7 +169,7 @@
         </div>
         
         <div class="bg-white text-brand-text p-8 rounded-[24px] shadow-xl hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-brand-cream text-brand-accent flex items-center justify-center mb-6">
+          <div class="w-14 h-14 rounded-full bg-brand-surface text-brand-accent flex items-center justify-center mb-6">
             <lucide-icon [img]="Clock" size="28"></lucide-icon>
           </div>
           <h3 class="font-bold text-xl mb-3">Volunteer</h3>
@@ -211,7 +211,7 @@
           <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600" alt="Community Kitchen" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
         </div>
         <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="32" class="text-brand-light mb-4"></lucide-icon>
+          <lucide-icon [img]="Quote" size="32" class="text-brand-primary/20 mb-4"></lucide-icon>
           <p class="text-brand-text font-medium text-lg leading-relaxed mb-6 italic flex-1">"Being able to share my homemade meals with the community has given my cooking a new purpose. The platform makes it so easy to connect with those who need it."</p>
           <div>
             <p class="font-bold text-brand-primary">Priya S.</p>
@@ -225,7 +225,7 @@
           <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=600" alt="Volunteers" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
         </div>
         <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="32" class="text-brand-light mb-4"></lucide-icon>
+          <lucide-icon [img]="Quote" size="32" class="text-brand-primary/20 mb-4"></lucide-icon>
           <p class="text-brand-text font-medium text-lg leading-relaxed mb-6 italic flex-1">"As a volunteer delivery partner, seeing the smiles on people's faces when I hand over a hot meal is the most rewarding part of my day."</p>
           <div>
             <p class="font-bold text-brand-primary">Rahul M.</p>
@@ -239,7 +239,7 @@
           <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=600" alt="NGO Support" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
         </div>
         <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="32" class="text-brand-light mb-4"></lucide-icon>
+          <lucide-icon [img]="Quote" size="32" class="text-brand-primary/20 mb-4"></lucide-icon>
           <p class="text-brand-text font-medium text-lg leading-relaxed mb-6 italic flex-1">"ZeroHunger has transformed how our NGO operates. We now have a reliable stream of surplus food from local events, allowing us to feed twice as many children."</p>
           <div>
             <p class="font-bold text-brand-primary">Asha Foundation</p>
