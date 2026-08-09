@@ -113,7 +113,7 @@ function extractArray<T>(data: any): T[] {
             >
               <!-- Food Image -->
               <div class="relative h-48 overflow-hidden rounded-t-[24px]">
-                <img [src]="food.imageUrl || 'https://images.unsplash.com/photo-149883716733f-a5189f1af408?auto=format&fit=crop&q=80&w=800'" alt="{{food.title}}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img [src]="(food.images && food.images.length > 0 ? food.images[0] : null) || 'https://images.unsplash.com/photo-149883716733f-a5189f1af408?auto=format&fit=crop&q=80&w=800'" alt="{{food.title}}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 
                 <!-- Status Badge Overlay -->
@@ -165,7 +165,7 @@ function extractArray<T>(data: any): T[] {
                     <div class="w-6 h-6 rounded-full bg-brand-bgWarm border border-brand-border flex items-center justify-center shrink-0">
                       <span class="text-[10px]">🏢</span>
                     </div>
-                    <span class="text-xs font-semibold text-brand-text truncate">{{ food.restaurantName || food.donatedBy?.fullName || 'Anonymous Donor' }}</span>
+                    <span class="text-xs font-semibold text-brand-text truncate">{{ food.restaurantName || food.donatedBy.fullName || 'Anonymous Donor' }}</span>
                   </div>
                   <button class="btn-primary h-8 px-4 text-[11px] rounded-lg shadow-none group-hover:shadow-premium-hover transition-all shrink-0">
                     Rescue
