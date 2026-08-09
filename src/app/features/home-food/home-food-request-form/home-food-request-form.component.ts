@@ -2,164 +2,114 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HomeFoodService } from '../services/home-food.service';
-import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-home-food-request-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  animations: [
-    trigger('fadeIn', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(12px)' }),
-        animate('400ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateY(0)' })),
-      ]),
-    ]),
-  ],
   template: `
-    <div class="max-w-4xl mx-auto space-y-8 pb-12" @fadeIn>
-      <div class="space-y-2">
-        <h1 class="text-4xl font-black text-brand-text tracking-tighter">Request Home Food</h1>
-        <p class="text-sm text-brand-textSec">Get affordable, healthy homemade meals delivered from verified local makers.</p>
+    <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div class="sm:mx-auto sm:w-full sm:max-w-xl">
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Request Home Food</h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Get affordable, healthy homemade meals delivered to you.
+        </p>
       </div>
 
-      <div class="zh-card p-8 sm:p-12">
-        <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="space-y-10">
-          
-          <!-- SECTION 1: Food Details -->
-          <div class="space-y-6">
-            <div class="flex items-center gap-3 border-b border-brand-borderLight pb-3">
-              <span class="w-8 h-8 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center font-bold text-sm">1</span>
-              <h3 class="text-xl font-bold text-brand-text">What are you craving?</h3>
-            </div>
+      <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+        <div class="bg-white py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-gray-100">
+          <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="space-y-6">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Food Category</label>
-                <select formControlName="foodCategory" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-primary transition-all">
-                  <option value="">Select Category</option>
-                  <option value="Breakfast">Breakfast</option>
-                  <option value="Lunch">Lunch</option>
-                  <option value="Dinner">Dinner</option>
-                  <option value="Snacks">Snacks</option>
-                  <option value="Traditional">Traditional Foods</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Food Item Name</label>
-                <input type="text" formControlName="foodItemName" placeholder="e.g. 5 Roti and Paneer Curry" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-primary transition-all">
-              </div>
-            </div>
-
-            <!-- New Preferences -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Dietary Preference</label>
-                <select formControlName="foodPreference" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-primary transition-all">
-                  <option value="Any">Any</option>
-                  <option value="Vegetarian">Vegetarian</option>
-                  <option value="Vegan">Vegan</option>
-                  <option value="Jain">Jain</option>
-                  <option value="Non-Vegetarian">Non-Vegetarian</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Spice Level</label>
-                <select formControlName="spicePreference" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-primary transition-all">
-                  <option value="Medium">Medium</option>
-                  <option value="Mild">Mild</option>
-                  <option value="Spicy">Spicy</option>
-                  <option value="Extra Spicy">Extra Spicy</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Allergies / Notes</label>
-                <input type="text" formControlName="allergies" placeholder="e.g. No nuts" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-primary transition-all">
-              </div>
-            </div>
-          </div>
-
-          <!-- SECTION 2: Quantity & Budget -->
-          <div class="space-y-6">
-            <div class="flex items-center gap-3 border-b border-brand-borderLight pb-3">
-              <span class="w-8 h-8 rounded-full bg-brand-emerald/10 text-brand-emerald flex items-center justify-center font-bold text-sm">2</span>
-              <h3 class="text-xl font-bold text-brand-text">Quantity & Budget</h3>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Number of People</label>
-                <input type="number" formControlName="numberOfPeople" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-emerald transition-all">
-              </div>
-
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Total Quantity</label>
-                <input type="number" formControlName="quantityRequired" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-emerald transition-all">
-              </div>
-
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Budget Range (₹)</label>
-                <input type="text" formControlName="budgetRange" placeholder="e.g. ₹200 - ₹300" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-emerald transition-all">
-              </div>
-            </div>
-          </div>
-
-          <!-- SECTION 3: Delivery -->
-          <div class="space-y-6">
-            <div class="flex items-center gap-3 border-b border-brand-borderLight pb-3">
-              <span class="w-8 h-8 rounded-full bg-brand-indigo/10 text-brand-indigo flex items-center justify-center font-bold text-sm">3</span>
-              <h3 class="text-xl font-bold text-brand-text">Delivery Details</h3>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="form-group sm:col-span-2">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Delivery Address</label>
-                <textarea formControlName="deliveryAddress" rows="2" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-indigo transition-all resize-none"></textarea>
-              </div>
-
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Required Delivery Time</label>
-                <input type="datetime-local" formControlName="requiredDeliveryTime" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-indigo transition-all">
-              </div>
-
-              <div class="form-group">
-                <label class="block text-sm font-semibold text-brand-text mb-2">Max Distance (km)</label>
-                <select formControlName="deliveryDistance" class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-indigo transition-all">
-                  <option value="5">Within 5 km</option>
-                  <option value="10">Within 10 km</option>
-                  <option value="20">Within 20 km</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="block text-sm font-semibold text-brand-text mb-2">Special Instructions</label>
-              <textarea formControlName="specialInstructions" rows="2" placeholder="e.g. Call upon arrival..." class="w-full bg-brand-bgWarm border border-brand-borderLight rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-brand-indigo transition-all resize-none"></textarea>
-            </div>
-          </div>
-
-          <div class="pt-8 border-t border-brand-borderLight flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="w-full sm:w-auto">
-              @if (successMessage) {
-                <div class="animate-fade-in-up flex items-center gap-2 text-brand-success font-bold text-sm bg-brand-success/10 px-4 py-2 rounded-xl">
-                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  {{ successMessage }}
+            <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Food Category</label>
+                <div class="mt-1">
+                  <select formControlName="foodCategory" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition duration-150 ease-in-out">
+                    <option value="">Select Category</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Traditional">Traditional Foods</option>
+                  </select>
                 </div>
-              }
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Food Item Name</label>
+                <div class="mt-1">
+                  <input type="text" formControlName="foodItemName" placeholder="e.g. 5 Roti and Paneer Curry" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Number of People</label>
+                <div class="mt-1">
+                  <input type="number" formControlName="numberOfPeople" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Quantity</label>
+                <div class="mt-1">
+                  <input type="number" formControlName="quantityRequired" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Budget Range (₹)</label>
+                <div class="mt-1">
+                  <input type="text" formControlName="budgetRange" placeholder="e.g. ₹200 - ₹300" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Delivery Address</label>
+                <div class="mt-1">
+                  <textarea formControlName="deliveryAddress" rows="2" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"></textarea>
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Required Delivery Time</label>
+                <div class="mt-1">
+                  <input type="datetime-local" formControlName="requiredDeliveryTime" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Special Instructions</label>
+                <div class="mt-1">
+                  <textarea formControlName="specialInstructions" rows="2" placeholder="e.g. Less spicy, Jain food..." class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"></textarea>
+                </div>
+              </div>
             </div>
-            <button type="submit" [disabled]="isSubmitting" class="w-full sm:w-auto btn-primary px-8 h-12 shadow-premium-hover disabled:opacity-50 disabled:cursor-not-allowed text-sm">
-              @if (isSubmitting) {
-                <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
-                Submitting Request...
-              } @else {
-                Broadcast Request 🍲
-              }
-            </button>
+
+            <div>
+              <button type="submit" [disabled]="isSubmitting" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 transition-all duration-200">
+                <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                {{ isSubmitting ? 'Submitting Request...' : 'Submit Food Request' }}
+              </button>
+            </div>
+          </form>
+
+          <div *ngIf="successMessage" class="mt-4 p-4 rounded-md bg-green-50 border border-green-200">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm font-medium text-green-800">{{ successMessage }}</p>
+              </div>
+            </div>
           </div>
-        </form>
+
+        </div>
       </div>
     </div>
   `
@@ -178,15 +128,11 @@ export class HomeFoodRequestFormComponent implements OnInit {
     this.requestForm = this.fb.group({
       foodCategory: ['', Validators.required],
       foodItemName: ['', Validators.required],
-      foodPreference: ['Any'],
-      spicePreference: ['Medium'],
-      allergies: [''],
       numberOfPeople: [1, [Validators.required, Validators.min(1)]],
       quantityRequired: [1, [Validators.required, Validators.min(1)]],
       budgetRange: ['', Validators.required],
       deliveryAddress: ['', Validators.required],
       requiredDeliveryTime: ['', Validators.required],
-      deliveryDistance: ['5'],
       specialInstructions: ['']
     });
   }
@@ -194,21 +140,17 @@ export class HomeFoodRequestFormComponent implements OnInit {
   onSubmit() {
     if (this.requestForm.invalid) {
       alert("Please fill in all required fields correctly.");
-      this.requestForm.markAllAsTouched();
       return;
     }
 
     this.isSubmitting = true;
     this.successMessage = '';
     
-    // Maintain existing service call contract. We can just send the new fields, the backend might ignore them if not mapped, but frontend form works.
     this.homeFoodService.createRequest(this.requestForm.value).subscribe({
       next: (res) => {
         this.isSubmitting = false;
         this.successMessage = 'Your food request has been broadcasted to nearby makers!';
-        this.requestForm.reset({ numberOfPeople: 1, quantityRequired: 1, foodPreference: 'Any', spicePreference: 'Medium', deliveryDistance: '5' });
-        
-        setTimeout(() => this.successMessage = '', 6000);
+        this.requestForm.reset({ numberOfPeople: 1, quantityRequired: 1 });
       },
       error: (err) => {
         this.isSubmitting = false;
