@@ -6,35 +6,29 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
   /* Brand Color Palette */
   --bg-main:            #F7FAF7;
   --bg-surface:         #FFFFFF;
   --bg-surface-hover:   #F9FDF9;
-  --bg-dark:            #102A13;
-  --primary-dark:       #1B5E20; /* Deep Forest Green */
-  --primary:            #2E7D32; /* Primary Green */
-  --primary-hover:      #1B5E20;
-  --primary-fresh:      #43A047;
-  --primary-light:      #A5D6A7;
-  --primary-very-light: #E8F5E9;
-  
-  --accent:             #FF9800; /* Bright Orange */
-  --accent-warm:        #F57C00; /* Warm Orange */
-  --accent-soft:        #FFF3E0; /* Soft Orange */
+  --primary:            #14532D;
+  --primary-hover:      #104022;
+  --primary-light:      rgba(20, 83, 45, 0.08);
+  --secondary:          #198754;
+  --secondary-light:    #DFF3E4;
+  --accent:             #F59E0B;
+  --cream:              #FFF8E7;
   
   --text-main:          #172018;
-  --text-muted:         #8A958C;
-  --text-secondary:     #5F6B61;
+  --text-muted:         #5F6B61;
   --border-color:       #E2E8E3;
   --white:              #FFFFFF;
 
   /* Gradients */
-  --grad-primary:       linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+  --grad-primary:       linear-gradient(135deg, #14532D 0%, #198754 100%);
   --grad-surface:       linear-gradient(180deg, #FFFFFF 0%, #F7FAF7 100%);
-  --grad-dark:          linear-gradient(135deg, #102A13 0%, #1B5E20 100%);
 
   /* Radii */
   --radius-sm:          8px;
@@ -44,13 +38,11 @@
   --radius-full:        9999px;
 
   /* Elevation & Shadows */
-  --shadow-subtle:      0 4px 20px -2px rgba(27, 94, 32, 0.05);
-  --shadow-card:        0 10px 40px -10px rgba(27, 94, 32, 0.08);
-  --shadow-float:       0 20px 40px -5px rgba(27, 94, 32, 0.1);
+  --shadow-subtle:      0 2px 8px -2px rgba(20, 83, 45, 0.04);
+  --shadow-card:        0 12px 32px -8px rgba(20, 83, 45, 0.08);
 
   /* Transitions */
   --ease-out:           cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring:        cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --transition-fast:    150ms var(--ease-out);
   --transition-normal:  250ms var(--ease-out);
   --transition-slow:    400ms var(--ease-out);

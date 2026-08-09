@@ -1,241 +1,116 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HomeFoodService } from '../services/home-food.service';
-import { LucideAngularModule } from 'lucide-angular';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { ZhInputComponent } from '../../../shared/components/ui/zh-input/zh-input.component';
-import { ZhSelectComponent } from '../../../shared/components/ui/zh-select/zh-select.component';
-import { ZhButtonComponent } from '../../../shared/components/ui/zh-button/zh-button.component';
-import { ZhCardComponent } from '../../../shared/components/ui/zh-card/zh-card.component';
 
 @Component({
   selector: 'app-home-food-request-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LucideAngularModule, ZhInputComponent, ZhSelectComponent, ZhButtonComponent, ZhCardComponent],
-  animations: [
-    trigger('stepAnimation', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateX(20px)' }),
-        animate('300ms cubic-bezier(0.16, 1, 0.3, 1)', style({ opacity: 1, transform: 'translateX(0)' })),
-      ]),
-    ]),
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="max-w-3xl mx-auto space-y-8">
-      
-      <!-- Form Header -->
-      <div class="text-center">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-primary-very-light text-brand-primary mb-4 shadow-sm">
-          <lucide-icon name="soup" class="w-8 h-8"></lucide-icon>
-        </div>
-        <h2 class="text-3xl font-extrabold text-brand-text tracking-tight mb-2">Request Homemade Food</h2>
-        <p class="text-brand-muted">Tell us what you're craving, and we'll find a verified home cook for you.</p>
+    <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div class="sm:mx-auto sm:w-full sm:max-w-xl">
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Request Home Food</h2>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Get affordable, healthy homemade meals delivered to you.
+        </p>
       </div>
 
-      <app-zh-card [noPadding]="true">
-        <!-- Progress Indicator -->
-        <div class="p-6 border-b border-brand-border bg-brand-bg rounded-t-2xl">
-          <div class="flex items-center justify-between relative">
-            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-brand-border -z-10 rounded-full">
-               <div class="h-full bg-brand-primary transition-all duration-300" [style.width.%]="((currentStep() - 1) / 3) * 100"></div>
-            </div>
+      <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
+        <div class="bg-white py-8 px-4 shadow-xl sm:rounded-2xl sm:px-10 border border-gray-100">
+          <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="space-y-6">
             
-            @for (step of steps; track step.id; let i = $index) {
-              <div class="flex flex-col items-center gap-2 bg-brand-bg px-2">
-                <div 
-                  class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 border-2"
-                  [ngClass]="{
-                    'bg-brand-primary border-brand-primary text-white shadow-md': currentStep() >= step.id,
-                    'bg-white border-brand-border text-brand-muted': currentStep() < step.id
-                  }"
-                >
-                  <lucide-icon *ngIf="currentStep() > step.id" name="check" class="w-5 h-5"></lucide-icon>
-                  <span *ngIf="currentStep() <= step.id">{{ step.id }}</span>
+            <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Food Category</label>
+                <div class="mt-1">
+                  <select formControlName="foodCategory" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm transition duration-150 ease-in-out">
+                    <option value="">Select Category</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Traditional">Traditional Foods</option>
+                  </select>
                 </div>
-                <span class="text-xs font-semibold hidden sm:block" [ngClass]="currentStep() >= step.id ? 'text-brand-text' : 'text-brand-muted'">{{ step.title }}</span>
               </div>
-            }
-          </div>
-        </div>
 
-        <!-- Form Content -->
-        <div class="p-8">
-          
-          <div *ngIf="successMessage" class="mb-6 p-4 rounded-xl bg-brand-primary-very-light border border-brand-primary-light flex gap-3 text-brand-primary-dark">
-            <lucide-icon name="check-circle" class="w-5 h-5 shrink-0"></lucide-icon>
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Food Item Name</label>
+                <div class="mt-1">
+                  <input type="text" formControlName="foodItemName" placeholder="e.g. 5 Roti and Paneer Curry" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Number of People</label>
+                <div class="mt-1">
+                  <input type="number" formControlName="numberOfPeople" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Quantity</label>
+                <div class="mt-1">
+                  <input type="number" formControlName="quantityRequired" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Budget Range (₹)</label>
+                <div class="mt-1">
+                  <input type="text" formControlName="budgetRange" placeholder="e.g. ₹200 - ₹300" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Delivery Address</label>
+                <div class="mt-1">
+                  <textarea formControlName="deliveryAddress" rows="2" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"></textarea>
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Required Delivery Time</label>
+                <div class="mt-1">
+                  <input type="datetime-local" formControlName="requiredDeliveryTime" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Special Instructions</label>
+                <div class="mt-1">
+                  <textarea formControlName="specialInstructions" rows="2" placeholder="e.g. Less spicy, Jain food..." class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"></textarea>
+                </div>
+              </div>
+            </div>
+
             <div>
-              <p class="font-bold">Request Broadcasted Successfully!</p>
-              <p class="text-sm mt-1">Verified food makers nearby have been notified. We will let you know once someone accepts.</p>
+              <button type="submit" [disabled]="isSubmitting" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 transition-all duration-200">
+                <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                {{ isSubmitting ? 'Submitting Request...' : 'Submit Food Request' }}
+              </button>
+            </div>
+          </form>
+
+          <div *ngIf="successMessage" class="mt-4 p-4 rounded-md bg-green-50 border border-green-200">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm font-medium text-green-800">{{ successMessage }}</p>
+              </div>
             </div>
           </div>
 
-          <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
-            
-            <!-- Step 1: What Food -->
-            <div *ngIf="currentStep() === 1" @stepAnimation class="space-y-6">
-              <h3 class="text-xl font-bold text-brand-text mb-4">What are you craving?</h3>
-              
-              <app-zh-select
-                formControlName="foodCategory"
-                label="Food Category"
-                [options]="categories"
-                [error]="isInvalid('foodCategory') ? 'Category is required' : ''"
-              ></app-zh-select>
-
-              <app-zh-input
-                formControlName="foodItemName"
-                label="Food Item Name"
-                placeholder="e.g. 5 Roti and Paneer Curry"
-                icon="utensils"
-                [error]="isInvalid('foodItemName') ? 'Food name is required' : ''"
-              ></app-zh-input>
-            </div>
-
-            <!-- Step 2: How Much -->
-            <div *ngIf="currentStep() === 2" @stepAnimation class="space-y-6">
-              <h3 class="text-xl font-bold text-brand-text mb-4">How much do you need?</h3>
-              
-              <div class="grid grid-cols-2 gap-4">
-                <app-zh-input
-                  formControlName="numberOfPeople"
-                  type="number"
-                  label="Number of People"
-                  icon="users"
-                  [error]="isInvalid('numberOfPeople') ? 'Invalid number' : ''"
-                ></app-zh-input>
-                
-                <app-zh-input
-                  formControlName="quantityRequired"
-                  type="number"
-                  label="Quantity (Portions)"
-                  icon="pie-chart"
-                  [error]="isInvalid('quantityRequired') ? 'Invalid quantity' : ''"
-                ></app-zh-input>
-              </div>
-
-              <app-zh-input
-                formControlName="budgetRange"
-                label="Expected Budget (₹)"
-                placeholder="e.g. 200 - 300"
-                icon="banknote"
-                [error]="isInvalid('budgetRange') ? 'Budget is required' : ''"
-              ></app-zh-input>
-            </div>
-
-            <!-- Step 3: Where & When -->
-            <div *ngIf="currentStep() === 3" @stepAnimation class="space-y-6">
-              <h3 class="text-xl font-bold text-brand-text mb-4">Where and When?</h3>
-              
-              <app-zh-input
-                formControlName="deliveryAddress"
-                label="Delivery Address"
-                placeholder="Enter complete address"
-                icon="map-pin"
-                [error]="isInvalid('deliveryAddress') ? 'Address is required' : ''"
-              ></app-zh-input>
-
-              <app-zh-input
-                formControlName="requiredDeliveryTime"
-                type="datetime-local"
-                label="Required Delivery Time"
-                icon="clock"
-                [error]="isInvalid('requiredDeliveryTime') ? 'Time is required' : ''"
-              ></app-zh-input>
-
-              <div class="mb-4">
-                <label class="block text-sm font-medium text-brand-text mb-1">Special Instructions</label>
-                <textarea 
-                  formControlName="specialInstructions" 
-                  rows="3" 
-                  placeholder="e.g. Less spicy, Jain food..."
-                  class="w-full bg-brand-bg border border-brand-border text-brand-text text-sm rounded-xl focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary block p-3 transition-colors duration-200"
-                ></textarea>
-              </div>
-            </div>
-
-            <!-- Step 4: Confirm -->
-            <div *ngIf="currentStep() === 4" @stepAnimation class="space-y-6">
-              <h3 class="text-xl font-bold text-brand-text mb-4">Review & Confirm</h3>
-              
-              <div class="bg-brand-bg rounded-2xl p-5 border border-brand-border space-y-4">
-                <div class="flex justify-between items-center pb-4 border-b border-brand-border">
-                  <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-brand-primary-very-light text-brand-primary rounded-xl flex items-center justify-center">
-                      <lucide-icon name="utensils-crossed" class="w-6 h-6"></lucide-icon>
-                    </div>
-                    <div>
-                      <p class="font-bold text-brand-text text-lg">{{ requestForm.value.foodItemName }}</p>
-                      <p class="text-sm text-brand-muted">{{ requestForm.value.foodCategory }}</p>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <p class="font-bold text-brand-primary text-lg">₹{{ requestForm.value.budgetRange }}</p>
-                    <p class="text-xs text-brand-muted">Expected</p>
-                  </div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p class="text-brand-muted mb-1">Portions / People</p>
-                    <p class="font-semibold text-brand-text">{{ requestForm.value.quantityRequired }} / {{ requestForm.value.numberOfPeople }}</p>
-                  </div>
-                  <div>
-                    <p class="text-brand-muted mb-1">Delivery Time</p>
-                    <p class="font-semibold text-brand-text">{{ formatTime(requestForm.value.requiredDeliveryTime) }}</p>
-                  </div>
-                  <div class="col-span-2">
-                    <p class="text-brand-muted mb-1">Address</p>
-                    <p class="font-semibold text-brand-text">{{ requestForm.value.deliveryAddress }}</p>
-                  </div>
-                  <div class="col-span-2" *ngIf="requestForm.value.specialInstructions">
-                    <p class="text-brand-muted mb-1">Instructions</p>
-                    <p class="font-semibold text-brand-text bg-white p-2 rounded-lg border border-brand-border italic">{{ requestForm.value.specialInstructions }}</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Smart Pricing UI Breakdown -->
-              <div class="bg-white rounded-2xl p-5 border border-brand-border space-y-3 shadow-sm">
-                <h4 class="font-bold text-sm text-brand-text mb-2">Estimated Cost Breakdown</h4>
-                <div class="flex justify-between text-sm">
-                  <span class="text-brand-muted">Food Cost (Est.)</span>
-                  <span class="font-medium text-brand-text">₹{{ parseBudget(requestForm.value.budgetRange) }}</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                  <span class="text-brand-muted">Delivery Fee (Est.)</span>
-                  <span class="font-medium text-brand-text">₹40</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                  <span class="text-brand-muted">Platform Fee</span>
-                  <span class="font-medium text-brand-text">₹10</span>
-                </div>
-                <div class="pt-3 border-t border-brand-border flex justify-between items-center">
-                  <span class="font-bold text-brand-text">Total Estimated</span>
-                  <span class="font-extrabold text-brand-primary text-lg">₹{{ parseBudget(requestForm.value.budgetRange) + 50 }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Navigation Buttons -->
-            <div class="flex justify-between items-center mt-8 pt-6 border-t border-brand-border">
-              <app-zh-button *ngIf="currentStep() > 1" variant="ghost" (onClick)="prevStep()" [disabled]="isSubmitting">
-                Back
-              </app-zh-button>
-              <div *ngIf="currentStep() === 1"></div> <!-- Spacer -->
-
-              <app-zh-button *ngIf="currentStep() < 4" variant="primary" (onClick)="nextStep()">
-                Continue
-              </app-zh-button>
-
-              <app-zh-button *ngIf="currentStep() === 4" variant="primary" type="submit" [loading]="isSubmitting">
-                Confirm & Request
-              </app-zh-button>
-            </div>
-
-          </form>
         </div>
-      </app-zh-card>
+      </div>
     </div>
   `
 })
@@ -243,23 +118,6 @@ export class HomeFoodRequestFormComponent implements OnInit {
   requestForm!: FormGroup;
   isSubmitting = false;
   successMessage = '';
-  
-  readonly currentStep = signal(1);
-
-  steps = [
-    { id: 1, title: 'What' },
-    { id: 2, title: 'How Much' },
-    { id: 3, title: 'Where & When' },
-    { id: 4, title: 'Confirm' }
-  ];
-
-  categories = [
-    { label: 'Breakfast', value: 'Breakfast', icon: 'coffee' },
-    { label: 'Lunch', value: 'Lunch', icon: 'sun' },
-    { label: 'Dinner', value: 'Dinner', icon: 'moon' },
-    { label: 'Snacks', value: 'Snacks', icon: 'cookie' },
-    { label: 'Traditional Foods', value: 'Traditional', icon: 'flame' }
-  ];
 
   constructor(
     private fb: FormBuilder,
@@ -279,61 +137,9 @@ export class HomeFoodRequestFormComponent implements OnInit {
     });
   }
 
-  isInvalid(field: string): boolean {
-    const ctrl = this.requestForm.get(field);
-    return !!(ctrl?.invalid && (ctrl.dirty || ctrl.touched));
-  }
-
-  validateStep(step: number): boolean {
-    const fieldsByStep: Record<number, string[]> = {
-      1: ['foodCategory', 'foodItemName'],
-      2: ['numberOfPeople', 'quantityRequired', 'budgetRange'],
-      3: ['deliveryAddress', 'requiredDeliveryTime']
-    };
-
-    const fields = fieldsByStep[step];
-    if (!fields) return true;
-
-    let isValid = true;
-    fields.forEach(field => {
-      const ctrl = this.requestForm.get(field);
-      ctrl?.markAsTouched();
-      if (ctrl?.invalid) {
-        isValid = false;
-      }
-    });
-
-    return isValid;
-  }
-
-  nextStep() {
-    if (this.validateStep(this.currentStep())) {
-      this.currentStep.update(v => v + 1);
-    }
-  }
-
-  prevStep() {
-    if (this.currentStep() > 1) {
-      this.currentStep.update(v => v - 1);
-      this.successMessage = '';
-    }
-  }
-
-  formatTime(timeStr: string): string {
-    if (!timeStr) return '';
-    const date = new Date(timeStr);
-    return date.toLocaleString('en-IN', { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  }
-
-  parseBudget(budget: string): number {
-    if (!budget) return 0;
-    // Extract first number found for estimation
-    const match = budget.match(/\d+/);
-    return match ? parseInt(match[0], 10) : 0;
-  }
-
   onSubmit() {
     if (this.requestForm.invalid) {
+      alert("Please fill in all required fields correctly.");
       return;
     }
 
@@ -344,11 +150,7 @@ export class HomeFoodRequestFormComponent implements OnInit {
       next: (res) => {
         this.isSubmitting = false;
         this.successMessage = 'Your food request has been broadcasted to nearby makers!';
-        setTimeout(() => {
-          this.requestForm.reset({ numberOfPeople: 1, quantityRequired: 1 });
-          this.currentStep.set(1);
-          this.successMessage = '';
-        }, 4000);
+        this.requestForm.reset({ numberOfPeople: 1, quantityRequired: 1 });
       },
       error: (err) => {
         this.isSubmitting = false;
