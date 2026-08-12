@@ -51,14 +51,37 @@ import { RouterModule } from '@angular/router';
         <div class="text-white/60 text-sm mt-4 md:mt-0">Connecting communities through food.</div>
       </div>
 
-      <!-- Giant 3D Edge-to-Edge Typography -->
-      <div class="w-full overflow-hidden flex justify-center items-end mt-12 mb-[-1rem] pointer-events-none select-none relative z-0">
-        <h1 class="text-[14.5vw] font-black leading-none tracking-tighter uppercase text-[#3E7B27] opacity-80 mix-blend-lighten"
-            style="text-shadow: 0 1px 0 #2c591c, 0 2px 0 #28511a, 0 3px 0 #244917, 0 4px 0 #204115, 0 5px 0 #1b3812, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);">
-          ZEROHUNGER
-        </h1>
+      <!-- Subtle Marquee Typography -->
+      <div class="w-full overflow-hidden flex items-end mt-12 mb-[-1.5rem] pointer-events-none select-none relative z-0">
+        <div class="flex whitespace-nowrap animate-marquee">
+          <h1 class="text-[14vw] font-black leading-none tracking-tighter uppercase px-4 text-outline">
+            ZEROHUNGER
+          </h1>
+          <h1 class="text-[14vw] font-black leading-none tracking-tighter uppercase px-4 text-outline">
+            ZEROHUNGER
+          </h1>
+          <h1 class="text-[14vw] font-black leading-none tracking-tighter uppercase px-4 text-outline">
+            ZEROHUNGER
+          </h1>
+          <h1 class="text-[14vw] font-black leading-none tracking-tighter uppercase px-4 text-outline">
+            ZEROHUNGER
+          </h1>
+        </div>
       </div>
     </footer>
-  `
+  `,
+  styles: [`
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 40s linear infinite;
+    }
+    .text-outline {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+    }
+  `]
 })
 export class PublicFooterComponent {}
