@@ -46,9 +46,17 @@ import { RouterModule } from '@angular/router';
         </div>
       </div>
       
-      <div class="max-w-7xl mx-auto px-4 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between">
+      <div class="max-w-7xl mx-auto px-4 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between relative z-10">
         <p class="text-white/60 text-sm">© 2026 ZeroHunger. All rights reserved.</p>
         <div class="text-white/60 text-sm mt-4 md:mt-0">Connecting communities through food.</div>
+      </div>
+
+      <!-- Giant 3D Edge-to-Edge Typography -->
+      <div class="w-full overflow-hidden flex justify-center items-end mt-12 mb-[-1rem] pointer-events-none select-none relative z-0">
+        <h1 class="text-[14.5vw] font-black leading-none tracking-tighter uppercase text-[#3E7B27] opacity-80 mix-blend-lighten"
+            style="text-shadow: 0 1px 0 #2c591c, 0 2px 0 #28511a, 0 3px 0 #244917, 0 4px 0 #204115, 0 5px 0 #1b3812, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);">
+          ZEROHUNGER
+        </h1>
       </div>
     </footer>
   `
