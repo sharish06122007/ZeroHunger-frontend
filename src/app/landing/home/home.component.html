@@ -3,7 +3,10 @@
   <!-- HERO SECTION -->
   <section class="relative min-h-[90vh] flex items-center pt-[80px] overflow-hidden bg-[#123524]">
     <!-- Left Solid Background (To support text readability before the fade) -->
-    <div class="absolute inset-y-0 left-0 w-full lg:w-[55%] bg-[#EFE3C2] z-0"></div>
+    <div class="absolute inset-y-0 left-0 w-full lg:w-[55%] bg-[#EFE3C2] z-0 overflow-hidden">
+      <!-- Subtle texture background related to the website (food/produce) -->
+      <div class="absolute inset-0 opacity-[0.03] mix-blend-multiply" style="background-image: url('assets/images/produce.jpg'); background-size: cover; background-position: center;"></div>
+    </div>
     
     <!-- Right Background Image with Seamless Edge-to-Edge Fade -->
     <div class="absolute inset-0 z-0 flex justify-end">
@@ -36,7 +39,7 @@
         </p>
         
         <div class="flex flex-wrap gap-4 mb-10">
-          <a routerLink="/dashboard/operations-map" class="btn-primary bg-[#3E7B27] hover:bg-[#3E7B27]/90 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-xl shadow-[#3E7B27]/30 transition-transform hover:-translate-y-1 flex items-center gap-2">
+          <a routerLink="/dashboard/map" class="btn-primary bg-[#3E7B27] hover:bg-[#3E7B27]/90 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-xl shadow-[#3E7B27]/30 transition-transform hover:-translate-y-1 flex items-center gap-2">
             View Operations
           </a>
           
