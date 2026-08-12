@@ -127,10 +127,31 @@ export const routes: Routes = [
     ],
   },
 
-  // Landing Pages
+  // Landing Pages (Public Site)
   {
-    path: 'home',
-    loadComponent: () => import('./landing/home/home.component').then(m => m.HomeComponent),
+    path: '',
+    loadComponent: () => import('./landing/landing-layout/landing-layout.component').then(m => m.LandingLayoutComponent),
+    children: [
+      {
+        path: 'home',
+        loadComponent: () => import('./landing/home/home.component').then(m => m.HomeComponent),
+      },
+      {
+        path: 'about',
+        loadComponent: () => import('./landing/about/about.component').then(m => m.AboutComponent),
+      },
+      {
+        path: 'impact',
+        loadComponent: () => import('./landing/impact/impact.component').then(m => m.ImpactComponent),
+      },
+      {
+        path: 'contact',
+        loadComponent: () => import('./landing/contact/contact.component').then(m => m.ContactComponent),
+      },
+      // Create new paths for Find Food, Provide Food etc.
+      // For now they will point to home or 404 until components are created
+      { path: '', redirectTo: 'home', pathMatch: 'full' }
+    ]
   },
 
   // 404

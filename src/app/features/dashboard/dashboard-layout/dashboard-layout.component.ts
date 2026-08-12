@@ -208,6 +208,7 @@ export class DashboardLayoutComponent {
 
   readonly navItems: NavItem[] = [
     { path: '/dashboard', label: 'Dashboard', icon: '📊' },
+    { path: '/dashboard/map', label: 'Operations Map', icon: '🗺️' },
     { path: '/dashboard/food', label: 'Food Rescue', icon: '🍱' },
     { path: '/dashboard/requests', label: 'Food Requests', icon: '📝' },
     { path: '/dashboard/donations', label: 'Food Donations', icon: '🎁', roles: ['donor', 'admin'] },
@@ -215,14 +216,17 @@ export class DashboardLayoutComponent {
     { path: '/dashboard/home-food/delivery', label: 'Deliveries', icon: '🛵', roles: ['delivery_partner', 'admin'] },
     { path: '/dashboard/volunteer', label: 'Volunteers', icon: '🤝', roles: ['volunteer', 'admin'] },
     { path: '/dashboard/ngo', label: 'NGO Partners', icon: '🏢', roles: ['ngo', 'admin'] },
-    { path: '/dashboard/home-food/maker', label: 'Home Food Maker', icon: '👩‍🍳', roles: ['home_food_maker', 'admin'] },
-    { path: '/dashboard/secure-chat', label: 'Messages', icon: '💬' },
+    
+    // Organization Management
+    { path: '/dashboard/team', label: 'Team Members', icon: '👥', roles: ['admin', 'area_manager'] },
+    { path: '/dashboard/areas', label: 'Area Management', icon: '📍', roles: ['admin'] },
+    
     { path: '/dashboard/settings', label: 'Settings', icon: '⚙️' },
     
     // Admin Only
     { path: '/dashboard/admin', label: 'Platform Control', icon: '⚡', roles: ['admin'] },
-    { path: '/dashboard/admin/users', label: 'User Management', icon: '👥', roles: ['admin'] },
     { path: '/dashboard/admin/analytics', label: 'Impact Analytics', icon: '📈', roles: ['admin'] },
+    { path: '/dashboard/admin/audit', label: 'Audit Logs', icon: '🛡️', roles: ['admin'] },
     { path: '/dashboard/admin/reports', label: 'Reports', icon: '📑', roles: ['admin'] },
   ];
 
