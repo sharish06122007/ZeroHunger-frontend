@@ -88,7 +88,13 @@ export const routes: Routes = [
         path: 'volunteer',
         loadComponent: () => import('./features/volunteer/volunteer-dashboard/volunteer-dashboard.component').then(m => m.VolunteerDashboardComponent),
         canActivate: [roleGuard],
-        data: { roles: ['volunteer', 'admin'] },
+        data: { roles: ['volunteer'] },
+      },
+      {
+        path: 'volunteers',
+        loadComponent: () => import('./features/volunteer/volunteer-management/volunteer-management.component').then(m => m.VolunteerManagementComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'area_manager'] },
       },
       {
         path: 'ngo',

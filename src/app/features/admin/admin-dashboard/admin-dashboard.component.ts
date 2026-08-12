@@ -120,6 +120,13 @@ interface SystemAnalytics {
           <span class="text-xs text-[var(--text-muted)] font-semibold">Live updates active</span>
         </div>
 
+        @if (!hasData) {
+          <div class="zh-card p-12 text-center rounded-3xl border border-[var(--border-color)] bg-white/50 border-dashed flex flex-col items-center justify-center">
+            <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-3xl mb-4 grayscale">📊</div>
+            <h3 class="font-black text-xl text-[var(--text-main)] mb-2">No impact data available yet.</h3>
+            <p class="text-sm text-[var(--text-muted)] max-w-md">Analytics will automatically populate here as soon as the first food donations, requests, and volunteer activities are recorded in the system.</p>
+          </div>
+        } @else {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <!-- 1. Total Donations -->
           <div class="zh-card p-6 space-y-2 group hover:shadow-xl transition-all cursor-pointer">
@@ -281,6 +288,7 @@ interface SystemAnalytics {
             <span class="text-[11px] font-semibold text-[var(--primary)]">vs Previous month</span>
           </div>
         </div>
+        }
       </div>
 
       <!-- Real-Time Analytics Charts -->
@@ -382,23 +390,28 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   private socketSub!: Subscription;
 
   readonly stats = signal<SystemAnalytics>({
-    totalDonations: 48,
-    todaysDonations: 12,
-    pendingRequests: 5,
-    completedDeliveries: 36,
-    availableFood: 18,
-    activeVolunteers: 14,
-    activeNgos: 9,
-    mealsRescued: 1840,
-    usersRegistered: 82,
-    liveRescueOperations: 4,
-    pendingPickup: 3,
-    cancelledDonations: 1,
-    foodWasteSavedKg: 828,
-    co2SavedKg: 2070,
-    successRate: 98.4,
-    monthlyGrowth: 24,
+    totalDonations: 0,
+    todaysDonations: 0,
+    pendingRequests: 0,
+    completedDeliveries: 0,
+    availableFood: 0,
+    activeVolunteers: 0,
+    activeNgos: 0,
+    mealsRescued: 0,
+    usersRegistered: 0,
+    liveRescueOperations: 0,
+    pendingPickup: 0,
+    cancelledDonations: 0,
+    foodWasteSavedKg: 0,
+    co2SavedKg: 0,
+    successRate: 0,
+    monthlyGrowth: 0,
   });
+
+  // Derived signal to check if data is completely empty
+  get hasData(): boolean {
+    return this.stats().totalDonations > 0 || this.stats().usersRegistered > 0;
+  }
 
   readonly dailyChartData = signal<ChartBarItem[]>([]);
   readonly categoryChartData = signal<ChartBarItem[]>([]);
