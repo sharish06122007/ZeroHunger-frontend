@@ -1,71 +1,55 @@
 <main class="w-full bg-[#EFE3C2] text-[#123524] min-h-screen">
   
   <!-- HERO SECTION -->
-  <section class="relative min-h-[90vh] flex items-center pt-[80px] overflow-hidden bg-[#123524]">
-    <!-- Left Solid Background (To support text readability before the fade) -->
-    <div class="absolute inset-y-0 left-0 w-full lg:w-[55%] bg-[#EFE3C2] z-0 overflow-hidden">
-      <!-- Subtle texture background related to the website (food/produce) -->
-      <div class="absolute inset-0 opacity-[0.03] mix-blend-multiply" style="background-image: url('assets/images/produce.jpg'); background-size: cover; background-position: center;"></div>
-    </div>
-    
-    <!-- Right Background Image with Seamless Edge-to-Edge Fade -->
-    <div class="absolute inset-0 z-0 flex justify-end">
-      <!-- The image container takes exactly 55% so it overlaps the text area slightly for a soft fade -->
-      <div class="w-full lg:w-[55%] h-full relative overflow-hidden">
-        
-        <!-- Subtle dark green overlay on the right edge to blend into #123524 -->
-        <div class="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-[#123524]/90 to-transparent z-10 hidden lg:block"></div>
-        
-        <!-- Soft warm transition from the left #EFE3C2 background into the photograph -->
-        <div class="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#EFE3C2] via-[#EFE3C2]/80 to-transparent z-10 hidden lg:block"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#EFE3C2] via-[#EFE3C2]/40 to-transparent z-10 lg:hidden block"></div>
-        
-        <!-- The Realistic Photograph -->
-        <img src="assets/images/hero_food.jpg" alt="Community sharing food" class="w-full h-full object-cover object-center lg:object-[70%_center] scale-105" />
-      </div>
+  <section class="relative min-h-[90vh] flex items-center pt-[80px] overflow-hidden">
+    <!-- Full-Width Background Image -->
+    <div class="absolute inset-0 z-0 bg-[#123524]">
+      <img src="assets/images/full_width_hero_bg.jpg" alt="Community Food Rescue" class="w-full h-full object-cover object-center scale-[1.02]" />
+      <!-- Subtle Dark Green Overlay for Text Readability -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#123524] via-[#123524]/80 to-[#123524]/10 z-10"></div>
     </div>
     
     <!-- Left Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20">
       <div class="max-w-2xl animate-fade-in-up">
-        <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6">
-          <span class="block text-[#123524]">Connecting Food.</span>
-          <span class="block text-[#123524]">Supporting People.</span>
-          <app-gradient-shimmer gradient="spring" baseColor="#3E7B27" customClass="block font-black" [spread]="4" [duration]="2.5">Building Hope.</app-gradient-shimmer>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6 text-white drop-shadow-sm">
+          <span class="block">Connecting Food.</span>
+          <span class="block">Supporting People.</span>
+          <app-gradient-shimmer gradient="spring" baseColor="#85A947" customClass="block font-black" [spread]="4" [duration]="2.5">Building Hope.</app-gradient-shimmer>
         </h1>
         
-        <p class="text-lg md:text-xl text-[#123524]/80 mb-10 max-w-xl font-medium leading-relaxed">
+        <p class="text-lg md:text-xl text-[#EFE3C2]/90 mb-10 max-w-xl font-medium leading-relaxed drop-shadow-sm">
           ZeroHunger helps organizations coordinate food rescue, donations, food requests, NGOs, volunteers and local teams through one trusted platform.
         </p>
         
         <div class="flex flex-wrap gap-4 mb-10">
-          <a routerLink="/dashboard/map" class="btn-primary bg-[#3E7B27] hover:bg-[#3E7B27]/90 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-xl shadow-[#3E7B27]/30 transition-transform hover:-translate-y-1 flex items-center gap-2">
+          <a routerLink="/dashboard/map" class="btn-primary bg-[#85A947] hover:bg-[#85A947]/90 text-[#123524] px-8 py-4 rounded-xl text-lg font-bold shadow-xl shadow-[#123524]/50 transition-transform hover:-translate-y-1 flex items-center gap-2">
             View Operations
           </a>
           
-          <a routerLink="/impact" class="bg-transparent text-[#123524] border-2 border-[#123524]/20 hover:border-[#3E7B27] hover:text-[#3E7B27] px-8 py-4 rounded-xl text-lg font-bold transition-colors flex items-center gap-2">
+          <a routerLink="/impact" class="bg-transparent text-white border-2 border-white/30 hover:border-[#85A947] hover:text-[#85A947] px-8 py-4 rounded-xl text-lg font-bold transition-colors flex items-center gap-2 backdrop-blur-sm">
             Explore Impact
           </a>
         </div>
         
         <!-- Trust Elements Row -->
-        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-[#123524]/70">
-          <div class="flex items-center gap-1.5"><lucide-icon [img]="ShieldCheck" size="18" class="text-[#3E7B27]"></lucide-icon>Verified Operations</div>
-          <div class="flex items-center gap-1.5"><lucide-icon [img]="Lock" size="18" class="text-[#3E7B27]"></lucide-icon>Secure Platform</div>
-          <div class="flex items-center gap-1.5"><lucide-icon [img]="Network" size="18" class="text-[#3E7B27]"></lucide-icon>Real-Time Coordination</div>
-          <div class="flex items-center gap-1.5"><lucide-icon [img]="UsersRound" size="18" class="text-[#3E7B27]"></lucide-icon>Community Driven</div>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-white/80">
+          <div class="flex items-center gap-1.5"><lucide-icon [img]="ShieldCheck" size="18" class="text-[#85A947]"></lucide-icon>Verified Operations</div>
+          <div class="flex items-center gap-1.5"><lucide-icon [img]="Lock" size="18" class="text-[#85A947]"></lucide-icon>Secure Platform</div>
+          <div class="flex items-center gap-1.5"><lucide-icon [img]="Network" size="18" class="text-[#85A947]"></lucide-icon>Real-Time Coordination</div>
+          <div class="flex items-center gap-1.5"><lucide-icon [img]="UsersRound" size="18" class="text-[#85A947]"></lucide-icon>Community Driven</div>
         </div>
       </div>
     </div>
 
     <!-- Floating Overlay Card on Hero Image (Frosted Glass) -->
-    <div class="hidden lg:flex absolute bottom-16 right-16 z-20 backdrop-blur-xl bg-white/70 border border-white/40 p-5 rounded-3xl items-center gap-5 text-[#123524] shadow-2xl animate-fade-in-up" style="animation-delay: 400ms; max-width: 320px;">
-      <div class="w-12 h-12 rounded-full bg-[#EFE3C2]/80 flex items-center justify-center shrink-0 text-[#3E7B27] shadow-inner">
+    <div class="hidden lg:flex absolute bottom-16 right-16 z-20 backdrop-blur-md bg-[#123524]/40 border border-white/10 p-5 rounded-3xl items-center gap-5 text-white shadow-2xl animate-fade-in-up" style="animation-delay: 400ms; max-width: 320px;">
+      <div class="w-12 h-12 rounded-full bg-[#85A947]/20 flex items-center justify-center shrink-0 text-[#85A947] border border-[#85A947]/30">
         <lucide-icon [img]="Heart" size="24" class="fill-[#85A947]/40"></lucide-icon>
       </div>
       <div>
-        <p class="font-extrabold text-base leading-tight">Fresh Meals. Real Impact.</p>
-        <p class="text-xs font-semibold text-[#123524]/70 mt-1">Powered by local food makers and community volunteers.</p>
+        <p class="font-extrabold text-base leading-tight text-white">Fresh Meals. Real Impact.</p>
+        <p class="text-xs font-medium text-white/70 mt-1">Powered by local food makers and community volunteers.</p>
       </div>
     </div>
   </section>
