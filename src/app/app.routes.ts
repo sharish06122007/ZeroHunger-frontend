@@ -103,6 +103,24 @@ export const routes: Routes = [
         data: { roles: ['admin'] },
       },
       {
+        path: 'map',
+        loadComponent: () => import('./features/operations-map/operations-map.component').then(m => m.OperationsMapComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'area_manager', 'delivery_partner', 'volunteer'] }
+      },
+      {
+        path: 'team',
+        loadComponent: () => import('./features/team-management/team-management.component').then(m => m.TeamManagementComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['admin', 'area_manager'] }
+      },
+      {
+        path: 'areas',
+        loadComponent: () => import('./features/area-management/area-management.component').then(m => m.AreaManagementComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] }
+      },
+      {
         path: 'home-food/customer',
         loadComponent: () => import('./features/home-food/home-food-request-form/home-food-request-form.component').then(m => m.HomeFoodRequestFormComponent),
         canActivate: [roleGuard],
