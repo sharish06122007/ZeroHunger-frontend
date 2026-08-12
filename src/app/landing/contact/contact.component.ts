@@ -1,19 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatInputModule, MatCardModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contact.component.html',
-  styleUrl: './contact.component.scss',
 })
 export class ContactComponent {
   form: FormGroup;
+  submitted = false;
 
   constructor(private readonly fb: FormBuilder) {
     this.form = this.fb.group({
@@ -26,8 +23,15 @@ export class ContactComponent {
 
   submit(): void {
     if (this.form.valid) {
-      alert('Thank you for partnering with ZeroHunger 360.');
-      this.form.reset();
+      this.submitted = true;
+      // Normally, an API call would happen here.
+      setTimeout(() => {
+        this.submitted = false;
+        this.form.reset();
+        alert('Thank you for partnering with ZeroHunger. We will be in touch soon!');
+      }, 1000);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 }
