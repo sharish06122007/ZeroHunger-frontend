@@ -1,13 +1,24 @@
 <main class="w-full bg-[#EFE3C2] text-[#123524] min-h-screen">
   
   <!-- HERO SECTION -->
-  <section class="relative min-h-[90vh] flex items-center pt-[80px] overflow-hidden">
-    <!-- Right Background Image with Soft Fade to Left -->
+  <section class="relative min-h-[90vh] flex items-center pt-[80px] overflow-hidden bg-[#123524]">
+    <!-- Left Solid Background (To support text readability before the fade) -->
+    <div class="absolute inset-y-0 left-0 w-full lg:w-[55%] bg-[#EFE3C2] z-0"></div>
+    
+    <!-- Right Background Image with Seamless Edge-to-Edge Fade -->
     <div class="absolute inset-0 z-0 flex justify-end">
-      <div class="w-full lg:w-[65%] h-full relative">
-        <div class="absolute inset-0 bg-gradient-to-r from-[#EFE3C2] via-[#EFE3C2]/80 to-transparent z-10 hidden lg:block"></div>
+      <!-- The image container takes exactly 55% so it overlaps the text area slightly for a soft fade -->
+      <div class="w-full lg:w-[55%] h-full relative overflow-hidden">
+        
+        <!-- Subtle dark green overlay on the right edge to blend into #123524 -->
+        <div class="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-[#123524]/90 to-transparent z-10 hidden lg:block"></div>
+        
+        <!-- Soft warm transition from the left #EFE3C2 background into the photograph -->
+        <div class="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#EFE3C2] via-[#EFE3C2]/80 to-transparent z-10 hidden lg:block"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-[#EFE3C2] via-[#EFE3C2]/40 to-transparent z-10 lg:hidden block"></div>
-        <img src="assets/images/hero_food.jpg" alt="Community sharing food" class="w-full h-full object-cover object-center" />
+        
+        <!-- The Realistic Photograph -->
+        <img src="assets/images/hero_food.jpg" alt="Community sharing food" class="w-full h-full object-cover object-center lg:object-[70%_center] scale-105" />
       </div>
     </div>
     
@@ -15,199 +26,129 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20">
       <div class="max-w-2xl animate-fade-in-up">
         <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6">
-          <span class="block text-[#123524]">Food for People.</span>
-          <span class="block text-[#123524]">Care for Communities.</span>
-          <span class="block text-[#85A947]">Hope for Everyone.</span>
+          <span class="block text-[#123524]">Connecting Food.</span>
+          <span class="block text-[#123524]">Supporting People.</span>
+          <span class="block text-[#3E7B27]">Building Hope.</span>
         </h1>
         
         <p class="text-lg md:text-xl text-[#123524]/80 mb-10 max-w-xl font-medium leading-relaxed">
-          ZeroHunger connects food makers, donors, NGOs and volunteers to help good food reach people who need it most.
+          ZeroHunger helps organizations coordinate food rescue, donations, food requests, NGOs, volunteers and local teams through one trusted platform.
         </p>
         
         <div class="flex flex-wrap gap-4 mb-10">
-          <a routerLink="/dashboard/request" class="btn-primary bg-[#3E7B27] hover:bg-[#3E7B27]/90 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-xl shadow-[#3E7B27]/30 transition-transform hover:-translate-y-1 flex items-center gap-2">
-            <lucide-icon [img]="Utensils" size="20"></lucide-icon>
-            Request Food
+          <a routerLink="/dashboard/operations-map" class="btn-primary bg-[#3E7B27] hover:bg-[#3E7B27]/90 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-xl shadow-[#3E7B27]/30 transition-transform hover:-translate-y-1 flex items-center gap-2">
+            View Operations
           </a>
           
-          <a routerLink="/dashboard/provide" class="bg-white text-[#123524] border-2 border-[#123524]/10 hover:border-[#123524]/30 px-8 py-4 rounded-xl text-lg font-bold shadow-lg transition-transform hover:-translate-y-1 flex items-center gap-2">
-            <lucide-icon [img]="PackagePlus" size="20"></lucide-icon>
-            Provide Food
+          <a routerLink="/impact" class="bg-transparent text-[#123524] border-2 border-[#123524]/20 hover:border-[#3E7B27] hover:text-[#3E7B27] px-8 py-4 rounded-xl text-lg font-bold transition-colors flex items-center gap-2">
+            Explore Impact
           </a>
         </div>
         
         <!-- Trust Elements Row -->
         <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-bold text-[#123524]/70">
-          <div class="flex items-center gap-1.5"><lucide-icon [img]="ShieldCheck" size="18" class="text-[#3E7B27]"></lucide-icon>Verified & Safe</div>
+          <div class="flex items-center gap-1.5"><lucide-icon [img]="ShieldCheck" size="18" class="text-[#3E7B27]"></lucide-icon>Verified Operations</div>
+          <div class="flex items-center gap-1.5"><lucide-icon [img]="Lock" size="18" class="text-[#3E7B27]"></lucide-icon>Secure Platform</div>
+          <div class="flex items-center gap-1.5"><lucide-icon [img]="Network" size="18" class="text-[#3E7B27]"></lucide-icon>Real-Time Coordination</div>
           <div class="flex items-center gap-1.5"><lucide-icon [img]="UsersRound" size="18" class="text-[#3E7B27]"></lucide-icon>Community Driven</div>
-          <div class="flex items-center gap-1.5"><lucide-icon [img]="Eye" size="18" class="text-[#3E7B27]"></lucide-icon>Transparent</div>
-          <div class="flex items-center gap-1.5"><lucide-icon [img]="Lock" size="18" class="text-[#3E7B27]"></lucide-icon>Privacy Protected</div>
         </div>
       </div>
     </div>
 
-    <!-- Floating Overlay Card on Hero Image -->
-    <div class="hidden lg:flex absolute bottom-12 right-12 z-20 backdrop-blur-md bg-white/90 p-4 rounded-2xl items-center gap-4 text-[#123524] shadow-2xl animate-fade-in-up" style="animation-delay: 400ms; max-width: 300px;">
-      <div class="w-12 h-12 rounded-full bg-[#85A947]/20 flex items-center justify-center shrink-0 text-[#3E7B27]">
+    <!-- Floating Overlay Card on Hero Image (Frosted Glass) -->
+    <div class="hidden lg:flex absolute bottom-16 right-16 z-20 backdrop-blur-xl bg-white/70 border border-white/40 p-5 rounded-3xl items-center gap-5 text-[#123524] shadow-2xl animate-fade-in-up" style="animation-delay: 400ms; max-width: 320px;">
+      <div class="w-12 h-12 rounded-full bg-[#EFE3C2]/80 flex items-center justify-center shrink-0 text-[#3E7B27] shadow-inner">
         <lucide-icon [img]="Heart" size="24" class="fill-[#85A947]/40"></lucide-icon>
       </div>
       <div>
-        <p class="font-extrabold text-sm leading-tight">Fresh Homemade Meals</p>
-        <p class="text-xs font-medium text-[#123524]/70 mt-1">Prepared with care by local food makers</p>
+        <p class="font-extrabold text-base leading-tight">Fresh Meals. Real Impact.</p>
+        <p class="text-xs font-semibold text-[#123524]/70 mt-1">Powered by local food makers and community volunteers.</p>
       </div>
     </div>
   </section>
 
-  <!-- IMPACT STATISTICS -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 mt-[-40px] relative z-30">
-    <div class="bg-white rounded-3xl shadow-2xl p-8 lg:p-12">
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-        <div class="flex flex-col items-center justify-center text-center">
-          <div class="text-4xl md:text-5xl font-black text-[#123524] mb-2 animate-count-up">25K+</div>
-          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">People Helped</div>
-        </div>
-        
-        <div class="flex flex-col items-center justify-center text-center">
-          <div class="text-4xl md:text-5xl font-black text-[#3E7B27] mb-2 animate-count-up">15K+</div>
-          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">Meals Delivered</div>
-        </div>
-        
-        <div class="flex flex-col items-center justify-center text-center">
-          <div class="text-4xl md:text-5xl font-black text-[#85A947] mb-2 animate-count-up">300+</div>
-          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">NGO Partners</div>
-        </div>
-        
-        <div class="flex flex-col items-center justify-center text-center">
-          <div class="text-4xl md:text-5xl font-black text-[#123524] mb-2 animate-count-up">8K+</div>
-          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">Volunteers</div>
-        </div>
-        
-        <div class="flex flex-col items-center justify-center text-center md:col-span-3 lg:col-span-1">
-          <div class="text-4xl md:text-5xl font-black text-[#3E7B27] mb-2 animate-count-up">2K+</div>
-          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">Food Makers</div>
+  <!-- SECTION 1: Food Should Reach People, Not Landfills -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <div class="flex flex-col lg:flex-row items-center gap-16">
+      <div class="w-full lg:w-1/2 animate-fade-in-up">
+        <h2 class="text-4xl lg:text-5xl font-black text-[#123524] leading-tight mb-6">Food Should Reach People,<br><span class="text-[#3E7B27]">Not Landfills.</span></h2>
+        <p class="text-xl text-[#123524]/70 font-medium leading-relaxed mb-8">
+          ZeroHunger brings organizations, food donors, NGOs, home food makers and local teams together to move good food where it can make a difference.
+        </p>
+      </div>
+      <div class="w-full lg:w-1/2">
+        <div class="rounded-[2rem] overflow-hidden shadow-2xl relative group">
+          <img src="assets/images/food_rescue_operation.jpg" alt="Food Rescue Operation" class="w-full h-full object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-700" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- HOW ZEROHUNGER WORKS -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-black text-[#123524] mb-4">How ZeroHunger Works</h2>
-      <p class="text-lg font-medium text-[#123524]/70 max-w-2xl mx-auto">A seamless ecosystem designed to ensure food reaches the right hands efficiently.</p>
-    </div>
-    
-    <div class="flex flex-col md:flex-row justify-between relative">
-      <div class="hidden md:block absolute top-10 left-10 right-10 h-0.5 bg-[#123524]/10 z-0"></div>
-      
-      <div class="relative z-10 flex flex-col items-center text-center group md:w-1/5 mb-8 md:mb-0">
-        <div class="w-20 h-20 rounded-full bg-white border-2 border-[#EFE3C2] flex items-center justify-center shadow-lg mb-4 text-[#123524] group-hover:border-[#3E7B27] group-hover:-translate-y-1 transition-all duration-300">
-          <lucide-icon [img]="Smartphone" size="32"></lucide-icon>
-        </div>
-        <div class="text-[#3E7B27] font-black text-sm mb-1 tracking-wider">01</div>
-        <h3 class="font-bold text-[#123524] text-sm leading-tight">Request or<br>Provide Food</h3>
+  <!-- SECTION 2: From Surplus to Someone's Table (4-Step Workflow) -->
+  <section class="bg-[#FFF8E7]/50 py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 animate-fade-in-up">
+        <h2 class="text-3xl md:text-4xl font-black text-[#123524] mb-4">From Surplus to Someone's Table.</h2>
+        <p class="text-lg font-medium text-[#123524]/70 max-w-2xl mx-auto">A seamless operational ecosystem designed to ensure food reaches the right hands efficiently.</p>
       </div>
       
-      <div class="relative z-10 flex flex-col items-center text-center group md:w-1/5 mb-8 md:mb-0">
-        <div class="w-20 h-20 rounded-full bg-white border-2 border-[#EFE3C2] flex items-center justify-center shadow-lg mb-4 text-[#3E7B27] group-hover:border-[#3E7B27] group-hover:-translate-y-1 transition-all duration-300">
-          <lucide-icon [img]="Network" size="32"></lucide-icon>
-        </div>
-        <div class="text-[#3E7B27] font-black text-sm mb-1 tracking-wider">02</div>
-        <h3 class="font-bold text-[#123524] text-sm leading-tight">ZeroHunger<br>Connects Need</h3>
-      </div>
-      
-      <div class="relative z-10 flex flex-col items-center text-center group md:w-1/5 mb-8 md:mb-0">
-        <div class="w-20 h-20 rounded-full bg-[#123524] border-2 border-[#123524] flex items-center justify-center shadow-lg mb-4 text-[#EFE3C2] group-hover:bg-[#3E7B27] group-hover:border-[#3E7B27] group-hover:-translate-y-1 transition-all duration-300">
-          <lucide-icon [img]="Users" size="32"></lucide-icon>
-        </div>
-        <div class="text-[#3E7B27] font-black text-sm mb-1 tracking-wider">03</div>
-        <h3 class="font-bold text-[#123524] text-sm leading-tight">Local Team<br>Coordinates</h3>
-      </div>
-      
-      <div class="relative z-10 flex flex-col items-center text-center group md:w-1/5 mb-8 md:mb-0">
-        <div class="w-20 h-20 rounded-full bg-white border-2 border-[#EFE3C2] flex items-center justify-center shadow-lg mb-4 text-[#85A947] group-hover:border-[#3E7B27] group-hover:-translate-y-1 transition-all duration-300">
-          <lucide-icon [img]="Truck" size="32"></lucide-icon>
-        </div>
-        <div class="text-[#3E7B27] font-black text-sm mb-1 tracking-wider">04</div>
-        <h3 class="font-bold text-[#123524] text-sm leading-tight">Food Is<br>Delivered</h3>
-      </div>
-
-      <div class="relative z-10 flex flex-col items-center text-center group md:w-1/5">
-        <div class="w-20 h-20 rounded-full bg-white border-2 border-[#EFE3C2] flex items-center justify-center shadow-lg mb-4 text-[#123524] group-hover:border-[#3E7B27] group-hover:-translate-y-1 transition-all duration-300">
-          <lucide-icon [img]="HeartHandshake" size="32"></lucide-icon>
-        </div>
-        <div class="text-[#3E7B27] font-black text-sm mb-1 tracking-wider">05</div>
-        <h3 class="font-bold text-[#123524] text-sm leading-tight">Community<br>Impact</h3>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMMUNITY IMPACT CTA SECTION -->
-  <section class="bg-[#123524] text-white py-24 rounded-3xl mx-4 sm:mx-6 lg:mx-8 mb-20 px-4 sm:px-10 overflow-hidden relative shadow-2xl">
-    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#3E7B27]/40 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
-    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#85A947]/30 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/3"></div>
-    
-    <div class="relative z-10 max-w-7xl mx-auto">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-5xl font-black mb-4">MAKE AN IMPACT TODAY</h2>
-        <p class="text-lg font-medium text-white/80 max-w-2xl mx-auto">Small actions can create meaningful change in your neighborhood.</p>
-      </div>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white text-[#123524] p-8 rounded-2xl shadow-xl hover:-translate-y-1.5 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-[#EFE3C2] text-[#3E7B27] flex items-center justify-center mb-6">
-            <lucide-icon [img]="Utensils" size="28"></lucide-icon>
+      <div class="flex flex-col md:flex-row justify-between relative max-w-5xl mx-auto">
+        <div class="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-[#123524]/10 z-0"></div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center group md:w-1/4 mb-8 md:mb-0 animate-fade-in-up" style="animation-delay: 100ms;">
+          <div class="w-24 h-24 rounded-2xl bg-white border border-[#EFE3C2] flex items-center justify-center shadow-lg mb-6 text-[#3E7B27] group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300">
+            <lucide-icon [img]="UtensilsCrossed" size="40"></lucide-icon>
           </div>
-          <h3 class="font-black text-xl mb-3">Donate Food</h3>
-          <p class="text-sm font-medium text-[#123524]/70 mb-8 flex-1">Share surplus food from your home, restaurant, or event.</p>
-          <a routerLink="/dashboard/provide" class="text-[#3E7B27] font-bold inline-flex items-center gap-2 hover:gap-3 transition-all">Get Started <lucide-icon [img]="ArrowRight" size="16"></lucide-icon></a>
+          <div class="text-[#85A947] font-black text-xs mb-2 tracking-widest uppercase">01</div>
+          <h3 class="font-bold text-[#123524] text-lg leading-tight">Food Is<br>Shared</h3>
         </div>
         
-        <div class="bg-white text-[#123524] p-8 rounded-2xl shadow-xl hover:-translate-y-1.5 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-[#EFE3C2] text-[#85A947] flex items-center justify-center mb-6">
-            <lucide-icon [img]="Clock" size="28"></lucide-icon>
+        <div class="relative z-10 flex flex-col items-center text-center group md:w-1/4 mb-8 md:mb-0 animate-fade-in-up" style="animation-delay: 200ms;">
+          <div class="w-24 h-24 rounded-2xl bg-white border border-[#EFE3C2] flex items-center justify-center shadow-lg mb-6 text-[#3E7B27] group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300">
+            <lucide-icon [img]="Smartphone" size="40"></lucide-icon>
           </div>
-          <h3 class="font-black text-xl mb-3">Volunteer</h3>
-          <p class="text-sm font-medium text-[#123524]/70 mb-8 flex-1">Give your time to transport food safely across your city.</p>
-          <a routerLink="/volunteer" class="text-[#85A947] font-bold inline-flex items-center gap-2 hover:gap-3 transition-all">Join Us <lucide-icon [img]="ArrowRight" size="16"></lucide-icon></a>
+          <div class="text-[#85A947] font-black text-xs mb-2 tracking-widest uppercase">02</div>
+          <h3 class="font-bold text-[#123524] text-lg leading-tight">Request Is<br>Received</h3>
         </div>
         
-        <div class="bg-white text-[#123524] p-8 rounded-2xl shadow-xl hover:-translate-y-1.5 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center mb-6">
-            <lucide-icon [img]="Building2" size="28"></lucide-icon>
+        <div class="relative z-10 flex flex-col items-center text-center group md:w-1/4 mb-8 md:mb-0 animate-fade-in-up" style="animation-delay: 300ms;">
+          <div class="w-24 h-24 rounded-2xl bg-[#123524] flex items-center justify-center shadow-lg mb-6 text-[#EFE3C2] group-hover:bg-[#3E7B27] group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300">
+            <lucide-icon [img]="Users" size="40"></lucide-icon>
           </div>
-          <h3 class="font-black text-xl mb-3">NGO Support</h3>
-          <p class="text-sm font-medium text-[#123524]/70 mb-8 flex-1">Request organized food support for your local organization.</p>
-          <a routerLink="/ngo" class="text-[#0284C7] font-bold inline-flex items-center gap-2 hover:gap-3 transition-all">Register NGO <lucide-icon [img]="ArrowRight" size="16"></lucide-icon></a>
+          <div class="text-[#85A947] font-black text-xs mb-2 tracking-widest uppercase">03</div>
+          <h3 class="font-bold text-[#123524] text-lg leading-tight">Local Team<br>Coordinates</h3>
         </div>
         
-        <div class="bg-white text-[#123524] p-8 rounded-2xl shadow-xl hover:-translate-y-1.5 transition-transform duration-300 flex flex-col">
-          <div class="w-14 h-14 rounded-full bg-[#F3E8FF] text-[#9333EA] flex items-center justify-center mb-6">
-            <lucide-icon [img]="Handshake" size="28"></lucide-icon>
+        <div class="relative z-10 flex flex-col items-center text-center group md:w-1/4 animate-fade-in-up" style="animation-delay: 400ms;">
+          <div class="w-24 h-24 rounded-2xl bg-white border border-[#EFE3C2] flex items-center justify-center shadow-lg mb-6 text-[#3E7B27] group-hover:-translate-y-2 group-hover:shadow-xl transition-all duration-300">
+            <lucide-icon [img]="HeartHandshake" size="40"></lucide-icon>
           </div>
-          <h3 class="font-black text-xl mb-3">Become a Partner</h3>
-          <p class="text-sm font-medium text-[#123524]/70 mb-8 flex-1">Help fund and expand the ZeroHunger operational network.</p>
-          <a routerLink="/contact" class="text-[#9333EA] font-bold inline-flex items-center gap-2 hover:gap-3 transition-all">Partner Up <lucide-icon [img]="ArrowRight" size="16"></lucide-icon></a>
+          <div class="text-[#85A947] font-black text-xs mb-2 tracking-widest uppercase">04</div>
+          <h3 class="font-bold text-[#123524] text-lg leading-tight">Food Reaches<br>People</h3>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- REAL STORIES SECTION -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 mb-20">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-black text-[#123524] mb-4">Real Impact. Real Stories.</h2>
-      <p class="text-lg font-medium text-[#123524]/70 max-w-2xl mx-auto">Behind every meal is a person, a story and a moment of hope.</p>
+  <!-- SECTION 3: Every Meal Has a Story -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <div class="text-center mb-16 animate-fade-in-up">
+      <h2 class="text-3xl md:text-4xl font-black text-[#123524] mb-4">Every Meal Has a Story.</h2>
+      <p class="text-lg font-medium text-[#123524]/70 max-w-2xl mx-auto">Real impact happening in our communities every day.</p>
     </div>
     
     <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col group">
-        <div class="h-56 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800" alt="Community Kitchen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      <!-- Story 1 -->
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col group animate-fade-in-up" style="animation-delay: 100ms;">
+        <div class="h-56 overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800" alt="From a Home Kitchen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-6">
+            <span class="bg-[#3E7B27] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">From a Home Kitchen</span>
+          </div>
         </div>
         <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="24" class="text-[#3E7B27]/40 mb-4"></lucide-icon>
-          <p class="text-[#123524] font-medium text-base leading-relaxed mb-6 italic flex-1">"Being able to share my homemade meals with the community has given my cooking a new purpose. The platform connects us perfectly."</p>
+          <p class="text-[#123524] font-medium text-base leading-relaxed mb-6 italic flex-1">"Being able to share my homemade meals with the community has given my cooking a new purpose. The platform connects us perfectly to those nearby."</p>
           <div>
             <p class="font-black text-[#123524]">Priya S.</p>
             <p class="text-xs font-bold text-[#85A947]">Home Food Maker</p>
@@ -215,12 +156,34 @@
         </div>
       </div>
       
-      <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col group">
-        <div class="h-56 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=800" alt="Volunteers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      <!-- Story 2 -->
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col group animate-fade-in-up" style="animation-delay: 200ms;">
+        <div class="h-56 overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=800" alt="From Surplus to Service" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-6">
+            <span class="bg-[#3E7B27] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">From Surplus to Service</span>
+          </div>
         </div>
         <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="24" class="text-[#3E7B27]/40 mb-4"></lucide-icon>
+          <p class="text-[#123524] font-medium text-base leading-relaxed mb-6 italic flex-1">"ZeroHunger transformed how our NGO operates. We now receive a reliable stream of surplus food from local events, feeding twice as many children."</p>
+          <div>
+            <p class="font-black text-[#123524]">Asha Foundation</p>
+            <p class="text-xs font-bold text-[#85A947]">Partner NGO</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story 3 -->
+      <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col group animate-fade-in-up" style="animation-delay: 300ms;">
+        <div class="h-56 overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=800" alt="From Community to Community" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-4 left-6">
+            <span class="bg-[#3E7B27] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">From Community to Community</span>
+          </div>
+        </div>
+        <div class="p-8 flex-1 flex flex-col">
           <p class="text-[#123524] font-medium text-base leading-relaxed mb-6 italic flex-1">"As a volunteer delivery partner, seeing the smiles on people's faces when I hand over a hot meal is the most rewarding part of my day."</p>
           <div>
             <p class="font-black text-[#123524]">Rahul M.</p>
@@ -228,18 +191,103 @@
           </div>
         </div>
       </div>
-      
-      <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col group">
-        <div class="h-56 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=800" alt="NGO Support" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+    </div>
+  </section>
+
+  <!-- SECTION 4: Built Around Local Communities (Map Routing Concept) -->
+  <section class="bg-[#123524] text-white py-24 relative overflow-hidden">
+    <!-- Subtle Pattern overlay for depth -->
+    <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-20 animate-fade-in-up">
+        <h2 class="text-3xl md:text-5xl font-black mb-4">Built Around Local Communities.</h2>
+        <p class="text-lg text-white/70 max-w-2xl mx-auto font-medium">An intelligent routing architecture that finds the closest organization team member to rapidly coordinate rescue operations.</p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-6 max-w-6xl mx-auto text-center font-bold text-sm tracking-wide">
+        <!-- Node 1 -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 flex-1 w-full border border-white/10 animate-fade-in-up shadow-xl">
+          <lucide-icon [img]="Smartphone" size="32" class="text-[#EFE3C2] mx-auto mb-3"></lucide-icon>
+          <p class="text-white text-xs">DONATION / REQUEST</p>
         </div>
-        <div class="p-8 flex-1 flex flex-col">
-          <lucide-icon [img]="Quote" size="24" class="text-[#3E7B27]/40 mb-4"></lucide-icon>
-          <p class="text-[#123524] font-medium text-base leading-relaxed mb-6 italic flex-1">"ZeroHunger has transformed how our NGO operates. We now have a reliable stream of surplus food from local events, feeding twice as many children."</p>
-          <div>
-            <p class="font-black text-[#123524]">Asha Foundation</p>
-            <p class="text-xs font-bold text-[#85A947]">Partner NGO</p>
-          </div>
+        
+        <lucide-icon [img]="ArrowRight" size="24" class="text-[#85A947] hidden lg:block animate-pulse"></lucide-icon>
+        <lucide-icon [img]="ArrowDown" size="24" class="text-[#85A947] lg:hidden animate-pulse"></lucide-icon>
+        
+        <!-- Node 2 -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 flex-1 w-full border border-white/10 animate-fade-in-up shadow-xl" style="animation-delay: 150ms;">
+          <lucide-icon [img]="MapPin" size="32" class="text-[#EFE3C2] mx-auto mb-3"></lucide-icon>
+          <p class="text-white text-xs">LOCATION</p>
+        </div>
+        
+        <lucide-icon [img]="ArrowRight" size="24" class="text-[#85A947] hidden lg:block animate-pulse"></lucide-icon>
+        <lucide-icon [img]="ArrowDown" size="24" class="text-[#85A947] lg:hidden animate-pulse"></lucide-icon>
+
+        <!-- Node 3 (Highlighted) -->
+        <div class="bg-[#3E7B27] rounded-2xl p-6 flex-1 w-full shadow-2xl shadow-[#3E7B27]/40 border border-[#85A947] transform lg:scale-110 animate-fade-in-up" style="animation-delay: 300ms;">
+          <lucide-icon [img]="UserCheck" size="32" class="text-white mx-auto mb-3"></lucide-icon>
+          <p class="text-white text-xs leading-tight">NEAREST ASSIGNED<br>TEAM MEMBER</p>
+        </div>
+        
+        <lucide-icon [img]="ArrowRight" size="24" class="text-[#85A947] hidden lg:block animate-pulse"></lucide-icon>
+        <lucide-icon [img]="ArrowDown" size="24" class="text-[#85A947] lg:hidden animate-pulse"></lucide-icon>
+
+        <!-- Node 4 -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 flex-1 w-full border border-white/10 animate-fade-in-up shadow-xl" style="animation-delay: 450ms;">
+          <lucide-icon [img]="Settings" size="32" class="text-[#EFE3C2] mx-auto mb-3"></lucide-icon>
+          <p class="text-white text-xs leading-tight">LOCAL<br>COORDINATION</p>
+        </div>
+        
+        <lucide-icon [img]="ArrowRight" size="24" class="text-[#85A947] hidden lg:block animate-pulse"></lucide-icon>
+        <lucide-icon [img]="ArrowDown" size="24" class="text-[#85A947] lg:hidden animate-pulse"></lucide-icon>
+
+        <!-- Node 5 -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 flex-1 w-full border border-white/10 animate-fade-in-up shadow-xl" style="animation-delay: 600ms;">
+          <lucide-icon [img]="HeartHandshake" size="32" class="text-[#EFE3C2] mx-auto mb-3"></lucide-icon>
+          <p class="text-white text-xs leading-tight">FOOD<br>RESCUE</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: Impact Analytics -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 mb-10">
+    <div class="text-center mb-16 animate-fade-in-up">
+      <h2 class="text-3xl md:text-5xl font-black text-[#123524] mb-4">Real-Time Impact</h2>
+      <p class="text-lg font-medium text-[#123524]/70 max-w-2xl mx-auto">The scale of operations managed by the ZeroHunger platform.</p>
+    </div>
+
+    <div class="bg-white rounded-[2.5rem] shadow-2xl p-8 lg:p-16 border border-[#EFE3C2]/50 animate-fade-in-up">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-y-16 gap-x-8">
+        <div class="flex flex-col items-center justify-center text-center">
+          <div class="text-5xl md:text-6xl font-black text-[#3E7B27] mb-3">15K+</div>
+          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">Meals Rescued</div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center text-center">
+          <div class="text-5xl md:text-6xl font-black text-[#123524] mb-3">4.2K+</div>
+          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">Food Donations</div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center text-center">
+          <div class="text-5xl md:text-6xl font-black text-[#123524] mb-3">8.5K+</div>
+          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">Requests Coordinated</div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center text-center">
+          <div class="text-5xl md:text-6xl font-black text-[#123524] mb-3">320+</div>
+          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">NGO Partners</div>
+        </div>
+        
+        <div class="flex flex-col items-center justify-center text-center">
+          <div class="text-5xl md:text-6xl font-black text-[#123524] mb-3">1.8K+</div>
+          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">Volunteers</div>
+        </div>
+
+        <div class="flex flex-col items-center justify-center text-center">
+          <div class="text-5xl md:text-6xl font-black text-[#3E7B27] mb-3">45+</div>
+          <div class="text-[10px] md:text-xs font-extrabold text-[#123524]/60 uppercase tracking-widest">Communities Supported</div>
         </div>
       </div>
     </div>

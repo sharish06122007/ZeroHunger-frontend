@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, HeartHandshake, Utensils, PackagePlus, Users, ShieldCheck, Lock, UsersRound, Eye, Heart, Smartphone, Network, Truck, Clock, Building2, Handshake, ArrowRight, Quote } from 'lucide-angular';
+import { LucideAngularModule, HeartHandshake, Utensils, PackagePlus, Users, ShieldCheck, Lock, UsersRound, Eye, Heart, Smartphone, Network, Truck, Clock, Building2, Handshake, ArrowRight, Quote, UtensilsCrossed, ArrowDown, MapPin, UserCheck, Settings } from 'lucide-angular';
 
 @Component({
   selector: 'app-home',
@@ -32,4 +32,9 @@ export class HomeComponent {
   readonly Handshake = Handshake;
   readonly ArrowRight = ArrowRight;
   readonly Quote = Quote;
+  readonly UtensilsCrossed = UtensilsCrossed;
+  readonly ArrowDown = ArrowDown;
+  readonly MapPin = MapPin;
+  readonly UserCheck = UserCheck;
+  readonly Settings = Settings;
 }
