@@ -19,10 +19,10 @@ import { RouterModule } from '@angular/router';
         <div>
           <h3 class="text-brand-warm font-semibold mb-4 text-lg">Platform</h3>
           <div class="flex flex-col gap-3">
-            <a routerLink="/find-food" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Find Food</a>
-            <a routerLink="/provide-food" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Provide Food</a>
-            <a routerLink="/ngo-requests" class="text-white/80 hover:text-brand-accent transition-colors text-sm">NGO Requests</a>
-            <a routerLink="/volunteer" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Volunteer</a>
+            <a routerLink="/dashboard/food" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Find Food</a>
+            <a routerLink="/dashboard/food/create" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Provide Food</a>
+            <a routerLink="/dashboard/requests" class="text-white/80 hover:text-brand-accent transition-colors text-sm">NGO Requests</a>
+            <a routerLink="/dashboard/volunteer" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Volunteer</a>
           </div>
         </div>
 
@@ -31,7 +31,7 @@ import { RouterModule } from '@angular/router';
           <div class="flex flex-col gap-3">
             <a routerLink="/about" class="text-white/80 hover:text-brand-accent transition-colors text-sm">About Us</a>
             <a routerLink="/impact" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Our Impact</a>
-            <a routerLink="/community" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Community Stories</a>
+            <a routerLink="/impact" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Community Stories</a>
             <a routerLink="/contact" class="text-white/80 hover:text-brand-accent transition-colors text-sm">Contact</a>
           </div>
         </div>

@@ -21,9 +21,9 @@ import { RouterModule } from '@angular/router';
 
         <nav class="hidden md:flex items-center gap-8">
           <a routerLink="/home" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">Home</a>
-          <a routerLink="/find-food" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">Find Food</a>
-          <a routerLink="/provide-food" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">Provide Food</a>
-          <a routerLink="/ngo" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">NGO Partners</a>
+          <a routerLink="/dashboard/food" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">Find Food</a>
+          <a routerLink="/dashboard/food/create" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">Provide Food</a>
+          <a routerLink="/dashboard/ngo" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">NGO Partners</a>
           <a routerLink="/about" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">About Us</a>
           <a routerLink="/impact" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">Impact</a>
           <a routerLink="/contact" class="text-[var(--text-main)] font-bold text-sm hover:text-[var(--primary)] transition-colors">Contact</a>
