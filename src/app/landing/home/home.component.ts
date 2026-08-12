@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, HeartHandshake, Utensils, PackagePlus, Users, ShieldCheck, Lock, UsersRound, Eye, Heart, Smartphone, Network, Truck, Clock, Building2, Handshake, ArrowRight, Quote, UtensilsCrossed, ArrowDown, MapPin, UserCheck, Settings } from 'lucide-angular';
+import { GradientShimmerComponent } from '../../shared/components/gradient-shimmer/gradient-shimmer.component';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,8 @@ import { LucideAngularModule, HeartHandshake, Utensils, PackagePlus, Users, Shie
   imports: [
     CommonModule, 
     RouterLink, 
-    LucideAngularModule
+    LucideAngularModule,
+    GradientShimmerComponent
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
