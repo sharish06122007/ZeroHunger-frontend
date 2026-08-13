@@ -6,16 +6,9 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   template: `
-    <footer class="bg-brand-primary text-white pt-16 pb-8 relative overflow-hidden z-0">
+    <footer class="bg-brand-primary text-white pt-16 pb-8 relative overflow-hidden">
       
-      <!-- Subtle Background Outline Typography -->
-      <div class="absolute bottom-[-3%] left-0 right-0 w-full flex justify-center items-end pointer-events-none select-none z-[-1]">
-        <h1 class="text-[17vw] font-medium leading-[0.8] tracking-tight uppercase whitespace-nowrap text-outline opacity-60">
-          ZEROHUNGER
-        </h1>
-      </div>
-
-      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 relative z-10">
+      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 relative z-10">
         <div class="col-span-1 md:col-span-1">
           <div class="flex items-center gap-2 mb-4">
             <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-brand-primary font-bold text-lg">Z</div>
@@ -53,6 +46,15 @@ import { RouterModule } from '@angular/router';
           </div>
         </div>
       </div>
+
+      <!-- Subtle Background Outline Typography - Placed perfectly inside the container layout -->
+      <div class="max-w-7xl mx-auto px-4 pointer-events-none select-none mb-4 relative z-0 flex justify-center">
+        <svg viewBox="0 0 1000 130" class="w-full h-auto opacity-30">
+          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" class="font-medium uppercase" style="font-size: 145px; letter-spacing: -1px; fill: rgba(255,255,255,0.01); stroke: rgba(255,255,255,0.15); stroke-width: 1px;">
+            ZEROHUNGER
+          </text>
+        </svg>
+      </div>
       
       <div class="max-w-7xl mx-auto px-4 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between relative z-10">
         <p class="text-white/60 text-sm">© 2026 ZeroHunger. All rights reserved.</p>
@@ -60,11 +62,6 @@ import { RouterModule } from '@angular/router';
       </div>
     </footer>
   `,
-  styles: [`
-    .text-outline {
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
-    }
-  `]
+  styles: []
 })
 export class PublicFooterComponent {}
