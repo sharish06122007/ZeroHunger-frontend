@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LucideAngularModule, HeartHandshake, Utensils, PackagePlus, Users, ShieldCheck, Lock, UsersRound, Eye, Heart, Smartphone, Network, Truck, Clock, Building2, Handshake, ArrowRight, Quote, UtensilsCrossed, ArrowDown, MapPin, UserCheck, Settings } from 'lucide-angular';
 import { GradientShimmerComponent } from '../../shared/components/gradient-shimmer/gradient-shimmer.component';
-import { ParallaxScrollingComponent } from '../../shared/components/parallax-scrolling/parallax-scrolling.component';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +11,7 @@ import { ParallaxScrollingComponent } from '../../shared/components/parallax-scr
     CommonModule, 
     RouterLink, 
     LucideAngularModule,
-    GradientShimmerComponent,
-    ParallaxScrollingComponent
+    GradientShimmerComponent
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

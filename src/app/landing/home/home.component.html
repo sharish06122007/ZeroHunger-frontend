@@ -2,24 +2,11 @@
   
   <!-- HERO SECTION -->
   <section class="relative min-h-[90vh] flex items-center pt-[80px] overflow-hidden">
-    <div class="absolute inset-0 z-0 bg-[#123524] overflow-hidden">
+    <!-- Full-Width Background Image -->
+    <div class="absolute inset-0 z-0 bg-[#123524]">
       <img src="assets/images/tamil_community_food_hero.jpg" alt="Community Food Rescue" class="w-full h-full object-cover object-center scale-[1.02]" />
-      
       <!-- Subtle Dark Green Overlay for Text Readability -->
       <div class="absolute inset-0 bg-gradient-to-r from-[#123524] via-[#123524]/80 to-[#123524]/10 z-10"></div>
-
-      <!-- Giant Shimmering Background Name -->
-      <div class="absolute top-1/2 -translate-y-1/2 right-[-10%] z-10 pointer-events-none select-none opacity-40 mix-blend-overlay">
-        <app-gradient-shimmer 
-          gradient="sunrise" 
-          [duration]="3" 
-          [spread]="5" 
-          baseColor="transparent" 
-          customClass="text-[28vw] leading-none font-bold uppercase tracking-tighter text-outline"
-        >
-          ZEROHUNGER
-        </app-gradient-shimmer>
-      </div>
     </div>
     
     <!-- Left Content -->
@@ -66,9 +53,6 @@
       </div>
     </div>
   </section>
-
-  <!-- GSAP Layered Parallax Impact Section -->
-  <app-parallax-scrolling></app-parallax-scrolling>
 
   <!-- SECTION 1: Food Should Reach People, Not Landfills -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
