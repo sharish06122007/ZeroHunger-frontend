@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { GradientShimmerComponent } from '../../../shared/components/gradient-shimmer/gradient-shimmer.component';
 
 @Component({
   selector: 'app-public-footer',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, GradientShimmerComponent],
   template: `
     <footer class="bg-brand-primary text-white pt-16 pb-8 relative overflow-hidden">
       
@@ -47,13 +48,17 @@ import { RouterModule } from '@angular/router';
         </div>
       </div>
 
-      <!-- Subtle Background Outline Typography - Placed perfectly inside the container layout -->
-      <div class="max-w-7xl mx-auto px-4 pointer-events-none select-none mb-4 relative z-0 flex justify-center">
-        <svg viewBox="0 0 1000 130" class="w-full h-auto opacity-30">
-          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" class="font-medium uppercase" style="font-size: 145px; letter-spacing: -1px; fill: rgba(255,255,255,0.01); stroke: rgba(255,255,255,0.15); stroke-width: 1px;">
-            ZEROHUNGER
-          </text>
-        </svg>
+      <!-- Subtle Background Outline Typography with Shimmer Effect -->
+      <div class="max-w-7xl mx-auto px-4 pointer-events-none select-none mb-4 relative z-0 flex justify-center opacity-60">
+        <app-gradient-shimmer 
+          gradient="spring" 
+          baseColor="transparent" 
+          [spread]="2.5" 
+          [duration]="3.5"
+          [pauseBetween]="2000"
+          customClass="text-[13vw] xl:text-[145px] font-medium uppercase tracking-tight text-outline leading-none text-center w-full">
+          ZEROHUNGER
+        </app-gradient-shimmer>
       </div>
       
       <div class="max-w-7xl mx-auto px-4 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between relative z-10">
@@ -62,6 +67,11 @@ import { RouterModule } from '@angular/router';
       </div>
     </footer>
   `,
-  styles: []
+  styles: [`
+    .text-outline {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+    }
+  `]
 })
 export class PublicFooterComponent {}
