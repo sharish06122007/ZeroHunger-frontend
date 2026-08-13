@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { GradientShimmerComponent } from '../../shared/components/gradient-shimmer/gradient-shimmer.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, GradientShimmerComponent],
   templateUrl: './contact.component.html',
 })
 export class ContactComponent {
