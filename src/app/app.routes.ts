@@ -127,7 +127,13 @@ export const routes: Routes = [
         data: { roles: ['admin'] }
       },
       {
-        path: 'home-food/customer',
+        path: 'home-food/available',
+        loadComponent: () => import('./features/home-food/home-food-available/home-food-available.component').then(m => m.HomeFoodAvailableComponent),
+        canActivate: [roleGuard],
+        data: { roles: ['customer', 'admin'] }
+      },
+      {
+        path: 'home-food/request',
         loadComponent: () => import('./features/home-food/home-food-request-form/home-food-request-form.component').then(m => m.HomeFoodRequestFormComponent),
         canActivate: [roleGuard],
         data: { roles: ['customer', 'admin'] }
