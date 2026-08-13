@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.parallax {
+  /* Ensure the container maintains height on mobile browsers */
+  height: max(100vh, 800px);
+}
