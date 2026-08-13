@@ -6,8 +6,16 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   template: `
-    <footer class="bg-brand-primary text-white pt-16 pb-8">
-      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+    <footer class="bg-brand-primary text-white pt-16 pb-8 relative overflow-hidden z-0">
+      
+      <!-- Subtle Background Outline Typography -->
+      <div class="absolute bottom-[-3%] left-0 right-0 w-full flex justify-center items-end pointer-events-none select-none z-[-1]">
+        <h1 class="text-[17vw] font-medium leading-[0.8] tracking-tight uppercase whitespace-nowrap text-outline opacity-60">
+          ZEROHUNGER
+        </h1>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 relative z-10">
         <div class="col-span-1 md:col-span-1">
           <div class="flex items-center gap-2 mb-4">
             <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-brand-primary font-bold text-lg">Z</div>
@@ -50,37 +58,12 @@ import { RouterModule } from '@angular/router';
         <p class="text-white/60 text-sm">© 2026 ZeroHunger. All rights reserved.</p>
         <div class="text-white/60 text-sm mt-4 md:mt-0">Connecting communities through food.</div>
       </div>
-
-      <!-- Subtle Marquee Typography -->
-      <div class="w-full overflow-hidden flex items-end mt-12 mb-[-1.5rem] pointer-events-none select-none relative z-0">
-        <div class="flex whitespace-nowrap animate-marquee">
-          <h1 class="text-[14vw] font-black leading-none tracking-tighter uppercase px-4 text-outline">
-            ZEROHUNGER
-          </h1>
-          <h1 class="text-[14vw] font-black leading-none tracking-tighter uppercase px-4 text-outline">
-            ZEROHUNGER
-          </h1>
-          <h1 class="text-[14vw] font-black leading-none tracking-tighter uppercase px-4 text-outline">
-            ZEROHUNGER
-          </h1>
-          <h1 class="text-[14vw] font-black leading-none tracking-tighter uppercase px-4 text-outline">
-            ZEROHUNGER
-          </h1>
-        </div>
-      </div>
     </footer>
   `,
   styles: [`
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .animate-marquee {
-      animation: marquee 40s linear infinite;
-    }
     .text-outline {
       color: transparent;
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
     }
   `]
 })
