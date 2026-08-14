@@ -47,11 +47,9 @@ import { RouterModule } from '@angular/router';
         </div>
       </div>
 
-      <!-- Glowing Outline Typography -->
-      <div class="max-w-7xl mx-auto px-4 pointer-events-none select-none mb-8 relative z-0 flex justify-center items-center overflow-visible w-full">
-        <!-- Radial glow behind text -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[150px] bg-white/10 blur-[80px] rounded-[100%]"></div>
-        <div class="text-[13vw] xl:text-[150px] font-black uppercase tracking-tight text-outline-glow leading-none text-center w-full relative z-10">
+      <!-- Subtle Outline Typography -->
+      <div class="max-w-7xl mx-auto px-4 pointer-events-none select-none mb-8 relative z-0 flex justify-center items-center overflow-hidden w-full opacity-40">
+        <div class="text-[13vw] xl:text-[150px] font-black uppercase tracking-tight text-outline-subtle leading-none text-center w-full relative z-10">
           ZEROHUNGER
         </div>
       </div>
@@ -63,10 +61,9 @@ import { RouterModule } from '@angular/router';
     </footer>
   `,
   styles: [`
-    .text-outline-glow {
+    .text-outline-subtle {
       color: transparent;
-      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.85);
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2);
+      -webkit-text-stroke: 1.5px #85A947;
     }
   `]
 })
