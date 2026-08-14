@@ -41,6 +41,8 @@ import { SpecularButtonComponent } from '../../../shared/components/specular-but
               baseColor="#123524"
               lineColor="#85A947"
               textColor="#ffffff"
+              [autoAnimate]="true"
+              [speed]="1"
             >
               Get Started
             </app-specular-button>
