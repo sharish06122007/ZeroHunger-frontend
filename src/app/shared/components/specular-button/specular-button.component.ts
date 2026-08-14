@@ -99,7 +99,7 @@ export class SpecularButtonComponent implements AfterViewInit, OnDestroy {
 
   private rafId = 0;
   private ro: ResizeObserver | null = null;
-  private glContext: WebGL2RenderingContext | null = null;
+  private glContext: any = null;
   private pointerMoveListener: ((e: PointerEvent) => void) | null = null;
 
   constructor(private ngZone: NgZone) {}
@@ -130,7 +130,7 @@ export class SpecularButtonComponent implements AfterViewInit, OnDestroy {
       gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
       const geometry = new Triangle(gl);
-      if (geometry.attributes.uv) delete (geometry.attributes as any).uv;
+      if (geometry.attributes['uv']) delete (geometry.attributes as any)['uv'];
 
       const program = new Program(gl, {
         vertex: VERT,
@@ -162,8 +162,8 @@ export class SpecularButtonComponent implements AfterViewInit, OnDestroy {
         sizeRef.w = w;
         sizeRef.h = h;
         renderer.setSize(w + PAD * 2, h + PAD * 2);
-        program.uniforms.uCenter.value = [(PAD + w / 2) * dpr, (PAD + h / 2) * dpr];
-        program.uniforms.uHalfSize.value = [(w / 2) * dpr, (h / 2) * dpr];
+        program.uniforms['uCenter'].value = [(PAD + w / 2) * dpr, (PAD + h / 2) * dpr];
+        program.uniforms['uHalfSize'].value = [(w / 2) * dpr, (h / 2) * dpr];
       };
       
       this.ro = new ResizeObserver(resize);
@@ -221,14 +221,14 @@ export class SpecularButtonComponent implements AfterViewInit, OnDestroy {
         lineC.set(this.lineColor);
         baseC.set(this.baseColor);
         
-        program.uniforms.uAngle.value = angle;
-        program.uniforms.uRadius.value = Math.min(this.radius, Math.min(sizeRef.w, sizeRef.h) / 2) * dpr;
-        program.uniforms.uLineColor.value = [lineC.r, lineC.g, lineC.b];
-        program.uniforms.uBaseColor.value = [baseC.r, baseC.g, baseC.b];
-        program.uniforms.uIntensity.value = this.intensity * bright;
-        program.uniforms.uShineSize.value = (this.shineSize * Math.PI) / 180;
-        program.uniforms.uShineFade.value = (this.shineFade * Math.PI) / 180;
-        program.uniforms.uThickness.value = this.thickness * dpr;
+        program.uniforms['uAngle'].value = angle;
+        program.uniforms['uRadius'].value = Math.min(this.radius, Math.min(sizeRef.w, sizeRef.h) / 2) * dpr;
+        program.uniforms['uLineColor'].value = [lineC.r, lineC.g, lineC.b];
+        program.uniforms['uBaseColor'].value = [baseC.r, baseC.g, baseC.b];
+        program.uniforms['uIntensity'].value = this.intensity * bright;
+        program.uniforms['uShineSize'].value = (this.shineSize * Math.PI) / 180;
+        program.uniforms['uShineFade'].value = (this.shineFade * Math.PI) / 180;
+        program.uniforms['uThickness'].value = this.thickness * dpr;
         
         renderer.render({ scene: mesh });
       };
@@ -248,8 +248,8 @@ export class SpecularButtonComponent implements AfterViewInit, OnDestroy {
       const gl = this.glContext;
       const fx = this.fxRef.nativeElement;
       if (gl) {
-        if (gl.canvas && gl.canvas.parentNode === fx) {
-          fx.removeChild(gl.canvas);
+        if (gl.canvas && (gl.canvas as HTMLCanvasElement).parentNode === fx) {
+          fx.removeChild(gl.canvas as HTMLCanvasElement);
         }
         const loseContextExt = gl.getExtension('WEBGL_lose_context');
         if (loseContextExt) {
