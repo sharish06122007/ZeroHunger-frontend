@@ -18,9 +18,14 @@
           <app-gradient-shimmer gradient="spring" baseColor="#85A947" customClass="block font-black" [spread]="4" [duration]="2.5">Building Hope.</app-gradient-shimmer>
         </h1>
         
-        <p class="text-lg md:text-xl text-[#EFE3C2]/90 mb-10 max-w-xl font-medium leading-relaxed drop-shadow-sm">
-          ZeroHunger helps organizations coordinate food rescue, donations, food requests, NGOs, volunteers and local teams through one trusted platform.
-        </p>
+        <app-scroll-reveal
+          [baseOpacity]="0.4"
+          [enableBlur]="true"
+          [baseRotation]="5"
+          [blurStrength]="5"
+          textClassName="text-lg md:text-xl text-[#EFE3C2]/90 mb-10 max-w-xl font-medium leading-relaxed drop-shadow-sm"
+          text="ZeroHunger helps organizations coordinate food rescue, donations, food requests, NGOs, volunteers and local teams through one trusted platform."
+        ></app-scroll-reveal>
         
         <div class="flex flex-wrap gap-4 mb-10">
           <a routerLink="/dashboard" class="btn-primary bg-[#85A947] hover:bg-[#85A947]/90 text-[#123524] px-8 py-4 rounded-xl text-lg font-bold shadow-xl shadow-[#123524]/50 transition-transform hover:-translate-y-1 flex items-center gap-2">
