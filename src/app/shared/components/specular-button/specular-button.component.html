@@ -1,0 +1,12 @@
+<button
+  #btnRef
+  [type]="type"
+  [disabled]="disabled"
+  [ngClass]="'specular-button specular-button--' + size + (className ? ' ' + className : '')"
+  [ngStyle]="cssVariables"
+>
+  <span #fxRef class="specular-button__fx" aria-hidden="true"></span>
+  <span class="specular-button__label">
+    <ng-content></ng-content>
+  </span>
+</button>

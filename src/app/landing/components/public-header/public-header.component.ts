@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SpecularButtonComponent } from '../../../shared/components/specular-button/specular-button.component';
 
 @Component({
   selector: 'app-public-header',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, SpecularButtonComponent],
   template: `
     <header class="fixed top-0 left-0 right-0 h-[80px] bg-brand-warm/95 backdrop-blur-md z-50 border-b border-brand-border">
       <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
@@ -31,7 +32,19 @@ import { RouterModule } from '@angular/router';
 
         <div class="flex items-center gap-4">
           <a routerLink="/auth/login" class="text-[var(--primary)] font-bold text-sm hover:text-[var(--primary-deep)] transition-colors hidden sm:block">Login</a>
-          <a routerLink="/auth/register" class="btn-primary py-2 px-5 rounded-full text-sm font-bold shadow-lg shadow-[var(--primary)]/20 hover:-translate-y-0.5 transition-transform">Get Started</a>
+          <a routerLink="/auth/register" style="text-decoration: none; display: inline-block;">
+            <app-specular-button
+              size="sm"
+              [radius]="100"
+              tint="#3E7B27"
+              [tintOpacity]="1"
+              baseColor="#123524"
+              lineColor="#85A947"
+              textColor="#ffffff"
+            >
+              Get Started
+            </app-specular-button>
+          </a>
         </div>
 
       </div>
