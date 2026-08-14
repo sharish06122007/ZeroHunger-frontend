@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { GradientShimmerComponent } from '../../../shared/components/gradient-shimmer/gradient-shimmer.component';
 
 @Component({
   selector: 'app-public-footer',
   standalone: true,
-  imports: [RouterModule, GradientShimmerComponent],
+  imports: [RouterModule],
   template: `
     <footer class="bg-brand-primary text-white pt-16 pb-8 relative overflow-hidden">
       
@@ -48,17 +47,13 @@ import { GradientShimmerComponent } from '../../../shared/components/gradient-sh
         </div>
       </div>
 
-      <!-- Subtle Background Outline Typography with Shimmer Effect -->
-      <div class="max-w-7xl mx-auto px-4 pointer-events-none select-none mb-4 relative z-0 flex justify-center opacity-60">
-        <app-gradient-shimmer 
-          gradient="spring" 
-          baseColor="transparent" 
-          [spread]="2.5" 
-          [duration]="3.5"
-          [pauseBetween]="2000"
-          customClass="text-[13vw] xl:text-[145px] font-medium uppercase tracking-tight text-outline leading-none text-center w-full">
+      <!-- Glowing Outline Typography -->
+      <div class="max-w-7xl mx-auto px-4 pointer-events-none select-none mb-8 relative z-0 flex justify-center items-center overflow-visible w-full">
+        <!-- Radial glow behind text -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[150px] bg-white/10 blur-[80px] rounded-[100%]"></div>
+        <div class="text-[13vw] xl:text-[150px] font-black uppercase tracking-tight text-outline-glow leading-none text-center w-full relative z-10">
           ZEROHUNGER
-        </app-gradient-shimmer>
+        </div>
       </div>
       
       <div class="max-w-7xl mx-auto px-4 border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between relative z-10">
@@ -68,9 +63,10 @@ import { GradientShimmerComponent } from '../../../shared/components/gradient-sh
     </footer>
   `,
   styles: [`
-    .text-outline {
+    .text-outline-glow {
       color: transparent;
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.85);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2);
     }
   `]
 })
